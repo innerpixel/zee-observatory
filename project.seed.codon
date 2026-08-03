@@ -1,0 +1,219 @@
+---
+id: alien-guide-human-interactions
+type: project-seed
+domain: observatory.csmcl.space
+state: active
+density: L4
+updated: 2026-08-02
+root: /home/innerpixel/Documents/alien_guide_human_interactions
+---
+
+# Alien Guide / Observatory :: continuation seed
+
+## Decode
+
+```
+::        identity / equivalence
+->        produces / leads to
+<>        tension held without forced resolution
+!         invariant; preserve unless human explicitly changes it
+~         mutable / provisional
+@         canonical source path relative to root
+[x|y]     both dimensions matter; not a binary verdict
+```
+
+## Intent!
+
+```
+project :: creative research artifact + interactive narrative + seed of larger CSMCL world
+world   :: Zee studies human interaction from an alien perspective
+method  :: emotionally truthful fictional encounters -> reader participation -> visible consequence -> multiple perspectives -> finding
+future  :: completed chapters -> shorts / scenes / transmissions from Zee's world
+human-use :: externalize difficult subjects creatively; investigate without becoming clinical or didactic
+tone    :: curious · warm · playful · humane · slightly strange · never preachy
+```
+
+## Container hierarchy!
+
+```
+site/world :: The Observatory
+expedition.001 :: A Field Guide for an Alien Learning to Listen
+transmission.001 :: The Invitation to Speak
+platform -> carries narrative; narrative !feed platform
+```
+
+## World!
+
+```
+Zee  :: field observer · unfinished listener
+Mara :: recurring human companion
+homeworld.capacity :: perceives relational / emotional weather
+weather :: [inner | borrowed | shared]
+weather reveals experience !not motive !not objective truth
+mission :: study how humans receive one another's realities; record where information travels; remain curious under certainty
+```
+
+## Inquiry grammar!
+
+```
+encounter -> participation -> consequence -> Zee investigation -> perspectives -> finding
+shell:unique ~= 70:30
+story-before-interface!
+each subject keeps shared grammar but earns its own instrument / interaction / visual metaphor
+digestible! :: invitation to notice; not mental workout
+validity stance :: multiple experiences may be valid simultaneously; this does not erase power, pattern, burden, or impact
+```
+
+## Recurring truths!
+
+```
+listening != agreement
+speech-permitted != influence-permitted
+listening visible -> information alters next step
+intention <> impact
+silence :: ambiguous
+power -> consequence distribution
+repetition -> data
+repair -> revisability + changed next action
+```
+
+## Instruments
+
+```
+Receptivity Meter      -> can information change course?
+Perspective Attunement -> sample perspectives / emotional weather
+Burden Scale           -> who must explain, prove, remember, adapt?
+Field Notebook         -> keep inquiry open
+~Two-Lens Scanner      -> intention <> impact
+~Boundary Translator   -> boundary <> negotiated permission
+~Pattern Assembly      -> incident -> repetition -> path
+~Signal/Distress Split -> calm appearance <> internal condition
+~Field Position Map    -> neutrality <> effect within system
+```
+
+## Chapters
+
+```
+01 published :: The Invitation to Speak
+   question :: invited to contribute or decorate a decision?
+   finding  :: listening became visible only when it altered the shape of the next step
+   instrument :: Receptivity Meter
+
+02 next :: The Joke With No Owner
+   core :: nobody intended outcome -> group behaves as if no outcome occurred
+   question :: if nobody intended the harm, where does the harm go?
+   lenses :: intention "I thought everyone would find it funny" <> impact "I wanted to disappear when everyone laughed"
+   Zee puzzle :: why use one true piece of information to remove another?
+   instrument :: Two-Lens Scanner
+
+03 development :: The Boundary Debate Society
+04 development :: Seven Pebbles
+16 development :: The Larger Circle
+~future :: The Calmness Examination · The Friend Who Stayed Neutral · further blue-planet findings
+```
+
+## Product state
+
+```
+stack :: SvelteKit 2 + Svelte 5 + TypeScript + CSS + adapter-static
+routes :: / Observatory | /chapter/invitation-to-speak/ | /archive/ | /prototype/
+deploy-target :: observatory.csmcl.space
+build-output :: @build/
+checks :: npm run check && npm run build
+status :: Chapter 1 + Observatory hub implemented; static build previously passing
+prototype :: original preserved at @index.html and @static/prototype/index.html
+relay.concept :: established reflective translator / pattern observer / burden cartographer / uncertainty preserver
+relay.world-presence :: permitted
+relay.static-route :: optional
+relay.mail-automation :: PARKED!
+relay.ai-response :: PARKED!
+relay.open-condition :: evidence of need + privacy/safety/retention/review workflow; draft-review before autosend
+```
+
+## Canonical carriers
+
+```
+concept constitution @alien_field_attunement-guide.md
+guide fold        @guide.field-attunement.fold
+continuity checkpoint @transmission.observatory-continuity.001.hybrid
+chapter schema    @src/lib/types/chapter.ts
+chapter 01        @src/lib/chapters/chapter-01.ts
+chapter registry  @src/lib/chapters/manifest.ts @src/lib/chapters/registry.ts
+observatory lore  @src/lib/observatory/data.ts
+landing           @src/routes/+page.svelte
+chapter renderer  @src/routes/chapter/[slug]/+page.svelte
+archive           @src/routes/archive/+page.svelte
+visual system     @src/app.css
+hero              @static/images/09-observatory-hero.webp
+LF definition     @what-is.lingua-franca.hybrid
+```
+
+## Knowledge chain
+
+```
+@alien_field_attunement-guide.md --folds-to--> @guide.field-attunement.fold
+@guide.field-attunement.fold --decoded-by--> @project.seed.codon
+@project.seed.codon --indexes--> current implementation + continuation edge
+
+load policy :: seed first; guide fold when shaping narrative/ethics/chapters; L1 guide only for nuance or source recovery
+```
+
+## Authority + change protocol!
+
+```
+ethical/narrative conflict -> L1 guide governs
+tone/compression conflict  -> L3 fold governs
+current-state conflict     -> L4 seed governs
+runtime/code fact          -> repository governs
+hybrid transmission        -> checkpoint/advice; integrate explicitly !silent canon
+
+invariant change:
+  update L1 guide -> revise fold -> revise seed -> note/perform implementation migration
+  never silently reinterpret
+```
+
+## Deferred horizon
+
+```
+Nexus :: conceptual only; implementation deferred
+possible role :: ephemeral traveler connection + structured exchange + resonance !popularity economy
+relationship :: Observatory helps traveler notice; Nexus may help travelers notice one another
+caution :: ephemeral !consequence-free; nothing-saved claim requires technical proof
+```
+
+## Continuation protocol
+
+```
+on-load:
+  1 read this seed
+  2 inspect canonical carriers only as task requires
+  3 preserve invariants; verify mutable state from filesystem
+  4 continue current creative edge; do not restart discovery
+
+current edge:
+  write Chapter 02 as complete narrative before UI
+  establish characters + emotional background + joke event + group response + consequences + Zee finding
+  then derive interaction and integrate through flexible shared chapter grammar
+  only after chapter completion -> extract short-form scenes/prompts
+
+expansion gate:
+  stabilize Observatory -> reusable chapter architecture -> publish Chapter 02 -> test grammar -> deepen world through story
+  activate systems only when narrative evidence requests them
+  strange parts may expand; infrastructure may remain boring
+
+avoid:
+  identical chapter templates
+  fully bespoke unmaintainable chapters
+  moral verdict machines
+  excessive explanation / therapeutic framing
+  expanding infrastructure before story requires it
+  live Relay · public comments · persistent community · listening scores/tests · unrestricted AI chat
+```
+
+## Human collaboration signal!
+
+```
+working mode :: exploratory co-creation; propositions welcome; do not silently overbuild
+human values :: project is meaningful, fun, and connected to lived inquiry
+priority :: chapters / narrative depth > platform complexity
+```

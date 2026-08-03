@@ -1,0 +1,264 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="A tiny interactive field guide about what changes when humans listen.">
+  <meta name="theme-color" content="#080b16">
+  <title>A Field Guide for an Alien Learning to Listen</title>
+  <style>
+    :root{--bg:#080b16;--panel:#101526;--line:#29324b;--ink:#edf0f8;--dim:#a6afc5;--faint:#68738f;--violet:#a99aff;--blue:#7bb7ff;--green:#79dfb0;--warm:#efb783;--serif:Georgia,"Times New Roman",serif;--sans:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;--mono:ui-monospace,"SFMono-Regular",Consolas,monospace}
+    *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;min-height:100vh;background:var(--bg);color:var(--ink);font-family:var(--sans);line-height:1.55;overflow-x:hidden}body:before{content:"";position:fixed;inset:0;z-index:-2;background:radial-gradient(800px 500px at 50% 15%,#262258 0,transparent 70%),radial-gradient(600px 500px at 90% 80%,#102d47 0,transparent 70%)}body:after{content:"";position:fixed;inset:0;z-index:-1;opacity:.32;background-image:radial-gradient(circle at 15% 25%,#fff 0 1px,transparent 1.3px),radial-gradient(circle at 75% 17%,#aea1ff 0 1px,transparent 1.4px),radial-gradient(circle at 82% 68%,#fff 0 1px,transparent 1.3px),radial-gradient(circle at 32% 78%,#7bb7ff 0 1px,transparent 1.3px);background-size:230px 230px,310px 310px,270px 270px,360px 360px;pointer-events:none}
+    button{font:inherit}.shell{width:min(1120px,calc(100% - 36px));margin:auto}.top{height:72px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #ffffff16}.brand{font-weight:750;letter-spacing:.02em}.brand b{color:var(--violet);margin-right:8px}.signal{font:10px var(--mono);letter-spacing:.16em;color:#8c97b1;display:flex;gap:9px;align-items:center}.signal i{width:6px;height:6px;border-radius:50%;background:var(--green);box-shadow:0 0 10px var(--green);animation:pulse 2s infinite}
+    main{min-height:calc(100vh - 122px);display:grid;place-items:center;padding:45px 0}.screen{display:none;width:100%;animation:arrive .5s ease-out}.screen.active{display:block}.intro{text-align:center;max-width:1050px;margin:auto}.eyebrow{font:10px var(--mono);letter-spacing:.2em;color:#91a0c5;text-transform:uppercase}.hero-image{width:min(100%,760px);height:clamp(190px,32vw,330px);margin:0 auto 28px;position:relative;border:1px solid #70649b;border-radius:22px;overflow:hidden;box-shadow:0 28px 90px #0009}.hero-image img{width:100%;height:100%;display:block;object-fit:cover;object-position:center 35%}.hero-image:after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 42%,#080b16 110%),linear-gradient(90deg,#080b1644,transparent 30%,transparent 70%,#080b1644)}.hero-image .orbit-mark{position:absolute;z-index:2;right:18px;top:16px;width:46px;height:46px;border:1px solid #b5a9ff99;border-radius:50%;display:grid;place-items:center;color:#d5ceff;font:11px var(--mono);background:#10132699;box-shadow:0 0 20px #8e7dea66}
+    h1,h2{font-weight:480;letter-spacing:-.045em;line-height:1.02;text-wrap:balance}h1{font-size:clamp(42px,7vw,78px);margin:15px auto 24px}h1 em,h2 em{font-family:var(--serif);font-weight:400;color:#c0b6ff}.lead{max-width:670px;margin:0 auto 30px;color:var(--dim);font-size:clamp(16px,2vw,19px)}.primary,.ghost{border-radius:999px;padding:13px 22px;cursor:pointer;transition:.2s}.primary{border:0;background:#e9e5ff;color:#090b14;font-weight:750}.primary:hover,.ghost:hover,.choice:hover{transform:translateY(-2px)}.primary span{margin-left:18px}.time{font:10px var(--mono);color:var(--faint);letter-spacing:.1em;margin-top:14px}
+    .chapter{display:flex;gap:15px;align-items:center;font:10px var(--mono);letter-spacing:.15em;color:#7986a8;margin-bottom:38px}.chapter i{height:1px;background:var(--line);flex:1}.encounter{display:grid;grid-template-columns:1.05fr .95fr;gap:60px;align-items:start}.scene-image{margin:0 0 25px;border:1px solid #313b56;border-radius:13px;overflow:hidden;position:relative}.scene-image img{width:100%;display:block;aspect-ratio:1.55;object-fit:cover}.scene-image figcaption{position:absolute;left:12px;bottom:10px;padding:5px 8px;border-radius:5px;background:#090c16cc;color:#b5bfd4;font:8px var(--mono);letter-spacing:.12em}.story h2{font-size:clamp(38px,5vw,62px);margin:8px 0 22px}.story>p:not(.eyebrow){color:#c4cad9;font-size:17px}.story blockquote{margin:23px 0;padding:3px 0 3px 20px;border-left:1px solid var(--violet);font:italic 19px/1.55 var(--serif);color:#eae6ff}.zee{display:flex;gap:13px;align-items:center;color:#adb7cf;font-size:14px;margin-top:25px}.z{width:38px;height:38px;flex:0 0 auto;display:grid;place-items:center;border-radius:50%;background:#2a244d;border:1px solid #8b7bd9;color:#d8d1ff;font:12px var(--mono)}
+    .device{align-self:start;position:sticky;top:20px;border:1px solid var(--line);border-radius:18px;padding:24px;background:linear-gradient(145deg,#11182bf2,#090d18f2);box-shadow:0 28px 70px #0006}.device-head{display:flex;justify-content:space-between;font:10px var(--mono);letter-spacing:.12em;color:#8996b4}.live{color:var(--green)}.scan{height:8px;margin:19px 0 29px;display:flex;gap:5px}.scan i{flex:1;background:#242d44;border-radius:6px}.scan i:first-child{background:#7667b2;box-shadow:0 0 12px #9d8bff88}.prompt{font-size:18px;margin:0 0 18px}.choices{display:grid;gap:9px}.choice{display:grid;grid-template-columns:28px 1fr auto;gap:10px;align-items:center;text-align:left;color:#c0c8da;background:transparent;border:1px solid #29334b;border-radius:10px;padding:13px;cursor:pointer;transition:.2s}.choice:hover{border-color:#8c7ddb;background:#8c7ddb18}.choice small{font:9px var(--mono);color:#73809e}.choice b{font-weight:600}.choice b em{display:block;margin-top:5px;color:#929db6;font:400 12px/1.4 var(--serif)}.choice span{color:var(--violet)}
+    .result{max-width:940px;margin:auto}.result-head{display:flex;justify-content:space-between;align-items:end}.result h2{font:500 clamp(38px,7vw,74px)/1 var(--mono);letter-spacing:-.07em;color:#c9c0ff;margin:8px 0}.score{font:400 50px var(--mono);color:#ded9f5}.score small{font-size:14px;color:#7884a0}.result-visual{width:100%;height:clamp(220px,37vw,380px);object-fit:cover;border:1px solid #343d57;border-radius:15px;display:block;margin:24px 0 18px}.bar{height:11px;margin:0 0 42px;background:#1a2031;border-radius:9px;overflow:hidden}.bar i{display:block;height:100%;width:var(--score);background:linear-gradient(90deg,#6f5ba5,#8d80e9,#79dbb0);box-shadow:0 0 18px #8d80e9;animation:grow 1s ease-out}.records{display:grid;grid-template-columns:1fr 1fr;gap:18px}.record{border-top:1px solid #333c54;padding:17px 3px;color:#c2c9da}.record b{display:block;font:9px var(--mono);letter-spacing:.14em;color:#7886a7;margin-bottom:10px}.case-study{margin:34px 0;border-top:1px solid #343d56;border-bottom:1px solid #343d56;padding:34px 0}.case-head{display:grid;grid-template-columns:170px 1fr;gap:30px;margin-bottom:26px}.case-head h3{font:400 clamp(26px,4vw,39px)/1.15 var(--serif);margin:0;color:#e3dfff}.case-prose{columns:2;column-gap:38px;color:#bbc3d5}.case-prose p{margin:0 0 17px;break-inside:avoid}.attunement{margin:32px 0 0;border:1px solid #554b7e;border-radius:16px;overflow:hidden;background:#0b1020}.attune-head{display:flex;align-items:center;justify-content:space-between;gap:18px;padding:19px 22px;border-bottom:1px solid #2f3851}.attune-title{display:flex;align-items:center;gap:12px}.attune-title i{width:28px;height:28px;border:1px solid #a99aff;border-radius:50%;box-shadow:0 0 16px #8f7cdd66;position:relative}.attune-title i:after{content:"";position:absolute;width:6px;height:6px;border-radius:50%;background:#b9adff;left:10px;top:10px}.attune-title b{display:block;font:10px var(--mono);letter-spacing:.14em;color:#beb5eb}.attune-title small{display:block;color:#73809d;margin-top:3px}.attune-status{font:9px var(--mono);letter-spacing:.12em;color:var(--green)}.attune-body{display:grid;grid-template-columns:210px 1fr;min-height:265px}.perspectives{padding:16px;border-right:1px solid #2f3851;display:grid;align-content:start;gap:8px}.perspective{border:1px solid #2c354e;border-radius:9px;background:transparent;color:#9da8c0;text-align:left;padding:12px;cursor:pointer;transition:.2s}.perspective:hover,.perspective[aria-pressed="true"]{border-color:#8777d0;background:#8777d017;color:#eeeaff}.perspective span{display:block;font:9px var(--mono);letter-spacing:.12em;color:#756b9c;margin-bottom:4px}.weather{padding:28px 31px;position:relative;overflow:hidden;transition:background .35s}.weather:before{content:"";position:absolute;width:260px;height:260px;border-radius:50%;right:-90px;top:-100px;background:radial-gradient(circle,#8e7bd02e,transparent 68%);pointer-events:none}.weather-label{font:9px var(--mono);letter-spacing:.14em;color:#8b80b4}.weather h4{font:400 26px/1.2 var(--serif);color:#ece8ff;margin:10px 0 15px}.weather p{color:#b8c1d3;margin:0;max-width:580px}.weather-note{display:block;margin-top:18px;padding-top:14px;border-top:1px solid #ffffff14;color:#8793ad;font-size:12px}.case-audit{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:27px}.audit{padding:17px;border:1px solid #293249;border-radius:10px;background:#0c111f}.audit b{display:block;color:#897db5;font:9px var(--mono);letter-spacing:.13em;margin-bottom:9px}.audit span{color:#abb5ca;font-size:13px}.note{margin:26px 0;padding:28px;border:1px solid #66599a;background:#66599a13}.note small{font:9px var(--mono);letter-spacing:.15em;color:#9183bd}.note p{font:400 clamp(22px,3vw,31px)/1.35 var(--serif);color:#f0edff;margin:13px 0}.note span{font-size:12px;color:#828da7}.result-actions{display:flex;justify-content:flex-end;gap:12px}.ghost{border:1px solid #343e59;background:transparent;color:#acb5ca}
+    .archive h2{font-size:clamp(40px,6vw,66px);margin:10px 0 18px}.archive .lead{margin:0 0 30px}.cards{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}.card{border:1px solid #283149;border-radius:13px;background:#0e1423c9;overflow:hidden;min-height:260px}.card img{width:100%;height:115px;display:block;object-fit:cover;border-bottom:1px solid #283149}.card-copy{padding:16px 18px}.card small{font:10px var(--mono);color:#8173ba}.card h3{font-size:17px;line-height:1.25;margin:17px 0 10px}.card p{font:14px/1.5 var(--serif);color:#929db6}.carry{margin:28px 0;padding:24px 0;border-top:1px solid #30384f;border-bottom:1px solid #30384f;display:flex;justify-content:space-between;align-items:center;gap:20px;color:#909bb4}.carry strong{font:400 clamp(19px,2.7vw,27px) var(--serif);color:#d3ccff}.restart{display:block;margin:25px auto 0;border:0;background:none;color:#8e99b1;cursor:pointer}
+    .zee-translation{max-width:610px;color:#9ba7c0;margin:14px 0 0;font:14px/1.55 var(--serif)}.state-glyph{width:62px;height:62px;border:1px solid #6f649c;border-radius:50%;display:grid;place-items:center;box-shadow:0 0 26px #8f7de244}.state-glyph i{width:20px;height:20px;border:1px solid #b7adf0;border-radius:50%;position:relative}.state-glyph i:after{content:"";position:absolute;width:5px;height:5px;background:var(--green);border-radius:50%;right:-3px;top:2px;box-shadow:0 0 9px var(--green)}.selected-response{margin:0 0 18px;padding:20px 22px;border-left:2px solid #8d7fdd;background:#111729}.selected-response b,.analysis-card b{font:9px var(--mono);letter-spacing:.14em;color:#897eb4}.selected-response p{font:400 20px/1.5 var(--serif);margin:9px 0 0;color:#e8e4fa}.branch-scene{display:grid;grid-template-columns:150px 1fr;gap:28px;margin:23px 0 30px;padding:27px 0;border-top:1px solid #303950;border-bottom:1px solid #303950}.branch-scene .eyebrow{margin-top:4px}.branch-story h3{font:400 clamp(25px,3.4vw,36px)/1.2 var(--serif);color:#e8e4fb;margin:0 0 16px}.branch-story p{color:#b8c1d3;margin:0 0 13px}.branch-story p:last-child{margin-bottom:0}.analysis-grid{display:grid;grid-template-columns:1fr 1fr;gap:11px}.analysis-card{padding:20px;border:1px solid #2c354e;border-radius:11px;background:#0d1322}.analysis-card p{color:#b4bdd0;margin:10px 0 0;font-size:14px}.analysis-card.burden{border-color:#685a4c;background:#1a1514}.analysis-card.burden b{color:#d0a278}.revisability{display:grid;grid-template-columns:240px 1fr;gap:24px;align-items:center;margin:18px 0 34px;padding:18px 20px;border:1px solid #35405a;border-radius:11px}.revisability small{display:block;font:9px var(--mono);letter-spacing:.12em;color:#7c89a8}.revisability strong{display:block;margin-top:5px;color:#bdb3f4;font:15px var(--mono)}.revisability p{margin:0;color:#aab5cb;font-size:13px}.follow-up{margin:34px 0;padding:30px;border:1px solid #3c4661;border-radius:15px;background:linear-gradient(145deg,#11182b,#0b101e)}.follow-up h3,.private-note h3{font:400 clamp(24px,3vw,33px)/1.2 var(--serif);margin:5px 0 20px;color:#ebe7ff}.follow-options{display:grid;gap:9px}.follow-choice{width:100%;display:flex;justify-content:space-between;gap:16px;text-align:left;padding:14px 16px;border:1px solid #303a54;border-radius:9px;background:transparent;color:#b7c0d4;cursor:pointer;transition:.2s}.follow-choice:hover{border-color:#8d7dde;background:#8d7dde12;color:#fff}.follow-choice span{color:#8d7dde}.follow-result{margin-top:16px;padding:17px;border-radius:9px;background:#192037;border:1px solid #596589}.follow-result small{display:block;font:9px var(--mono);letter-spacing:.13em;color:#8290b0}.follow-result strong{display:block;color:#91dfbd;font:14px var(--mono);margin:7px 0}.follow-result p{margin:0;color:#aeb9ce;font-size:13px}.compare-section{margin:24px 0}.compare-toggle{width:100%;display:flex;justify-content:space-between;padding:17px 2px;border:0;border-top:1px solid #343d55;border-bottom:1px solid #343d55;background:transparent;color:#aeb8cf;cursor:pointer;font:10px var(--mono);letter-spacing:.13em}.compare-toggle i{font-style:normal;color:#998ce0}.comparison{padding:23px 0}.comparison>p{color:#ccd3e2;font:18px var(--serif)}.comparison>small{display:block;color:#7885a1;margin-top:15px}.comparison-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.path{padding:17px;border:1px solid #2d364e;border-radius:10px;background:#0d1220}.path b{display:block;color:#d8d3ef;font-size:13px;margin-bottom:13px}.path dl{margin:0}.path dt{font:8px var(--mono);letter-spacing:.12em;color:#796fa3;margin-top:10px}.path dd{margin:3px 0 0;color:#9faaC0;font-size:12px}.private-note{margin:34px 0;padding:28px;border:1px solid #3b4560;border-radius:15px;background:#0d1321}.private-note>div:first-child p:last-child{color:#8f9ab3;max-width:720px}.private-note label{display:block;font:9px var(--mono);letter-spacing:.13em;color:#8995b1;margin:20px 0 8px}.private-note textarea{width:100%;resize:vertical;border:1px solid #303a54;border-radius:9px;padding:14px;background:#080c17;color:#e4e8f2;font:15px/1.55 var(--sans);outline:none}.private-note textarea:focus{border-color:#9081df;box-shadow:0 0 0 3px #9081df20}.note-controls{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-top:9px;color:#66738f;font-size:11px}.note-controls button{border:0;background:none;color:#8f9bb5;cursor:pointer;font-size:11px}.note-controls button:hover{color:#e5e8f1}
+    footer{height:50px;border-top:1px solid #ffffff12;display:flex;justify-content:space-between;align-items:center;color:#525d76;font:9px var(--mono);letter-spacing:.13em}
+    @keyframes arrive{from{opacity:0;transform:translateY(12px)}}@keyframes grow{from{width:0}}@keyframes pulse{50%{opacity:.35}}
+    @media(max-width:760px){.encounter{grid-template-columns:1fr;gap:28px}.device{position:static}.chapter{margin-bottom:26px}.records,.analysis-grid{grid-template-columns:1fr}.branch-scene{grid-template-columns:1fr;gap:7px}.revisability{grid-template-columns:1fr;gap:10px}.case-head{grid-template-columns:1fr;gap:9px}.case-prose{columns:1}.attune-head{align-items:flex-start}.attune-status{display:none}.attune-body{grid-template-columns:1fr}.perspectives{border-right:0;border-bottom:1px solid #2f3851;grid-template-columns:1fr 1fr}.perspective{padding:10px 8px}.weather{padding:23px 20px}.case-audit{grid-template-columns:1fr}.comparison-grid{grid-template-columns:1fr}.cards{grid-template-columns:1fr 1fr}.result-actions{flex-direction:column-reverse}.result-actions button{width:100%}.carry{align-items:flex-start;flex-direction:column}main{padding:35px 0}}
+    @media(max-width:440px){.shell{width:min(100% - 28px,1120px)}.top{height:62px}.signal{font-size:8px}.cards{grid-template-columns:1fr}.card{min-height:auto}.card img{height:170px}.result-head{align-items:flex-start}.score{font-size:36px}footer span:last-child{display:none}}
+    @media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important}.screen,.bar i,.signal i{animation:none!important}}
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <header class="top"><div class="brand"><b>✦</b>csmcl<span style="color:#69748f;font-weight:500">.space</span></div><div class="signal"><i></i> FIELD TRANSMISSION 001</div></header>
+    <main>
+      <section class="screen intro active" id="intro">
+        <div class="hero-image"><img src="images/01-zee-arrival.png" alt="Zee records observations in a quiet school corridor"><span class="orbit-mark" aria-hidden="true">Z–01</span></div>
+        <p class="eyebrow">Space Traveler Companion · Earth Study</p>
+        <h1>A Field Guide for an Alien<br>Learning to <em>Listen</em></h1>
+        <p class="lead">Zee arrived on Earth with a simple theory: one human speaks, another receives the information, and something changes. Within several hours, the theory collapsed.</p>
+        <button class="primary" data-go="encounter">Begin the encounter <span>→</span></button>
+        <p class="time">AN INTERACTIVE STORY · ABOUT 5 MINUTES</p>
+      </section>
+
+      <section class="screen" id="encounter">
+        <div class="chapter"><span>CHAPTER 01 OF 16</span><i></i><span>THE INVITATION TO SPEAK</span></div>
+        <div class="encounter">
+          <div class="story">
+            <figure class="scene-image"><img src="images/02-everyone-heard-mara.png" alt="Mara speaks during a student council meeting while Zee observes from the doorway"><figcaption>EARTH OBSERVATION · 14:07</figcaption></figure>
+            <p class="eyebrow">Tuesday · 14:07 · Student council meeting</p>
+            <h2>Everyone heard Mara.</h2>
+            <p>Jonah was chairing his first large student-council project: Wellbeing Week. The schedule had to reach the supervising teacher by four. Posters were designed, volunteers assigned, and the lunchtime assembly had already been rehearsed.</p>
+            <p>Mara waited until the bright notes stopped moving across the board.</p>
+            <blockquote>“Could we replace one assembly with a quiet lunch room? Some students avoid the dining hall because it gets overwhelming. We could try it for two days.”</blockquote>
+            <p>The suggestion required a room, supervision, and the removal of something already prepared. Jonah thanked her. Eleven humans nodded. Several faces were kind. No one appeared angry.</p>
+            <p>But Zee felt urgency moving around Jonah like a fast crosswind. Mara’s hope lifted with every nod and returned slightly heavier. Above the table, everyone’s wish to remain kind gathered into a pale fog.</p>
+            <p>Leila, sitting opposite Mara, noticed her close the notebook. She almost raised her hand. Almost was socially quieter.</p>
+            <div class="zee"><span class="z">Z</span><p><b>Zee asks:</b> “Did Mara contribute to the decision, or decorate it?”</p></div>
+          </div>
+          <div class="device">
+            <div class="device-head"><span>RECEPTIVITY METER</span><span class="live">● LIVE</span></div>
+            <div class="scan"><i></i><i></i><i></i><i></i><i></i></div>
+            <p class="prompt">You are sitting at the table. What happens next?</p>
+            <div class="choices" id="choices"></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="screen result" id="result">
+        <div class="result-head"><div><p class="eyebrow">Relational field state</p><h2 id="result-label" tabindex="-1" aria-live="polite">FIELD OPEN TO REVISION</h2><p class="zee-translation" id="zee-translation"></p></div><div class="state-glyph" aria-hidden="true"><i></i></div></div>
+        <img class="result-visual" id="result-image" src="images/04-the-room-pauses.png" alt="The meeting pauses and makes room for a different next step">
+        <div class="bar" id="bar"><i></i></div>
+        <div class="selected-response"><b>YOUR RESPONSE</b><p id="result-said"></p></div>
+        <section class="branch-scene" aria-labelledby="branch-title"><p class="eyebrow">What happened next</p><div class="branch-story"><h3 id="branch-title"></h3><div id="branch-copy"></div></div></section>
+        <div class="analysis-grid" aria-label="Response analysis">
+          <article class="analysis-card"><b>POSSIBLE INTENTION</b><p id="result-intention"></p></article>
+          <article class="analysis-card"><b>POSSIBLE EXPERIENCE</b><p id="result-experience"></p></article>
+          <article class="analysis-card"><b>WHAT CHANGED?</b><p id="result-change"></p></article>
+          <article class="analysis-card burden"><b>◒ NEXT BURDEN</b><p id="result-burden"></p></article>
+        </div>
+        <div class="revisability"><div><small>IS THE PLAN OPEN TO REVISION?</small><strong id="revision-state">YES</strong></div><p id="revision-copy"></p></div>
+        <section class="follow-up" aria-labelledby="follow-title">
+          <p class="eyebrow">The first response has landed</p>
+          <h3 id="follow-title">What might you say next?</h3>
+          <div class="follow-options" id="follow-options"></div>
+          <div class="follow-result" id="follow-result" hidden aria-live="polite"><small>FIELD UPDATE</small><strong id="follow-state"></strong><p id="follow-copy"></p></div>
+        </section>
+        <section class="case-study" aria-labelledby="case-title">
+          <div class="case-head"><p class="eyebrow">Case study · after the meeting</p><h3 id="case-title">A voice entered the room. Did its information?</h3></div>
+          <div class="case-prose">
+            <p>In the corridor, Zee asked why humans sometimes used kindness to end a conversation they had intended kindness to begin.</p>
+            <p>“Kindness still matters,” Mara said. “It just can’t do all the jobs.”</p>
+            <p>Jonah had not invited dishonesty. He genuinely wanted ideas and genuinely had a deadline. His pressure and Mara’s experience could both be real without producing equal consequences.</p>
+            <p>Leila’s uncertainty was real too. She did not know whether the moment was serious enough to interrupt. By remaining silent, she allowed the meeting’s existing momentum to answer for her.</p>
+            <p>The quiet room did not have to be adopted for Mara to have been heard. Listening required a traceable response: test it, decline it with reasons, or name what information and decision still remained.</p>
+            <p>Zee added a note: understanding why a response happened may soften judgment. It does not travel backward and change where the response landed.</p>
+          </div>
+          <div class="attunement">
+            <div class="attune-head">
+              <div class="attune-title"><i aria-hidden="true"></i><div><b>PERSPECTIVE ATTUNEMENT</b><small>An instrument from Zee’s world</small></div></div>
+              <span class="attune-status">● FIELD AVAILABLE</span>
+            </div>
+            <div class="attune-body">
+              <div class="perspectives" aria-label="Choose a perspective">
+                <button class="perspective" aria-pressed="true" data-weather="mara"><span>01 · INNER WEATHER</span>Mara’s position</button>
+                <button class="perspective" aria-pressed="false" data-weather="organizer"><span>02 · BORROWED WEATHER</span>The organizer</button>
+                <button class="perspective" aria-pressed="false" data-weather="observer"><span>03 · NEARBY WEATHER</span>The observer</button>
+                <button class="perspective" aria-pressed="false" data-weather="shared"><span>04 · SHARED WEATHER</span>Between them</button>
+              </div>
+              <div class="weather" aria-live="polite">
+                <span class="weather-label" id="weather-label">MARA · INNER WEATHER</span>
+                <h4 id="weather-title">Hope lifted, then made heavier.</h4>
+                <p id="weather-copy">Each nod briefly felt like arrival. When the plan continued unchanged, the hope did not simply vanish—it returned as weight. Closing the notebook was easier than asking the room to receive the same reality twice.</p>
+                <span class="weather-note" id="weather-note">The feeling is valid as experience. It does not, by itself, reveal every person’s intention.</span>
+              </div>
+            </div>
+          </div>
+          <div class="case-audit">
+            <div class="audit"><b>WHAT WAS VISIBLE</b><span>Mara was invited, spoke freely, and received a polite acknowledgment.</span></div>
+            <div class="audit"><b>WHAT STAYED HIDDEN</b><span>The acceptable conclusion existed before the invitation to contribute.</span></div>
+            <div class="audit"><b>SMALL REPAIR</b><span>Adopt, decline with reasons, or test. No contribution simply disappears.</span></div>
+          </div>
+        </section>
+        <section class="compare-section">
+          <button class="compare-toggle" id="compare-toggle" aria-expanded="false" aria-controls="comparison"><span>COMPARE THE OTHER PATHS</span><i>＋</i></button>
+          <div class="comparison" id="comparison" hidden><p>Three understandable responses. Three different distributions of attention, labor, and possibility.</p><div class="comparison-grid" id="comparison-grid"></div><small>Context may change which response is useful. The question is not which sentence is always correct, but what each sentence allows next.</small></div>
+        </section>
+        <section class="private-note" aria-labelledby="private-title">
+          <div><p class="eyebrow">Your private field note</p><h3 id="private-title">Now that you can see more of the field, what might you say next?</h3><p>This optional note stays in this browser. It is not transmitted to Earth authorities, school administrators, or Zee’s supervisors.</p></div>
+          <label for="field-note">Your observation</label><textarea id="field-note" rows="4" placeholder="I noticed…"></textarea>
+          <div class="note-controls"><span id="note-status" aria-live="polite">Saved only on this device</span><button id="clear-note">Clear my field note</button></div>
+        </section>
+        <div class="note"><small>FIELD NOTE 001</small><p>Listening became visible only when it altered the shape of the next step.</p><span>— Zee, unfinished listener</span></div>
+        <div class="result-actions"><button class="ghost" data-go="encounter">Try another response</button><button class="primary" data-go="archive">Open the field archive <span>→</span></button></div>
+      </section>
+
+      <section class="screen archive" id="archive">
+        <p class="eyebrow">Future transmissions · chapters in development</p><h2>Humans are <em>unfinished listeners.</em></h2>
+        <p class="lead">Chapter One is only the beginning: a series of small stories about invisible barriers, awkward questions, and the moment another person’s reality is finally allowed to matter.</p>
+        <div class="cards">
+          <article class="card"><img src="images/06-joke-no-owner.png" alt="A student sits beneath a rain cloud after a joke"><div class="card-copy"><small>02</small><h3>The Joke With No Owner</h3><p>If no one ordered the rain, are the humans still wet?</p></div></article>
+          <article class="card"><img src="images/07-boundary-debate.png" alt="A boundary glows while explanations accumulate outside it"><div class="card-copy"><small>03</small><h3>The Boundary Debate Society</h3><p>Why does a boundary become a debate after someone benefits from crossing it?</p></div></article>
+          <article class="card"><img src="images/05-seven-pebbles.png" alt="Zee arranges seven pebbles into a visible path"><div class="card-copy"><small>04</small><h3>Seven Pebbles</h3><p>Everyone inspected the stones. No one looked at the path.</p></div></article>
+          <article class="card"><img src="images/08-unfinished-listeners.png" alt="Zee and Mara watch a group make space in a circle"><div class="card-copy"><small>05</small><h3>The Larger Circle</h3><p>Listening becomes visible when someone moves a chair.</p></div></article>
+        </div>
+        <div class="carry"><span>Before your next conversation, carry one question:</span><strong>What changed because I listened?</strong></div>
+        <button class="restart" data-go="intro">↺ Experience the transmission again</button>
+      </section>
+    </main>
+    <footer><span>A CSMCL.SPACE FIELD EXPERIMENT</span><span>LISTENING IS A DOOR WE REOPEN</span></footer>
+  </div>
+  <script>
+    const chapter={
+      id:'01',
+      title:'The Invitation to Speak',
+      choices:[
+        {
+          id:'protect-momentum',label:'Protect the meeting’s momentum',spoken:'Thank you for raising this. We should return to it after today’s agenda.',
+          fieldState:'FIELD SEALED',zeeTranslation:'Signal acknowledged. Navigation remains attached to the original destination.',position:22,
+          intention:'You may be trying to protect the group’s time, structure, and momentum.',
+          experience:'Mara may experience the acknowledgment as polite but final.',
+          changed:'The schedule remains protected. The current plan remains unchanged.',
+          burden:'Mara must raise the concern again later, while responsibility for remembering it remains undefined.',
+          revisability:'NOT YET',revisionCopy:'The plan is protected from immediate revision; a future conversation has been mentioned but not assigned.',
+          consequence:{title:'The poster in the corridor',paragraphs:['Jonah promised they would return to the quiet-room idea after the agenda. Then the projector stopped connecting, two volunteers had to leave, and the meeting ended eight minutes late.','No one wrote down who would return to Mara’s proposal. Because the future conversation belonged to everyone, it quietly belonged to no one.','Two days later, Mara passed the finished Wellbeing Week poster in the corridor. The lunchtime assembly was printed in violet. There was no quiet room.']},
+          image:'images/03-receptivity-meter.png',imageAlt:'Zee scans the room with the receptivity meter.',
+          followUps:[
+            {text:'Let us name who will return to this, and when.',state:'FIELD PARTIALLY OPEN',position:52,copy:'Jonah writes his own name beside “quiet-room trial” and schedules ten minutes for Thursday. Postponement leaves a trace instead of becoming disappearance.'},
+            {text:'Before postponing it, which part of today’s plan might this affect?',state:'FIELD OPEN TO REVISION',position:82,copy:'Leila points to the lunchtime assembly. For the first time, the group considers that continuing with the agenda and examining Mara’s idea may be the same task.'}
+          ]
+        },
+        {
+          id:'ask-detail',label:'Ask for more detail',spoken:'Could you give us a clearer example of what you mean?',
+          fieldState:'FIELD PARTIALLY OPEN',zeeTranslation:'Signal detected. Most of the navigation system remains attached to the original destination.',position:48,
+          intention:'You may be trying to understand the concern and avoid acting on an incomplete interpretation.',
+          experience:'Mara may feel invited to clarify, or she may experience another request to prove what she has already named.',
+          changed:'More information is requested. The group has not yet examined its existing plan.',
+          burden:'The next task goes primarily back to Mara: explain more clearly before the group considers revising anything.',
+          revisability:'POSSIBLY',revisionCopy:'The plan may eventually change, but Mara must first produce additional information.',
+          consequence:{title:'A question becomes an assignment',paragraphs:['Mara described the dining hall: chairs scraping tile, three conversations becoming thirty, the queue pressing against the tables. She admitted that she sometimes ate on the stairwell.','Jonah listened carefully. Then he asked how many other students were affected and whether Mara could find out before Thursday.','Mara said she could try. The room now understood more, but the proposal had become her small research project before the group had examined anything it controlled.']},
+          image:'images/03-receptivity-meter.png',imageAlt:'Zee scans the room with the receptivity meter.',
+          followUps:[
+            {text:'Let me first say what I understood, so you do not have to begin again.',state:'FIELD PARTIALLY OPEN',position:63,copy:'Jonah describes what he heard and gets one part wrong. Mara corrects him without rebuilding the whole account. Some interpretive work moves to the listener.'},
+            {text:'Before asking for more, what part of our plan are we willing to reconsider?',state:'FIELD OPEN TO REVISION',position:86,copy:'The council agrees that if a room is available, one assembly can become a two-day trial. Mara may still gather information, but proof is no longer the price of entry.'}
+          ]
+        },
+        {
+          id:'connect-decision',label:'Connect the concern to the decision',spoken:'Before we continue, which part of the plan does this require us to reconsider?',
+          fieldState:'FIELD OPEN TO REVISION',zeeTranslation:'New information is altering the course. Destination remains undecided.',position:84,
+          intention:'You may be trying to understand the practical consequence without promising a particular outcome.',
+          experience:'Mara may experience her contribution as relevant to the decision rather than separate from it.',
+          changed:'The group pauses and connects the concern to the plan it controls.',
+          burden:'The next work becomes shared: Mara can clarify while the group examines what it may need to change.',
+          revisability:'YES',revisionCopy:'The information can now affect the process, even if the group ultimately reaches a different conclusion.',
+          consequence:{title:'The plan acquires a door',paragraphs:['Jonah looked at the schedule instead of immediately looking back at Mara. The assembly occupied two lunch periods and required six volunteers.','Leila raised the hand she had nearly kept down. “Could one of those days become a trial?” she asked. Another student pointed out that no supervisor had agreed to cover the room.','The quiet space was not approved. But it entered the plan as a real possibility with a room to find, an adult to ask, and a decision the group now shared.']},
+          image:'images/04-the-room-pauses.png',imageAlt:'The meeting pauses and makes room for a different next step.',
+          followUps:[
+            {text:'Here is what I think your concern changes. Did I understand it?',state:'FIELD OPEN TO REVISION',position:90,copy:'Jonah names the assembly as the part that may need to move. Mara adds that the trial needs no public explanation of who uses it. The proposal becomes more precise through shared work.'},
+            {text:'What constraints should we examine together before choosing a change?',state:'FIELD OPEN WITH UNCERTAINTY',position:78,copy:'Room access, supervision, and volunteer time remain unresolved. The group does not manufacture certainty, but uncertainty no longer belongs to Mara alone.'}
+          ]
+        }
+      ],
+      perspectives:{
+        mara:{label:'MARA · INNER WEATHER',title:'Hope lifted, then made heavier.',copy:'Each nod briefly felt like arrival. When the plan continued unchanged, the hope did not simply vanish—it returned as weight. Closing the notebook was easier than asking the room to receive the same reality twice.',note:'The feeling is valid as experience. It does not, by itself, reveal every person’s intention.'},
+        organizer:{label:'JONAH · BORROWED WEATHER',title:'The clock pulled everything forward.',copy:'The schedule was due at four. Every unfinished decision felt like a small failure of leadership, and volunteers had already rehearsed the assembly. Reopening the plan felt less like curiosity and more like letting people down—although no harm was intended.',note:'Understanding this pressure explains the response. It does not erase the effect of the response.'},
+        observer:{label:'LEILA · NEARBY WEATHER',title:'Silence felt almost neutral.',copy:'Leila noticed Mara closing her notebook but could not tell whether the moment was serious enough to interrupt. Speaking might embarrass Mara or make the room awkward. Staying quiet allowed the meeting’s momentum to decide instead.',note:'Uncertainty is real. Its effect can still favor whatever is already happening.'},
+        shared:{label:'RELATIONAL FIELD · SHARED WEATHER',title:'Kindness and exclusion occupied the same room.',copy:'No one wanted Mara to feel dismissed. Everyone wanted the meeting to succeed. But success had quietly come to mean finishing the existing plan. Warm intention gathered above the table while one reality remained outside the decision.',note:'More than one experience can be valid. Their consequences do not have to be equal.'}
+      }
+    };
+    const appState={chapterId:'01',selectedChoiceId:null,selectedFollowUpId:null,selectedPerspective:'mara',comparisonOpen:false};
+    const screens=[...document.querySelectorAll('.screen')];
+    const byId=id=>document.getElementById(id);
+    function show(id){screens.forEach(s=>s.classList.toggle('active',s.id===id));window.scrollTo({top:0,behavior:'smooth'});}
+    function renderChoices(){
+      byId('choices').replaceChildren(...chapter.choices.map((choice,index)=>{
+        const button=document.createElement('button');button.className='choice';button.dataset.choice=choice.id;
+        button.innerHTML=`<small>0${index+1}</small><b>${choice.label}<em>“${choice.spoken}”</em></b><span>↗</span>`;
+        button.addEventListener('click',()=>renderResult(choice));return button;
+      }));
+    }
+    function renderResult(choice){
+      appState.selectedChoiceId=choice.id;appState.selectedFollowUpId=null;
+      byId('result-label').textContent=choice.fieldState;byId('zee-translation').textContent='Zee’s translation: '+choice.zeeTranslation;
+      byId('result-said').textContent='“'+choice.spoken+'”';byId('result-intention').textContent=choice.intention;
+      byId('result-experience').textContent=choice.experience;byId('result-change').textContent=choice.changed;
+      byId('result-burden').textContent=choice.burden;byId('revision-state').textContent=choice.revisability;
+      byId('revision-copy').textContent=choice.revisionCopy;byId('result-image').src=choice.image;byId('result-image').alt=choice.imageAlt;
+      byId('branch-title').textContent=choice.consequence.title;
+      byId('branch-copy').replaceChildren(...choice.consequence.paragraphs.map(text=>{const paragraph=document.createElement('p');paragraph.textContent=text;return paragraph;}));
+      byId('bar').style.setProperty('--score',choice.position+'%');byId('follow-result').hidden=true;
+      renderFollowUps(choice);show('result');requestAnimationFrame(()=>byId('result-label').focus());
+    }
+    function renderFollowUps(choice){
+      byId('follow-options').replaceChildren(...choice.followUps.map((follow,index)=>{
+        const button=document.createElement('button');button.className='follow-choice';
+        button.innerHTML=`<b>${follow.text}</b><span>0${index+1} ↗</span>`;
+        button.addEventListener('click',()=>{
+          appState.selectedFollowUpId=index;byId('follow-state').textContent=follow.state;byId('follow-copy').textContent=follow.copy;
+          byId('follow-result').hidden=false;byId('result-label').textContent=follow.state;byId('bar').style.setProperty('--score',follow.position+'%');
+        });return button;
+      }));
+    }
+    function renderComparison(){
+      byId('comparison-grid').replaceChildren(...chapter.choices.map(choice=>{
+        const card=document.createElement('article');card.className='path';
+        card.innerHTML=`<b>${choice.label}</b><dl><dt>POSSIBLE INTENTION</dt><dd>${choice.intention}</dd><dt>NEXT BURDEN</dt><dd>${choice.burden}</dd><dt>PLAN REVISABLE?</dt><dd>${choice.revisability}</dd></dl>`;return card;
+      }));
+    }
+    document.querySelectorAll('[data-go]').forEach(el=>el.addEventListener('click',()=>show(el.dataset.go)));
+    document.querySelectorAll('[data-weather]').forEach(button=>button.addEventListener('click',()=>{
+      appState.selectedPerspective=button.dataset.weather;
+      document.querySelectorAll('[data-weather]').forEach(item=>item.setAttribute('aria-pressed',String(item===button)));
+      const weather=chapter.perspectives[button.dataset.weather];
+      byId('weather-label').textContent=weather.label;byId('weather-title').textContent=weather.title;
+      byId('weather-copy').textContent=weather.copy;byId('weather-note').textContent=weather.note;
+    }));
+    byId('compare-toggle').addEventListener('click',()=>{
+      appState.comparisonOpen=!appState.comparisonOpen;byId('comparison').hidden=!appState.comparisonOpen;
+      byId('compare-toggle').setAttribute('aria-expanded',String(appState.comparisonOpen));
+      byId('compare-toggle').querySelector('i').textContent=appState.comparisonOpen?'−':'＋';
+    });
+    const noteKey='alienFieldGuide.chapter01.privateNote',note=byId('field-note'),noteStatus=byId('note-status');
+    try{note.value=localStorage.getItem(noteKey)||'';}catch(error){noteStatus.textContent='Private storage is unavailable in this browser';}
+    note.addEventListener('input',()=>{try{localStorage.setItem(noteKey,note.value);noteStatus.textContent='Saved only on this device';}catch(error){noteStatus.textContent='Could not save on this device';}});
+    byId('clear-note').addEventListener('click',()=>{note.value='';try{localStorage.removeItem(noteKey);noteStatus.textContent='Field note cleared';}catch(error){noteStatus.textContent='Field note cleared from this page';}note.focus();});
+    renderChoices();renderComparison();
+  </script>
+</body>
+</html>

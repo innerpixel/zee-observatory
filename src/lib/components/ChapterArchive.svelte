@@ -1,0 +1,2 @@
+<script lang="ts">import type { ChapterManifestEntry } from '$lib/types/chapter';let { entries }:{entries:ChapterManifestEntry[]}=$props();</script>
+<div class="archive-grid">{#each entries as entry}<article><img src={entry.image} alt={entry.imageAlt}><div><small>{entry.id} · {entry.status==='published'?'AVAILABLE':'IN DEVELOPMENT'}</small><h2>{entry.title}</h2><p>{entry.teaser}</p>{#if entry.status==='published'}<a href={`/chapter/${entry.slug}/`}>Enter transmission →</a>{/if}</div></article>{/each}</div>

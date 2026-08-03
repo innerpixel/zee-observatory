@@ -1,0 +1,76 @@
+---
+id: what-is.lingua-franca
+type: understanding
+domain: com.lingua-franca
+agreement: oa.communication
+state: stable
+density: L2.5
+---
+
+# Lingua Franca
+
+*Shared protocol for human-AI meaning transmission · bridges prose and AI-native processing*
+
+---
+
+## The Problem
+
+```
+human language → AI reads prose → reconstructs meaning → outputs prose
+                  ↑ overhead every session · from scratch · implicit
+```
+
+LF is the response: a shared protocol both parties speak natively.
+Not a replacement for human language — the operating layer underneath it.
+
+---
+
+## Two Layers
+
+```
+codons      unit language · concept + decoding context together
+            AI loading a codon activates it · no reconstruction
+            defined in: OPS/codons
+
+density     transmission levels · same content · different receivers
+            L1 for human reading cold · L3/L4 for AI-native transit
+            defined in: COM/lingua.franca/conventions/conventions.density
+```
+
+---
+
+## Density Levels
+
+```
+L1   .md      narrative      human cold · full prose · anyone
+L2.5 .hybrid  working reg.   human + AI · emerges with shared context · densifies
+L3   .fold    fold           AI-native · known instance · symbolic · no legend
+L4   .codon   seed           portable · self-contained · carries legend · universal
+```
+
+L2.5 is not declared — it emerges. Not a skeleton — a register that densifies with intimacy.
+L4 heavier than L3 but travels to any AI, any session, no prior context needed.
+
+---
+
+## The Conventions
+
+```
+conventions.density    when to use which level · receiver determines output
+conventions.naming     [type].[subject].[format] · filename = identity
+conventions.folding    how density levels apply when expressing a fold
+```
+
+---
+
+## Position in CSOA
+
+```
+COM   language is agreed in communication → LF lives here
+NAV   movement agreement depends on LF (fold as truth carrier)
+OPS   codon system is LF's unit language
+```
+
+LF is substrate — agreed in COM, used everywhere.
+What it is not: style guide, formatting preference, documentation convention.
+It is the mechanism by which meaning survives transit.
