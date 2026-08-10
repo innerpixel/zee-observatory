@@ -1,0 +1,425 @@
+---
+id: understanding-observatory-responsive-incompletion
+type: production-understanding
+domain: observatory.csmcl.space
+state: working
+density: L2.5
+created: 2026-08-09
+authority: production-direction-not-canon
+scope:
+  - exterior-arrival
+  - observatory-station
+  - optional-cabin
+excludes:
+  - nexus-attunement-design
+  - permanent-traveller-profiling
+  - traveller-to-traveller-interaction
+related:
+  - observatory.current-project-brief.md
+  - observatory.station-brainstorm.md
+  - understanding.csmcl-space-shape.hybrid
+---
+
+# Responsive incompletion
+
+*How the Observatory gives the Traveller enough world to begin making one*
+
+## Why this exists
+
+The Observatory has refocused from **Zee's Observatory** to the
+**CSMCL.SPACE Observatory**.
+
+The deployed Zee experience remains valid and Chapter 1 remains published, but
+Zee's human-interaction research is no longer the public premise of the whole
+Observatory. It becomes discoverable work belonging to one alien traveller who
+already has a csmcl.space of his own.
+
+The production problem is therefore no longer only how to explain the project
+beautifully. It is how to create an inhabited field in which a new traveller
+can observe, anticipate, infer, inquire, confirm or revise, and decide whether
+to remain — without being over-directed, over-explained, diagnosed, enrolled,
+or prematurely given a Companion.
+
+This document catches that interaction intention so visual production and
+implementation can be judged against the same thing.
+
+---
+
+## Core proposition
+
+> CSMCL.SPACE provides coherent fragments of a living world. The Traveller
+> completes provisional meaning internally. The environment may answer the
+> Traveller's attention at the same depth, without claiming to know what the
+> response means about the person.
+
+Compactly:
+
+```text
+world offers evidence
+  → traveller notices
+  → traveller anticipates / completes internally
+  → traveller investigates or remains
+  → world gives a proportionate echo
+  → anticipation is confirmed, complicated, or revised
+```
+
+The aim is not to make the Traveller recover the developer's one intended
+meaning. The aim is to provide enough structure for a meaningful inference to
+form, while later encounters allow it to deepen or change.
+
+---
+
+## The intended experience
+
+The Observatory is a low-commitment environment for a traveller-in-becoming.
+
+```text
+ARRIVAL
+  Where have I arrived?
+
+STATION
+  What happens here?
+
+CABIN / QUARTERS
+  What might become familiar if I remain?
+
+NEXUS / ATTUNEMENT — separate environment
+  What am I willing to begin?
+```
+
+The Observatory arc is:
+
+```text
+observe
+  → anticipate
+  → complete internally
+  → investigate
+  → confirm or revise
+  → choose whether to remain
+  → optional light communication / email
+  → possible later Attunement beginning at Nexus
+```
+
+Observation is already participation. A visitor who does nothing must still
+feel that they arrived somewhere whole.
+
+---
+
+## Responsive incompletion
+
+The environment is deliberately incomplete, but not vague.
+
+**Vagueness** provides too little structure; anything can mean anything.
+
+**Responsive incompletion** provides selected anchors:
+
+- an object;
+- an observable behaviour;
+- a relation or trajectory;
+- one unresolved fact;
+- possible recurrence;
+- a later echo capable of confirming or revising the first inference.
+
+Example:
+
+```text
+a small vessel holds outside docking range
+carrier active
+destination not supplied
+no docking request
+```
+
+The system does not explain whether the vessel is lost, hesitant, waiting,
+watching, or unable to approach. The Traveller may form any of these readings.
+A later encounter can add evidence without declaring the first reading wrong.
+
+The missing part is not absent content. It is the Traveller's part of the
+interaction.
+
+---
+
+## Interaction grammar
+
+### 1. Signal
+
+A minimal but coherent fragment appears: movement, light, image, phrase,
+contradiction, partial transmission, or change in the field.
+
+### 2. Freedom
+
+No response is compulsory. The Traveller may notice, wait, approach, inspect,
+leave, or do nothing. The experience does not become a task merely because a
+signal exists.
+
+### 3. Trace
+
+Only interaction relevant to the encounter may be noticed: dwell, revisit,
+inspection, trajectory-following, deliberate inquiry, voluntary note, or a
+choice to remain.
+
+### 4. Echo
+
+The world answers at the same depth. A related carrier appears, a route briefly
+resolves, an earlier fragment recurs elsewhere, or a station surface becomes
+slightly more legible.
+
+### 5. Revision
+
+No isolated action becomes a conclusion about the Traveller. Recurrence may
+support a provisional response; later behaviour may revise it.
+
+```text
+offer → notice → infer → echo → revise
+```
+
+---
+
+## Inference boundary
+
+The Observatory observes interaction; it does not diagnose identity.
+
+```text
+permitted
+  this signal received repeated attention
+  this route was revisited
+  this traveller asked for more detail
+  this encounter was left unresolved
+
+not permitted
+  this traveller fears commitment
+  this traveller is lonely
+  this is the traveller's true personality
+  silence proves disinterest
+```
+
+One response can have many causes: interest, confusion, fatigue, accessibility,
+interface failure, distraction, recognition, discomfort, or simple chance.
+
+Therefore:
+
+> Observe response as evidence, never as verdict.
+
+And:
+
+> Never infer at greater depth than the Traveller has expressed.
+
+The depth of the world's response should not exceed the depth of the
+Traveller's invitation.
+
+No Observatory interaction history silently becomes an Attunement identity.
+Attunement begins separately at Nexus, from zero, under its own explicit
+commitments.
+
+---
+
+## Visual production doctrine
+
+### Base environments provide place, not content
+
+Arrival, station, and cabin backgrounds must feel complete before narrative or
+interface overlays are added.
+
+The base plate may establish:
+
+- scale;
+- architecture;
+- Earth / spatial orientation;
+- atmosphere, light, material, and depth;
+- signs that the place is inhabited;
+- visual calm and usable negative space;
+- plausible surfaces through which the environment may later answer.
+
+The base plate should not bake in:
+
+- decorative HUD graphics;
+- meaningless holographic data;
+- permanent routes or targeting marks;
+- explanatory labels;
+- prominent narrative vessels;
+- frozen events;
+- a visually declared correct object;
+- interface panels waiting obviously to be clicked.
+
+The world can be busy while the frame remains quiet.
+
+### Layer model
+
+```text
+BASE PLATE
+  architecture · Earth · ambient light · clear glass · visual rest
+
+AMBIENT LIFE
+  silhouettes · reflections · distant lights · non-narrative traffic
+
+ATTENTION RESPONSE
+  a brief shift · tracking trace · altered reflection · partial resolution
+
+NARRATIVE EVENT
+  specific vessel · station notice · route · carrier · incomplete transmission
+
+DEEP INSPECTION
+  readable material only after deliberate inquiry
+```
+
+Every overlay should be removable without leaving a visual or narrative hole.
+Silence is a valid state, not a loading screen between events.
+
+### Windows
+
+The station window begins as a window. It may also function as a display, but
+information appears because an event or attention makes it relevant.
+
+Avoid glass already covered in generic interface graphics. A new arrival
+cannot distinguish decorative futurism from meaningful system response.
+
+Production geometry should support compositing:
+
+- one usable glass plane or clearly bounded panes;
+- stable perspective and safe zones across intended aspect ratios;
+- clean masks for glass, architecture, and foreground occlusion;
+- structural edges that can conceal layer transitions;
+- dark regions where temporary signals remain legible;
+- Earth positioned so overlays do not fight the brightest horizon;
+- no baked-in projection that later overlays must imitate or erase.
+
+The architecture is part of the interaction grammar. A simpler window that can
+truly respond is preferable to a monumental window that only looks responsive.
+
+### Activity and spectacle
+
+The active, vessel-filled world is evidence of the ecosystem, not the default
+background.
+
+```text
+quiet establishes scale
+activity reveals life
+return to quiet creates memory
+```
+
+Use extracted vessels as independent temporal layers, normally no more than
+two or three legible vessel stories at once. Far traffic may remain only light
+or motion. Avoid short obvious loops that collapse the ecosystem into a
+screensaver.
+
+Spectacle may occur briefly as a real station event, then disperse. It becomes
+powerful because the Traveller first knew the field in quiet.
+
+---
+
+## Environment-specific direction
+
+### Exterior arrival
+
+The exterior establishes that CSMCL.SPACE exists independently of the visitor.
+Traffic, station structures, incomplete carriers, and destinations beyond the
+frame invite approach without demanding it.
+
+Zee may exist as one small searching vessel among other signals. Zee is
+discoverable, not addressed. The name and identity are not part of the default
+introduction.
+
+### Observatory station
+
+The station is observable by design. It presents itself through presence and
+reveals deeper layers through investigation or request.
+
+Reference: airport, not museum. Activity is already happening and was not
+arranged solely for this arrival. The first view should support remaining,
+watching, and slowly understanding the place without a guided sequence.
+
+### Cabin / quarters
+
+The cabin expresses a modest decision:
+
+> I want to stay here a little longer.
+
+It supports recurrence, familiarity, retained Observatory discoveries, and
+optional communication. It is not a disguised account dashboard and does not
+grant the later Companion / Innerstellar relationship.
+
+Email, if implemented, is a communication bridge and an explicit light
+commitment. Its purpose and handling must be clear before activation.
+
+### Nexus / Attunement
+
+Outside this production direction. Attunement starts at Nexus, not inside the
+Observatory. Identity, ownership, payment, Companion formation, and real
+traveller interaction receive their own design and consent model there.
+
+---
+
+## Zee boundary
+
+Zee is an alien traveller with Zee's own csmcl.space and two fallible research
+threads: human interaction and CSMCL.SPACE itself.
+
+Zee may orient through example, observation, error, and revision. Zee does not
+explain the system authoritatively.
+
+> Zee has no authority to explain the system. Zee has complete authority as an
+> observer.
+
+Zee should appear beyond the Observatory only if Zee has an independent reason
+to be there. If Zee appears merely because an interface needs a tooltip, Zee
+has become documentation wearing alien skin.
+
+The ecosystem-wide use of Zee as concealed help remains an experiment, not a
+settled universal pattern.
+
+---
+
+## Production test
+
+Before approving an image, interaction, piece of copy, or implementation,
+answer:
+
+1. What can the Traveller directly observe?
+2. What is deliberately left for the Traveller to complete?
+3. Is there enough structure for inference, or only vagueness?
+4. What responses are possible besides the intended one?
+5. Can the Traveller do nothing and still experience a complete place?
+6. Does the element reveal, or does it explain?
+7. Does it answer attention proportionately?
+8. Does it mistake one action for a truth about the person?
+9. Is content baked into the background that should be a responsive layer?
+10. Does this belong to arrival, station, cabin, or later Attunement?
+11. Is Zee present because Zee has a reason to be there?
+12. If removed, does the underlying environment still feel whole?
+
+Reject or revise work that is visually impressive but closes the Traveller's
+participation too early.
+
+---
+
+## Next production sequence
+
+1. Define one intended first-arrival experience in observable terms, without
+   interface copy or lore explanation.
+2. Produce a neutral exterior base plate and explicit overlay/mask plan.
+3. Select no more than three initial vessel/event fragments, each with one
+   unresolved observable fact.
+4. Prototype the timing loop: quiet → event → attention response → quiet.
+5. Test with fresh viewers by asking what they noticed and what they believe is
+   happening — not whether they understood the intended lore.
+6. Record divergences between expected and observed interpretation.
+7. Revise the field before adding more content.
+8. Repeat the same method for the station background, then later the cabin.
+
+The immediate production goal is not to represent the whole ecosystem. It is
+to build one field that reliably causes the visitor to begin constructing it.
+
+---
+
+## Working statement
+
+> The CSMCL.SPACE Observatory is a low-commitment environment designed for
+> Travellers to observe an inhabited world, anticipate what lies beyond what
+> is shown, test their own completion through attention and inquiry, and
+> choose whether they wish to remain — before any explicit Attunement begins
+> at Nexus.
+
+And the production principle beneath it:
+
+> Provide enough reality to produce anticipation, while leaving enough space
+> for the Traveller to participate in making it real.
+

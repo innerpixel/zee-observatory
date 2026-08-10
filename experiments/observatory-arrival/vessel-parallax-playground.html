@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#01040a">
+  <title>Observatory · Vessel Parallax Playground</title>
+  <style>
+    :root{color-scheme:dark;--cyan:#8de8ed;--ink:#e9efed;--dim:#809092;--glass:rgba(2,7,12,.7);--mono:"SFMono-Regular",Consolas,monospace;--serif:Iowan Old Style,Baskerville,Georgia,serif}
+    *{box-sizing:border-box}html,body{width:100%;height:100%;margin:0;overflow:hidden;background:#01040a;color:var(--ink)}button{font:inherit;color:inherit}
+    main{position:fixed;inset:0;isolation:isolate;outline:none;background:#01040a}
+    .plate{position:absolute;inset:-2%;z-index:-3;width:104%;height:104%;object-fit:cover;filter:brightness(.76) saturate(.83);transform:translate3d(var(--plate-x,0),var(--plate-y,0),0) scale(1.015);transition:transform .8s cubic-bezier(.2,.8,.2,1)}
+    .shade{position:absolute;inset:0;z-index:-1;pointer-events:none;background:radial-gradient(circle at 52% 42%,transparent 32%,rgba(0,2,6,.14) 68%,rgba(0,2,6,.65) 120%),linear-gradient(180deg,rgba(0,2,6,.35),transparent 25%,transparent 70%,rgba(0,2,6,.5))}
+    canvas{position:absolute;inset:0;width:100%;height:100%}
+    header{position:absolute;z-index:5;inset:max(1rem,env(safe-area-inset-top)) clamp(1rem,2vw,2rem) auto;display:flex;justify-content:space-between;align-items:center;color:rgba(233,239,237,.52);font:9px var(--mono);letter-spacing:.17em;text-transform:uppercase;pointer-events:none}header span{display:flex;align-items:center;gap:.6rem}header i{width:5px;height:5px;border-radius:50%;background:var(--cyan);box-shadow:0 0 12px var(--cyan)}
+    .intro{position:absolute;z-index:4;left:clamp(1rem,4vw,4rem);bottom:clamp(1rem,5vh,3.5rem);width:min(29rem,calc(100% - 2rem));padding:1rem 1.1rem;border-left:1px solid rgba(141,232,237,.32);background:linear-gradient(90deg,var(--glass),transparent);pointer-events:none;transition:opacity .5s}.intro.quiet{opacity:.35}.intro small{color:var(--cyan);font:8px var(--mono);letter-spacing:.17em;text-transform:uppercase}.intro h1{margin:.65rem 0 .4rem;font:400 clamp(1.65rem,3vw,2.45rem)/1 var(--serif);letter-spacing:-.025em}.intro p{margin:0;color:#aeb9b7;font:1rem/1.42 var(--serif)}
+    .controls{position:absolute;z-index:6;right:clamp(1rem,2vw,2rem);bottom:clamp(1rem,3vh,2rem);display:flex;align-items:center;gap:.4rem}.controls button{padding:.55rem .7rem;border:1px solid rgba(141,232,237,.22);border-radius:99px;background:rgba(2,7,12,.58);color:#9eacab;cursor:pointer;font:8px var(--mono);letter-spacing:.11em;text-transform:uppercase;backdrop-filter:blur(8px)}.controls button:hover,.controls button.active{border-color:var(--cyan);color:var(--cyan)}
+    .label{position:absolute;z-index:3;padding:.35rem .45rem;background:rgba(1,5,10,.72);color:#b7c4c2;opacity:0;transform:translate(-50%,-120%);font:8px var(--mono);letter-spacing:.13em;text-transform:uppercase;white-space:nowrap;pointer-events:none;transition:opacity .2s}.label.visible{opacity:1}
+    .note{position:absolute;z-index:5;right:clamp(1rem,2vw,2rem);top:50%;transform:rotate(90deg) translateX(50%);transform-origin:right top;color:rgba(233,239,237,.22);font:8px var(--mono);letter-spacing:.17em;text-transform:uppercase}
+    @media(max-width:650px){.plate{object-position:60% center}.intro{right:1rem;width:auto}.controls{top:3rem;right:.75rem;bottom:auto;flex-direction:column;align-items:stretch}.controls button{font-size:7px}.note,header span:last-child{display:none}}
+    @media(prefers-reduced-motion:reduce){.plate{transform:none}.controls button[data-mode="drift"]{display:none}}
+  </style>
+</head>
+<body>
+  <main id="field" tabindex="0" aria-label="Three animated vessel parallax study. Move the pointer to look around; select a vessel to pause it.">
+    <img class="plate" src="observatory-arrival-quiet.png" alt="The Observatory above Earth in a quiet orbital field">
+    <canvas id="vessels" aria-hidden="true"></canvas><div class="shade"></div>
+    <header><span><i></i><b id="status">three local returns · drifting</b></span><span>motion study · canvas composite</span></header>
+    <section class="intro"><small>Observatory experiment · 03</small><h1>A few travellers pass through.</h1><p>Move your attention across the field. The station holds position; nearby vessels answer at different depths.</p></section>
+    <div class="controls" aria-label="Motion controls"><button class="active" data-mode="drift">Pause drift</button><button data-mode="paths">Show paths</button><button data-mode="reset">Reset view</button></div>
+    <div class="label" id="label"></div><div class="note">pointer · parallax / click · inspect</div>
+  </main>
+  <script>
+    const field=document.querySelector('#field'),canvas=document.querySelector('#vessels'),ctx=canvas.getContext('2d'),plate=document.querySelector('.plate'),label=document.querySelector('#label'),status=document.querySelector('#status'),intro=document.querySelector('.intro');
+    const source=new Image();source.src='observatory-arrival-active.png';
+    const reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
+    let dpr=Math.min(devicePixelRatio||1,2),pointer={x:0,y:0},smooth={x:0,y:0},paused=reduced,paths=false,last=0,selected=null;
+    const ships=[
+      {name:'long-range vessel',crop:[20,70,640,245],mask:[[0,.18],[.2,.1],[.43,.25],[.62,.46],[.82,.58],[1,.46],[.92,.72],[.7,.74],[.48,.65],[.26,.49],[.05,.39]],home:[.19,.20],size:.34,depth:.85,drift:11,phase:.3,tilt:-.02,opacity:.96},
+      {name:'manta vessel',crop:[1420,85,445,185],mask:[[.02,.26],[.2,.1],[.45,.2],[.68,.38],[.98,.67],[.75,.7],[.52,.58],[.28,.41],[.08,.42]],home:[.81,.19],size:.25,depth:.48,drift:7,phase:2.4,tilt:.015,opacity:.9},
+      {name:'close engine vessel',crop:[1585,385,330,205],mask:[[.01,.25],[.28,.12],[.65,.18],[.98,.45],[.94,.78],[.58,.72],[.23,.58],[.04,.52]],home:[.82,.67],size:.19,depth:1.25,drift:15,phase:4.2,tilt:.025,opacity:1}
+    ];
+    function prepareSprites(){ships.forEach(ship=>{const [sx,sy,sw,sh]=ship.crop,sprite=document.createElement('canvas'),mask=document.createElement('canvas');sprite.width=mask.width=sw;sprite.height=mask.height=sh;const sc=sprite.getContext('2d'),mc=mask.getContext('2d');sc.drawImage(source,sx,sy,sw,sh,0,0,sw,sh);mc.filter='blur(9px)';mc.fillStyle='#fff';mc.beginPath();ship.mask.forEach(([x,y],i)=>(i?mc.lineTo(x*sw,y*sh):mc.moveTo(x*sw,y*sh)));mc.closePath();mc.fill();sc.globalCompositeOperation='destination-in';sc.drawImage(mask,0,0);ship.sprite=sprite})}
+    function resize(){dpr=Math.min(devicePixelRatio||1,2);canvas.width=innerWidth*dpr;canvas.height=innerHeight*dpr;canvas.style.width=innerWidth+'px';canvas.style.height=innerHeight+'px';ctx.setTransform(dpr,0,0,dpr,0,0)}
+    function position(ship,time){const breathe=paused?0:Math.sin(time*.00012+ship.phase)*ship.drift;return{x:ship.home[0]*innerWidth+smooth.x*ship.depth*30+breathe,y:ship.home[1]*innerHeight+smooth.y*ship.depth*18+Math.cos(time*.0001+ship.phase)*ship.drift*.3}}
+    function drawShip(ship,time,index){const [, ,sw,sh]=ship.crop,p=position(ship,time),dw=Math.min(innerWidth,1500)*ship.size,dh=dw*(sh/sw);ship.bounds={x:p.x-dw/2,y:p.y-dh/2,w:dw,h:dh};ctx.save();ctx.translate(p.x,p.y);ctx.rotate(ship.tilt+(!paused?Math.sin(time*.00009+ship.phase)*.008:0));ctx.globalAlpha=selected===index?1:ship.opacity;ctx.globalCompositeOperation='screen';ctx.drawImage(ship.sprite,-dw/2,-dh/2,dw,dh);ctx.restore();if(paths){ctx.save();ctx.strokeStyle='rgba(141,232,237,.2)';ctx.setLineDash([3,8]);ctx.beginPath();ctx.ellipse(ship.home[0]*innerWidth,ship.home[1]*innerHeight,dw*.72,Math.max(12,dh*.35),ship.tilt,0,Math.PI*2);ctx.stroke();ctx.restore()}}
+    function frame(time){smooth.x+=(pointer.x-smooth.x)*.035;smooth.y+=(pointer.y-smooth.y)*.035;ctx.clearRect(0,0,innerWidth,innerHeight);if(ships[0].sprite)ships.forEach((ship,i)=>drawShip(ship,time,i));plate.style.setProperty('--plate-x',`${smooth.x*-4}px`);plate.style.setProperty('--plate-y',`${smooth.y*-2.5}px`);last=time;requestAnimationFrame(frame)}
+    function hit(x,y){return ships.findIndex(s=>s.bounds&&x>s.bounds.x&&x<s.bounds.x+s.bounds.w&&y>s.bounds.y&&y<s.bounds.y+s.bounds.h)}
+    field.addEventListener('pointermove',e=>{pointer.x=(e.clientX/innerWidth-.5)*2;pointer.y=(e.clientY/innerHeight-.5)*2;const i=hit(e.clientX,e.clientY);selected=i<0?null:i;if(selected!==null){const p=position(ships[selected],last);label.textContent=ships[selected].name+' · inspect';label.style.left=p.x+'px';label.style.top=(p.y-ships[selected].bounds.h*.4)+'px';label.classList.add('visible');field.style.cursor='pointer'}else{label.classList.remove('visible');field.style.cursor='default'}});
+    field.addEventListener('pointerleave',()=>{pointer.x=pointer.y=0;label.classList.remove('visible')});
+    field.addEventListener('click',e=>{const i=hit(e.clientX,e.clientY);if(i<0)return;paused=true;document.querySelector('[data-mode="drift"]').textContent='Resume drift';status.textContent=ships[i].name+' · holding position';intro.classList.add('quiet')});
+    document.querySelector('.controls').addEventListener('click',e=>{const button=e.target.closest('button');if(!button)return;if(button.dataset.mode==='drift'){paused=!paused;button.textContent=paused?'Resume drift':'Pause drift';button.classList.toggle('active',!paused);status.textContent=paused?'local returns · holding':'three local returns · drifting'}if(button.dataset.mode==='paths'){paths=!paths;button.classList.toggle('active',paths);button.textContent=paths?'Hide paths':'Show paths'}if(button.dataset.mode==='reset'){pointer.x=pointer.y=0;selected=null;paused=reduced;paths=false;intro.classList.remove('quiet');status.textContent='three local returns · drifting';document.querySelector('[data-mode="drift"]').textContent='Pause drift';document.querySelector('[data-mode="paths"]').textContent='Show paths';document.querySelectorAll('.controls button').forEach((b,i)=>b.classList.toggle('active',i===0&&!reduced))}});
+    source.addEventListener('load',prepareSprites);if(source.complete)prepareSprites();addEventListener('resize',resize);resize();requestAnimationFrame(frame);
+  </script>
+</body>
+</html>

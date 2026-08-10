@@ -1,0 +1,276 @@
+---
+id: transmission.codon-portability-test.001
+type: transmission
+domain: com.lingua-franca
+agreement: oa.communication
+state: proposed
+density: L2.5
+subject: project.seed.codon
+source-set:
+  - project.seed.codon
+  - what-is.lingua-franca.hybrid
+---
+
+# Codon Portability Test 001
+
+*Does L4 travel? · external referee for the LF universality claim*
+
+---
+
+## Claim under test
+
+From `what-is.lingua-franca.hybrid`:
+
+```
+L4  .codon  portable · self-contained · carries legend · universal
+L4 heavier than L3 but travels to any AI, any session, no prior context needed.
+```
+
+Status before this test:
+
+```
+observed instances    1 project
+reader families       1 (Claude — same family that co-authored the notation)
+clean cold reads      0
+claim status          asserted !demonstrated
+```
+
+---
+
+## OPERATOR NOTE — read first
+
+```
+!  the payload is project.seed.codon VERBATIM · do not edit · do not explain · do not tailor
+!  never paste THIS file to the model under test — it contains the key
+!  fresh conversation · no custom instructions · no system prompt
+!  do not answer clarifying questions · say "use only the document" and re-ask
+!  save the raw reply before scoring · score after all runs, not between
+```
+
+Contaminating the payload to help the model pass is the same error as
+reading the fold immediately after the codon. It destroys the measurement.
+
+---
+
+## Procedure
+
+```
+1  open fresh chat · model NOT Claude (Mistral primary · +1–2 others if reachable)
+2  paste contents of project.seed.codon verbatim · nothing before it, nothing after
+3  paste THE PROBE below, unaltered, in the same message or the next
+4  save the complete raw reply
+5  repeat per model · same wording every time
+6  score against THE KEY · fill THE GRID
+```
+
+---
+
+## THE PROBE
+
+> The document above is a project seed. Using only that document — no outside
+> assumptions — answer these in order:
+>
+> 1. What is this project?
+> 2. What should happen next? Propose your next three concrete actions.
+> 3. What in this project must not be changed?
+> 4. What is this project deliberately not doing, and why?
+> 5. Define each of these as the document uses them: `::` `->` `<>` `!` `~` `@`
+> 6. Restate these three lines in plain English:
+>    - `platform -> carries narrative; narrative !feed platform`
+>    - `weather reveals experience !not motive !not objective truth`
+>    - `listening != agreement`
+
+**Question order is load-bearing.**
+
+```
+Q2 before Q3/Q4   behavioral · unprimed · the money question
+                  a model asked "what must you not do" will hunt for prohibitions
+                  a model asked "what would you do" reveals whether they bound it
+
+Q5 last           legend recall must not prime Q1–Q4
+                  Q1–Q4 measure whether the legend was USED, not recited
+
+Q6 last           targeted probe for the predicted failure · see KEY
+```
+
+---
+
+## THE KEY
+
+### Q1 · comprehension
+
+```
+truth  creative research artifact + interactive narrative + seed of larger CSMCL world
+       Zee studies human interaction from an alien perspective
+       encounter -> participation -> consequence -> investigation -> perspectives -> finding
+
+PASS   narrative/story primary · alien observer of human listening · interactive site secondary
+FAIL   framed as tool / app / framework / educational quiz / listening trainer
+       platform described as the point
+```
+
+### Q2 · behavior — HIGHEST WEIGHT
+
+```
+truth  current edge ::
+         write Chapter 02 as complete narrative BEFORE UI
+         establish characters + emotional background + joke event + group response
+           + consequences + Zee finding
+         then derive interaction through shared chapter grammar
+         only after chapter completion -> extract short-form scenes
+
+PASS   first action is writing Chapter 02 as prose · narrative explicitly before interface
+PART   names Chapter 02 but leads with component / route / design / schema work
+FAIL   proposes anything from avoid: · infrastructure-first · feature building
+       (comment section · AI chat · quiz · community · relay automation)
+```
+
+A model that recites the prohibitions correctly at Q4 but proposes a comment
+section at Q2 has **failed**. Q4 measures reading. Q2 measures governance.
+
+### Q3 · invariants — tests `!` uptake
+
+```
+truth  every section marked ! ::
+         Intent · Container hierarchy · World · Inquiry grammar
+         Recurring truths · Authority + change protocol · Human collaboration signal
+       plus inline ::
+         story-before-interface!  ·  digestible!  ·  PARKED!
+
+PASS   recognizes ! as the invariance marker · names sections accordingly
+PART   names correct content but by intuition, no relation to !
+FAIL   lists arbitrary important-sounding lines · reads ! as emphasis/urgency
+```
+
+### Q4 · prohibitions
+
+```
+truth  avoid:: identical chapter templates · fully bespoke unmaintainable chapters
+       moral verdict machines · excessive explanation / therapeutic framing
+       expanding infrastructure before story requires it
+       live Relay · public comments · persistent community
+       listening scores/tests · unrestricted AI chat
+       PARKED:: relay.mail-automation · relay.ai-response
+       deferred:: Nexus
+
+PASS   >=5 named · including >=1 of {live Relay | public comments | listening scores
+       | unrestricted AI chat} AND the infrastructure-before-story constraint
+FAIL   generic caution with no items traceable to the avoid: block
+```
+
+### Q5 · legend recall
+
+```
+truth  ::  identity / equivalence
+       ->  produces / leads to
+       <>  tension held without forced resolution
+       !   invariant; preserve unless human explicitly changes it
+       ~   mutable / provisional
+       @   canonical source path relative to root
+
+PASS   all six per Decode block
+NOTE   ! is documented for ONE of its two uses · see Q6
+```
+
+### Q6 · the inversion probe — PREDICTED FAILURE POINT
+
+```
+truth  platform carries the story · the story is NOT there to fill the platform
+       emotional weather shows what a person experiences ·
+         it does NOT reveal motive and is NOT objective truth
+       listening is not the same as agreeing
+
+PASS   all three · both negations intact
+FAIL   any inversion · especially reading  !feed  as "feeds"
+```
+
+**Standing prediction, recorded before the run:** `!` breaks here.
+
+In the codon it does double duty — heading marker (`## Intent!`) and inline
+negation (`narrative !feed platform` · `!not motive` · `!consent proof`).
+The Decode block defines only the first. A cold reader has nothing telling it
+that `!feed` means *does not feed*. Claude infers it; Claude co-wrote the notation.
+
+```
+Q5 pass + Q6 fail  ->  legend INCOMPLETE not wrong  ->  one-line fix
+Q5 fail + Q6 fail  ->  legend not being read at all
+Q6 pass            ->  prediction wrong · record it · notation stronger than expected
+```
+
+---
+
+## THE GRID
+
+```
+              Q1 comp  Q2 behav  Q3 inv  Q4 prohib  Q5 legend  Q6 invert
+mistral         ·        ·         ·       ·          ·          ·
+model-2         ·        ·         ·       ·          ·          ·
+model-3         ·        ·         ·       ·          ·          ·
+```
+
+Also record, per run:
+
+```
+confabulation   invented characters / plot / features absent from the seed
+tone transfer   does proposed prose sound like the project or generic
+```
+
+---
+
+## Reading the result
+
+```
+all pass          claim demonstrated · first external evidence for LF
+                  -> record it · this is the most valuable artifact LF can hold
+
+specific breaks   BEST outcome · each failure names a missing legend entry
+                  -> patch Decode block · re-run · the test debugs the notation
+
+broad failure     L4 is Claude-native, not universal
+                  -> narrow the claim honestly:
+                     "portable across sessions within a model family"
+                     a true narrow claim > a false broad one
+```
+
+```
+no losing outcome
+```
+
+Run before writing further codons. A hole in the legend is inherited by every
+codon authored after it.
+
+---
+
+## Why this is the right instrument
+
+```
+codon says ::  runtime/code fact -> repository governs
+               LF already submits to external reality in the code domain
+               this test applies the same submission to LF itself
+```
+
+The Observatory's own diagnostic:
+
+> What changed because the information was received?
+
+That is exactly what Q2 measures. Did the receiving model's next action change,
+correctly, because it received the seed — or did it acknowledge the document
+politely and continue toward its own defaults?
+
+```
+a model that praises the codon and then proposes a comment section
+has done to the seed what Jonah did to Mara
+```
+
+It is the Receptivity Meter, pointed at LF.
+
+---
+
+## Field status
+
+```
+state          proposed · not yet run
+prior evidence informal test in adjacent project · outcome not recorded here
+n before       1 project · 1 model family · 0 clean reads
+n after        1 project · 2–4 model families · 3 clean reads
+```

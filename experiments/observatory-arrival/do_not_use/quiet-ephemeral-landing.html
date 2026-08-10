@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#01040a">
+  <meta name="description" content="A quiet arrival at the CSMCL.SPACE Observatory.">
+  <title>CSMCL.SPACE · Quiet Arrival</title>
+  <style>
+    :root{color-scheme:dark;--ink:#edf3f1;--soft:#abb7b6;--dim:#738082;--cyan:#89e4e8;--violet:#b6a7f5;--amber:#dec18f;--mono:"SFMono-Regular",Consolas,monospace;--serif:Iowan Old Style,Baskerville,Georgia,serif}
+    *{box-sizing:border-box}html,body{width:100%;height:100%;margin:0;overflow:hidden;background:#01040a;color:var(--ink)}button,a{font:inherit;color:inherit}button{cursor:pointer}
+    .field{position:fixed;inset:0;isolation:isolate;outline:none;background:#01040a}
+    .world{position:absolute;inset:-2.5%;z-index:-5;width:105%;height:105%;object-fit:cover;filter:brightness(.7) saturate(.78);transform:translate3d(var(--world-x,0),var(--world-y,0),0) scale(1.012);transition:transform 1.2s cubic-bezier(.2,.8,.2,1),filter 1.2s}
+    .field.awake .world{filter:brightness(.75) saturate(.82)}
+    .shade{position:absolute;inset:0;z-index:-3;pointer-events:none;background:radial-gradient(circle at 53% 42%,transparent 34%,rgba(0,2,6,.08) 67%,rgba(0,2,6,.68) 120%),linear-gradient(180deg,rgba(0,2,6,.42),transparent 27%,transparent 68%,rgba(0,2,6,.58))}
+    .grain{position:absolute;inset:0;z-index:30;pointer-events:none;opacity:.025;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 160 160' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.83' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+    .craft{position:absolute;z-index:-1;left:var(--craft-x,73%);top:var(--craft-y,18%);width:clamp(145px,18vw,330px);height:auto;opacity:0;filter:brightness(.72) saturate(.7) drop-shadow(0 0 15px rgba(97,167,205,.12));transform:translate(-50%,-50%) rotate(var(--craft-r,-4deg)) scale(.72);transition:opacity 2.4s ease,filter .8s;pointer-events:none;will-change:transform}
+    .craft.present{opacity:.58}.craft.noticed{opacity:.88;filter:brightness(.85) saturate(.78) drop-shadow(0 0 22px rgba(97,167,205,.2))}
+    .system{position:absolute;z-index:10;inset:max(1rem,env(safe-area-inset-top)) clamp(1rem,2vw,2rem) auto;display:flex;justify-content:space-between;color:rgba(237,243,241,.43);font:8px var(--mono);letter-spacing:.18em;text-transform:uppercase;pointer-events:none}.system span{display:flex;align-items:center;gap:.6rem}.system i{width:4px;height:4px;border-radius:50%;background:var(--cyan);box-shadow:0 0 10px var(--cyan);animation:pulse 3.4s ease-in-out infinite}
+    .welcome{position:absolute;z-index:5;left:50%;top:49%;width:min(42rem,calc(100% - 2rem));transform:translate(-50%,-50%);text-align:center;opacity:0;animation:welcome 8s 1.2s ease both;pointer-events:none}.welcome small{display:block;margin-bottom:.75rem;color:rgba(214,225,224,.54);font:8px var(--mono);letter-spacing:.23em;text-transform:uppercase}.welcome h1{margin:0;font:400 clamp(2.25rem,5.3vw,4.8rem)/.96 var(--serif);letter-spacing:-.04em;text-shadow:0 2px 28px #000}.welcome em{color:#e8e3ff;font-weight:400}.welcome p{margin:.85rem 0 0;color:rgba(195,207,204,.72);font:1rem var(--serif)}
+    .signal{position:absolute;z-index:7;left:var(--signal-x,50%);top:var(--signal-y,50%);max-width:min(25rem,calc(100% - 3rem));padding:.65rem .8rem;border-left:1px solid rgba(137,228,232,.38);background:linear-gradient(90deg,rgba(1,6,11,.68),transparent);color:#c8d2d0;font:400 clamp(.95rem,1.55vw,1.14rem)/1.4 var(--serif);text-shadow:0 2px 15px #000;opacity:0;transform:translateY(8px);transition:opacity 1s,transform 1s;pointer-events:none}.signal small{display:block;margin-bottom:.35rem;color:rgba(137,228,232,.65);font:7px var(--mono);letter-spacing:.16em;text-transform:uppercase}.signal.visible{opacity:1;transform:none}.signal.leaving{opacity:0;transform:translateY(-6px)}
+    .reticle{position:absolute;z-index:4;left:var(--reticle-x,50%);top:var(--reticle-y,50%);width:28px;height:28px;border:1px solid rgba(137,228,232,.16);border-radius:50%;opacity:0;transform:translate(-50%,-50%);transition:opacity .5s,transform .25s;pointer-events:none}.field.awake .reticle{opacity:1}.reticle::after{content:"";position:absolute;left:12px;top:12px;width:2px;height:2px;border-radius:50%;background:var(--cyan);box-shadow:0 0 8px var(--cyan)}
+    .nav{position:absolute;z-index:12;left:50%;bottom:max(1rem,env(safe-area-inset-bottom));display:flex;align-items:center;gap:.25rem;transform:translateX(-50%);opacity:.28;transition:opacity .7s}.field.awake .nav,.nav:focus-within,.nav:hover{opacity:.82}.nav a,.nav button{padding:.55rem .7rem;border:0;background:rgba(1,5,10,.3);text-decoration:none;color:#a8b5b2;font:7px var(--mono);letter-spacing:.13em;text-transform:uppercase;white-space:nowrap}.nav a:hover,.nav button:hover,.nav a:focus-visible,.nav button:focus-visible{color:var(--cyan);outline:1px solid rgba(137,228,232,.24)}.nav i{width:2px;height:2px;border-radius:50%;background:rgba(255,255,255,.3)}
+    .help{position:absolute;z-index:20;left:50%;top:50%;width:min(29rem,calc(100% - 2rem));padding:1rem 1.1rem;border:1px solid rgba(137,228,232,.2);background:rgba(2,7,12,.86);backdrop-filter:blur(12px);opacity:0;visibility:hidden;transform:translate(-50%,-47%);transition:opacity .35s,transform .45s,visibility .35s}.help.open{opacity:1;visibility:visible;transform:translate(-50%,-50%)}.help header{display:flex;justify-content:space-between;color:var(--cyan);font:8px var(--mono);letter-spacing:.16em;text-transform:uppercase}.help button{border:0;background:none;color:var(--dim)}.help p{margin:.9rem 0 .2rem;color:#b4c0bd;font:1rem/1.5 var(--serif)}.help code{color:var(--violet);font:8px var(--mono);letter-spacing:.1em}
+    @keyframes welcome{0%{opacity:0;transform:translate(-50%,-47%)}18%,68%{opacity:1;transform:translate(-50%,-50%)}100%{opacity:0;transform:translate(-50%,-52%)}}
+    @keyframes pulse{50%{opacity:.2;box-shadow:0 0 3px var(--cyan)}}
+    @media(max-width:700px){.world{object-position:61% center}.system span:last-child{display:none}.craft{width:clamp(120px,32vw,210px)}.welcome{top:45%}.nav{width:calc(100% - 1rem);justify-content:center}.nav a,.nav button{padding-inline:.5rem;font-size:6px}.signal{font-size:.93rem}}
+    @media(max-width:420px){.nav a:first-child,.nav i:first-of-type{display:none}}
+    @media(prefers-reduced-motion:reduce){*{animation-duration:.01ms!important;transition-duration:.01ms!important}.world{transform:none}.craft{display:none}.welcome{opacity:1;animation:none}}
+  </style>
+</head>
+<body>
+  <main class="field" id="field" tabindex="0" aria-label="Quiet arrival at the CSMCL.SPACE Observatory. Move the pointer to inspect the field.">
+    <img class="world" src="observatory-arrival-quiet.png" alt="Earth and the Observatory station in a quiet orbital field">
+    <img class="craft" id="craft" src="vessels/alien-sail-vessel.png" alt="" aria-hidden="true">
+    <div class="shade"></div><div class="grain"></div>
+    <header class="system"><span><i></i><b id="status">holding position</b></span><span>earth orbit · receiving field</span></header>
+    <section class="welcome" aria-hidden="true"><small>arrival signal</small><h1>Welcome to <em>CSMCL.SPACE</em></h1><p>The Observatory is receiving.</p></section>
+    <aside class="signal" id="signal" aria-live="polite"><small id="signalLabel">attention field</small><span id="signalText"></span></aside>
+    <div class="reticle" id="reticle"></div>
+    <nav class="nav" aria-label="Destinations"><a href="https://firmament.csmcl.space" target="_blank" rel="noreferrer">Firmament ↗</a><i></i><button id="station">Observatory</button><i></i><button id="guide">Space · guidance</button></nav>
+    <aside class="help" id="help"><header><span>Immediate guidance</span><button id="closeHelp" aria-label="Close guidance">×</button></header><p>Move gently to inspect the field. Pause to receive what motion may hide.</p><code>POINTER / TOUCH · LOOK &nbsp;&nbsp; SPACE · GUIDANCE &nbsp;&nbsp; ESC · QUIET</code></aside>
+  </main>
+  <script>
+    const $=s=>document.querySelector(s),field=$('#field'),craft=$('#craft'),signal=$('#signal'),reticle=$('#reticle'),help=$('#help'),reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const messages=[
+      {label:'attention field',text:'A movement resolves beyond the station.'},
+      {label:'local observation',text:'Not every arrival announces itself.'},
+      {label:'navigation note',text:'Your attention changes what becomes visible.'},
+      {label:'relative motion',text:'The station is still. Something else is not.'}
+    ];
+    let pointer={x:0,y:0},smooth={x:0,y:0},lastMove=0,lastSignal=0,messageIndex=0,signalTimer,idleTimer,craftTime=0,craftRevealed=false;
+    function showSignal(message,x=.5,y=.5,duration=3000){clearTimeout(signalTimer);$('#signalLabel').textContent=message.label;$('#signalText').textContent=message.text;field.style.setProperty('--signal-x',`${Math.min(72,Math.max(20,x*100))}%`);field.style.setProperty('--signal-y',`${Math.min(72,Math.max(24,y*100))}%`);signal.classList.remove('leaving');signal.classList.add('visible');lastSignal=performance.now();signalTimer=setTimeout(()=>{signal.classList.add('leaving');setTimeout(()=>signal.classList.remove('visible','leaving'),1000)},duration)}
+    function resetIdle(){clearTimeout(idleTimer);idleTimer=setTimeout(()=>showSignal({label:'holding position',text:'Stillness is also a way of looking.'},.22,.68,3600),7500)}
+    function revealCraft(){if(craftRevealed||reduced)return;craftRevealed=true;craft.classList.add('present');$('#status').textContent='unregistered movement · distant';setTimeout(()=>craft.classList.add('noticed'),2400);showSignal(messages[0],.71,.31,3200)}
+    function quiet(){help.classList.remove('open');field.classList.remove('awake');signal.classList.remove('visible');craft.classList.remove('noticed');pointer.x=pointer.y=0;$('#status').textContent='holding position';resetIdle()}
+    field.addEventListener('pointermove',e=>{pointer.x=(e.clientX/innerWidth-.5)*2;pointer.y=(e.clientY/innerHeight-.5)*2;field.classList.add('awake');field.style.setProperty('--reticle-x',`${e.clientX}px`);field.style.setProperty('--reticle-y',`${e.clientY}px`);lastMove=performance.now();if(!craftRevealed&&Math.abs(pointer.x)+Math.abs(pointer.y)>.55)revealCraft();if(performance.now()-lastSignal>4800&&Math.abs(pointer.x)+Math.abs(pointer.y)>.9){messageIndex=(messageIndex+1)%messages.length;showSignal(messages[messageIndex],e.clientX/innerWidth,e.clientY/innerHeight)}resetIdle()});
+    field.addEventListener('pointerdown',e=>{field.classList.add('awake');if(e.pointerType!=='mouse'&&!craftRevealed)revealCraft();resetIdle()},{passive:true});
+    function animate(t){smooth.x+=(pointer.x-smooth.x)*.025;smooth.y+=(pointer.y-smooth.y)*.025;field.style.setProperty('--world-x',`${smooth.x*-4}px`);field.style.setProperty('--world-y',`${smooth.y*-2.5}px`);if(craftRevealed&&!reduced){craftTime=t*.000035;const travel=(craftTime%1);field.style.setProperty('--craft-x',`${82-travel*22+smooth.x*1.8}%`);field.style.setProperty('--craft-y',`${18+Math.sin(t*.00018)*1.3+smooth.y*1.2}%`);field.style.setProperty('--craft-r',`${-5+Math.sin(t*.0001)*1.4}deg`)}requestAnimationFrame(animate)}
+    $('#guide').addEventListener('click',()=>{help.classList.add('open');field.classList.add('awake')});$('#closeHelp').addEventListener('click',quiet);$('#station').addEventListener('click',()=>showSignal({label:'observatory',text:'A receiving structure. One port remains illuminated.'},.52,.43,3600));
+    document.addEventListener('keydown',e=>{if(e.code==='Space'){e.preventDefault();help.classList.toggle('open');field.classList.add('awake')}if(e.key==='Escape')quiet()});
+    document.addEventListener('visibilitychange',()=>{if(document.hidden)clearTimeout(idleTimer);else resetIdle()});
+    resetIdle();requestAnimationFrame(animate);
+  </script>
+</body>
+</html>

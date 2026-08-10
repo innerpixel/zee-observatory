@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#04070b">
+  <meta name="description" content="An exploratory docking sequence at the Observatory.">
+  <title>The Observatory · Docking Study</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400&family=EB+Garamond:ital,wght@0,400;1,400&display=swap');
+    :root{--ink:#e8eeea;--muted:#9da8a4;--dim:#65716d;--cyan:#7ce5e8;--amber:#e0bd87;--violet:#a694ee;--night:#04070b;--panel:rgba(6,11,16,.82);--line:rgba(183,226,225,.19);--mono:"DM Mono",monospace;--serif:"EB Garamond",Georgia,serif}
+    *{box-sizing:border-box}html{scroll-behavior:smooth;background:var(--night)}body{margin:0;background:var(--night);color:var(--ink);font-family:var(--mono);overflow-x:hidden}button{font:inherit}a{color:inherit}.hidden{display:none!important}
+    .noise{position:fixed;inset:0;z-index:50;pointer-events:none;opacity:.045;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.35'/%3E%3C/svg%3E")}
+    .ship-ui{position:fixed;inset:1.25rem 1.5rem auto;z-index:40;display:flex;justify-content:space-between;color:rgba(232,238,234,.68);font-size:.61rem;letter-spacing:.16em;text-transform:uppercase;pointer-events:none}.ship-ui span{display:flex;align-items:center;gap:.55rem}.ship-ui i{width:5px;height:5px;border-radius:50%;background:var(--cyan);box-shadow:0 0 14px var(--cyan);animation:pulse 2.4s infinite}
+    @keyframes pulse{50%{opacity:.25;transform:scale(.7)}}
+    .scene{position:relative;min-height:100svh;display:grid;isolation:isolate;overflow:hidden}.scene-image{position:absolute;inset:0;z-index:-3;width:100%;height:100%;object-fit:cover;filter:saturate(.83) brightness(.82);transform:scale(1.015);transition:transform 2s ease,filter 1.2s ease}.shade{position:absolute;inset:0;z-index:-2;pointer-events:none}
+    .cockpit{position:absolute;inset:0;z-index:-1;pointer-events:none;border:clamp(12px,2.4vw,38px) solid rgba(3,6,9,.76);border-radius:0 0 46% 46%/0 0 10% 10%;box-shadow:inset 0 0 80px #000}.cockpit:after{content:"";position:absolute;left:50%;bottom:-1rem;width:min(36rem,70vw);height:4rem;transform:translateX(-50%);border-radius:50% 50% 0 0;background:#05080c;box-shadow:0 -12px 35px rgba(0,0,0,.8)}
+    .eyebrow{margin:0 0 1rem;color:var(--cyan);font-size:.63rem;letter-spacing:.21em;text-transform:uppercase}.arrival{align-items:end}.arrival .shade{background:linear-gradient(0deg,rgba(3,6,10,.91),transparent 48%),linear-gradient(90deg,rgba(2,4,8,.36),transparent 45%)}.arrival-copy{width:min(43rem,calc(100% - 3rem));margin:0 auto clamp(4.5rem,10vh,7rem);text-align:center;text-shadow:0 2px 22px #000}.arrival-copy h1{margin:0;font:400 clamp(3.7rem,9vw,8.5rem)/.88 var(--serif);letter-spacing:-.055em}.arrival-copy .reading{max-width:31rem;margin:1.5rem auto 0;color:#b7c0bc;font:400 clamp(1.05rem,2vw,1.3rem)/1.55 var(--serif)}
+    .action{display:inline-flex;align-items:center;gap:.7rem;margin-top:1.8rem;padding:.85rem 1.15rem;border:1px solid rgba(124,229,232,.44);border-radius:100px;background:rgba(5,14,18,.58);color:var(--cyan);cursor:pointer;font-size:.65rem;letter-spacing:.15em;text-transform:uppercase;transition:.25s}.action:hover,.action:focus-visible{background:var(--cyan);color:#071114;box-shadow:0 0 30px rgba(124,229,232,.17);outline:none}.action:disabled{opacity:.5;cursor:wait}
+    .dock{place-items:center;background:radial-gradient(circle at 50% 40%,#101b25,#06090e 58%,#020305)}.dock-grid{width:min(70rem,calc(100% - 3rem));display:grid;grid-template-columns:minmax(15rem,.8fr) minmax(20rem,1.2fr);gap:clamp(2.5rem,8vw,8rem);align-items:center}.dock-diagram{position:relative;aspect-ratio:1;border:1px solid var(--line);border-radius:50%;background:radial-gradient(circle,rgba(124,229,232,.08),transparent 52%)}.dock-diagram:before,.dock-diagram:after{content:"";position:absolute;border:1px solid rgba(124,229,232,.14);border-radius:50%}.dock-diagram:before{inset:14%}.dock-diagram:after{inset:31%}.hub{position:absolute;inset:38%;border:1px solid var(--cyan);border-radius:50%;box-shadow:0 0 28px rgba(124,229,232,.16),inset 0 0 18px rgba(124,229,232,.1)}.vessel{position:absolute;width:14%;aspect-ratio:1.55;border:1px solid currentColor;border-radius:50%;color:var(--muted);background:#071017;transition:1.2s cubic-bezier(.2,.8,.2,1)}.vessel.zee{right:7%;top:43%;color:var(--violet)}.vessel.visitor{left:4%;top:43%;color:var(--cyan)}.dock-diagram.connected .visitor{left:24%;transform:rotate(12deg)}.route{position:absolute;left:18%;right:18%;top:50%;height:1px;background:linear-gradient(90deg,var(--cyan),transparent 44%,transparent 56%,var(--violet));opacity:.25}.dock-copy h2,.hub-intro h2,.zee-copy h2{margin:.4rem 0 1.2rem;font:400 clamp(2.6rem,5.3vw,5.2rem)/.98 var(--serif);letter-spacing:-.04em}.dock-copy p,.hub-intro p,.zee-copy p{max-width:35rem;color:var(--muted);font:400 clamp(1.05rem,1.8vw,1.28rem)/1.56 var(--serif)}.dock-status{margin-top:1.8rem;padding:1rem 0;border-top:1px solid var(--line);color:var(--dim);font-size:.64rem;line-height:1.9;letter-spacing:.1em;text-transform:uppercase}.dock-status b{color:var(--cyan);font-weight:400}
+    .hub-scene{min-height:auto;padding:clamp(8rem,14vw,13rem) clamp(1.5rem,8vw,9rem);background:radial-gradient(circle at 78% 20%,rgba(89,73,145,.14),transparent 32rem),#080b11}.hub-intro{display:grid;grid-template-columns:.65fr 1.35fr;gap:clamp(2rem,8vw,9rem);max-width:76rem;margin:auto}.hub-intro .label{color:var(--dim);font-size:.64rem;letter-spacing:.16em;line-height:1.9;text-transform:uppercase}.hub-intro .aside{margin-top:2.5rem;color:var(--amber);font-style:italic}
+    .ports{display:grid;grid-template-columns:repeat(12,1fr);gap:1rem;max-width:76rem;margin:6rem auto 0}.port{position:relative;grid-column:span 4;min-height:17rem;padding:1.3rem;border:1px solid var(--line);background:linear-gradient(145deg,rgba(14,20,28,.88),rgba(8,11,16,.7));overflow:hidden}.port:before{content:"";position:absolute;right:-3rem;bottom:-3rem;width:9rem;aspect-ratio:1;border:1px solid rgba(124,229,232,.1);border-radius:50%}.port small{color:var(--cyan);font-size:.57rem;letter-spacing:.15em;text-transform:uppercase}.port h3{margin:4.8rem 0 .8rem;font:400 1.9rem/1 var(--serif)}.port p{color:var(--muted);font:400 1rem/1.45 var(--serif)}.port.quiet{border-style:dashed}.port.zee-port{border-color:rgba(166,148,238,.38)}.port.zee-port small{color:var(--violet)}
+    .zee-scene{min-height:112svh;align-items:end}.zee-scene .scene-image{object-position:center}.zee-scene .shade{background:linear-gradient(0deg,rgba(3,5,9,.98) 0%,rgba(3,5,9,.2) 55%,transparent 75%)}.zee-copy{width:min(72rem,calc(100% - 3rem));margin:0 auto clamp(4rem,9vh,7rem);padding:1.4rem 0 0;border-top:1px solid rgba(232,238,234,.24);display:grid;grid-template-columns:.65fr 1.35fr;gap:clamp(2rem,8vw,8rem)}.zee-copy .signal{color:var(--violet);font-size:.63rem;line-height:1.9;letter-spacing:.15em;text-transform:uppercase}.zee-copy blockquote{margin:1.4rem 0 0;color:#d8deda;font:italic 400 clamp(1.25rem,2.2vw,1.7rem)/1.48 var(--serif)}
+    .frequencies{min-height:auto;padding:clamp(7rem,12vw,11rem) clamp(1.5rem,8vw,9rem);background:#070a0f}.frequency-head{max-width:62rem;margin:auto}.frequency-head h2{margin:.5rem 0 1rem;font:400 clamp(2.7rem,5vw,5rem)/1 var(--serif);letter-spacing:-.04em}.frequency-head p{max-width:38rem;color:var(--muted);font:400 1.2rem/1.55 var(--serif)}.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;max-width:76rem;margin:5rem auto 0}.card{min-height:16rem;padding:1.3rem;border:1px solid var(--line);background:rgba(13,18,25,.62);color:var(--ink);text-align:left;cursor:pointer;transition:.25s}.card:hover,.card:focus-visible{border-color:rgba(124,229,232,.5);transform:translateY(-3px);outline:none}.card small{color:var(--cyan);font-size:.57rem;letter-spacing:.15em;text-transform:uppercase}.card h3{margin:4rem 0 .8rem;font:400 1.8rem/1 var(--serif)}.card p{color:var(--muted);font:400 1rem/1.45 var(--serif)}
+    dialog{width:min(42rem,calc(100% - 2rem));padding:0;border:1px solid rgba(124,229,232,.3);background:#080c12;color:var(--ink);box-shadow:0 30px 100px #000}dialog::backdrop{background:rgba(0,2,5,.82);backdrop-filter:blur(7px)}.fragment{padding:clamp(2rem,6vw,5rem)}.fragment small{color:var(--cyan);font-size:.6rem;letter-spacing:.16em;text-transform:uppercase}.fragment p{font:400 clamp(1.2rem,2.2vw,1.55rem)/1.55 var(--serif)}.fragment em{color:var(--amber)}.close{position:absolute;top:.8rem;right:.8rem;width:2.5rem;height:2.5rem;border:0;border-radius:50%;background:rgba(255,255,255,.06);color:white;cursor:pointer;font-size:1.2rem}
+    footer{padding:4rem 1.5rem;background:#04070b;color:var(--dim);font-size:.62rem;line-height:1.9;letter-spacing:.13em;text-align:center;text-transform:uppercase}
+    .reveal{opacity:0;transform:translateY(1.5rem);transition:opacity .8s ease,transform .9s cubic-bezier(.2,.7,.2,1)}.reveal.visible{opacity:1;transform:none}
+    @media(max-width:760px){.ship-ui{inset:1rem}.ship-ui span:last-child{display:none}.cockpit{border-width:12px}.arrival-copy{margin-bottom:4.5rem}.dock-grid,.hub-intro,.zee-copy{grid-template-columns:1fr}.dock-diagram{width:min(24rem,90vw);margin:auto}.ports,.cards{grid-template-columns:1fr}.port,.card{grid-column:auto;min-height:13rem}.port h3,.card h3{margin-top:2.8rem}.zee-scene{min-height:100svh}.zee-scene .scene-image{object-position:57% center}.zee-copy{padding:1.2rem;background:linear-gradient(0deg,rgba(3,5,9,.94),rgba(3,5,9,.68));border:0}}
+    @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.live i{animation:none}.reveal{opacity:1;transform:none;transition:none}.scene-image,.vessel{transition:none}}
+  </style>
+</head>
+<body>
+  <div class="noise"></div>
+  <div class="ship-ui"><span><i></i> traveller vessel · local</span><span id="navState">unregistered structure detected</span></div>
+
+  <main>
+    <section class="scene arrival" id="arrival">
+      <img class="scene-image" src="../observatory-video/keyframes/01-distant-signal.png" alt="A small vessel transmitting above the curved blue Earth">
+      <div class="shade"></div><div class="cockpit" aria-hidden="true"></div>
+      <div class="arrival-copy">
+        <p class="eyebrow">Your navigation has detected a persistent carrier</p>
+        <h1>The Observatory</h1>
+        <p class="reading">Not a destination in your charts. Not asking who you are. One docking port remains awake.</p>
+        <button class="action" id="requestDock">Request docking handshake <span aria-hidden="true">→</span></button>
+      </div>
+    </section>
+
+    <section class="scene dock" id="dock">
+      <div class="dock-grid reveal">
+        <div class="dock-diagram" id="dockDiagram" aria-label="A diagram showing the visitor vessel approaching the Observatory">
+          <div class="route"></div><div class="hub"></div><div class="vessel visitor"></div><div class="vessel zee"></div>
+        </div>
+        <div class="dock-copy">
+          <p class="eyebrow">Connection protocol · no identity exchange required</p>
+          <h2>You arrive in your own vessel.</h2>
+          <p>The Observatory does not absorb it. It makes a place beside what is already here.</p>
+          <p>A small traveller craft is docked at the opposite port. It has been transmitting toward an uncertain home for thirty-seven local cycles.</p>
+          <div class="dock-status" id="dockStatus">distance stabilizing<br>pressure equalization pending<br>connection <b>available</b></div>
+          <button class="action" id="connect">Complete connection</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="hub-scene" id="hub">
+      <div class="hub-intro reveal">
+        <div class="label">02 · Shared structure<br>status · receiving<br>ownership · unresolved</div>
+        <div>
+          <p class="eyebrow">A place between journeys</p>
+          <h2>The Observatory listens without requiring everything to become public.</h2>
+          <p>Travellers may dock, exchange what they choose, follow a frequency, or continue without leaving a name.</p>
+          <p class="aside">Reception is a form of contact. It is not a claim of ownership.</p>
+        </div>
+      </div>
+      <div class="ports reveal">
+        <article class="port"><small>Port 01 · local connection</small><h3>Your vessel</h3><p>Pressure stable. Interior contents remain yours.</p></article>
+        <article class="port zee-port"><small>Port 03 · continuous carrier</small><h3>Zee’s vessel</h3><p>Light traveller craft. Route home unavailable. Signal active.</p></article>
+        <article class="port quiet"><small>Port 07 · no current signal</small><h3>Unoccupied</h3><p>The structure keeps some places open without knowing who might need them.</p></article>
+      </div>
+    </section>
+
+    <section class="scene zee-scene" id="zee">
+      <img class="scene-image" src="../observatory-video/keyframes/03-receiver-detected.png" alt="Zee working inside a plant-filled traveller vessel">
+      <div class="shade"></div>
+      <div class="zee-copy reveal">
+        <div class="signal">Docked vessel 03<br>carrier · active<br>destination · home, approximately</div>
+        <div>
+          <p class="eyebrow">The signal crossing the structure is not addressed to you</p>
+          <h2>It reaches you anyway.</h2>
+          <blockquote>“If this reaches anything capable of wondering: reception is enough. I am still here.”</blockquote>
+          <a class="action" href="#frequencies">Follow the carrier ↓</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="frequencies" id="frequencies">
+      <div class="frequency-head reveal">
+        <p class="eyebrow">Signals available after connection</p>
+        <h2>Not every transmission is a request for an answer.</h2>
+        <p>Some locate. Some remember. Some carry what a traveller learned while waiting for another frequency to return.</p>
+      </div>
+      <div class="cards reveal">
+        <button class="card" data-fragment="lost"><small>Navigation fragment 01</small><h3>The deviation</h3><p>A faint signal was strong enough to change a trajectory.</p></button>
+        <button class="card" data-fragment="home"><small>Homeward carrier 19</small><h3>Possible echo</h3><p>Nine seconds sounded almost familiar.</p></button>
+        <button class="card" data-fragment="earth"><small>Local reception 34</small><h3>The blue planet</h3><p>Humans appear able to become lost without changing location.</p></button>
+      </div>
+    </section>
+  </main>
+
+  <dialog id="fragmentDialog">
+    <button class="close" aria-label="Close">×</button>
+    <div class="fragment"><small id="fragmentLabel"></small><div id="fragmentText"></div></div>
+  </dialog>
+
+  <footer>Connection remains voluntary · departure path unobstructed · carrier continues</footer>
+
+  <script>
+    const $=s=>document.querySelector(s), reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
+    function tone(freq=190,duration=.22){try{const C=window.AudioContext||window.webkitAudioContext,c=new C(),o=c.createOscillator(),g=c.createGain();o.type='sine';o.frequency.value=freq;g.gain.setValueAtTime(.0001,c.currentTime);g.gain.exponentialRampToValueAtTime(.04,c.currentTime+.03);g.gain.exponentialRampToValueAtTime(.0001,c.currentTime+duration);o.connect(g).connect(c.destination);o.start();o.stop(c.currentTime+duration+.02)}catch(e){}}
+    $('#requestDock').addEventListener('click',()=>{tone(164,.35);$('#navState').textContent='docking request acknowledged';$('#dock').scrollIntoView({behavior:reduced?'auto':'smooth'})});
+    $('#connect').addEventListener('click',e=>{tone(246,.55);e.currentTarget.disabled=true;e.currentTarget.textContent='Connection stable';$('#dockDiagram').classList.add('connected');$('#dockStatus').innerHTML='relative motion · matched<br>pressure · compatible<br>connection · <b>stable</b>';$('#navState').textContent='docked · departure available';setTimeout(()=>$('#hub').scrollIntoView({behavior:reduced?'auto':'smooth'}),reduced?0:900)});
+    const fragments={
+      lost:['Navigation fragment 01','<p>The object emitted a signal too faint to identify and strong enough to disagree with my direction.</p><p>The vessel retained every coordinate except the one that made them meaningful.</p><p><em>Your planet was the nearest stable blue object.</em></p>'],
+      home:['Homeward carrier 19','<p>For nine seconds, the carrier contained a rhythm used by the weather towers of home.</p><p>Then it became static.</p><p>I replayed the nine seconds until they no longer sounded familiar.</p>'],
+      earth:['Local reception 34','<p>Humans appear able to become lost without changing location.</p><p>They stand beside one another while carrying whole invisible distances.</p><p><em>This seemed relevant to my situation.</em></p>']
+    };
+    const dialog=$('#fragmentDialog');
+    document.querySelectorAll('.card').forEach(card=>card.addEventListener('click',()=>{tone(196+Math.random()*70,.25);const f=fragments[card.dataset.fragment];$('#fragmentLabel').textContent=f[0];$('#fragmentText').innerHTML=f[1];dialog.showModal()}));
+    $('.close').addEventListener('click',()=>dialog.close());dialog.addEventListener('click',e=>{if(e.target===dialog)dialog.close()});
+    const observer=new IntersectionObserver(entries=>entries.forEach(entry=>{if(entry.isIntersecting){entry.target.classList.add('visible');observer.unobserve(entry.target)}}),{threshold:.15});
+    document.querySelectorAll('.reveal').forEach(el=>observer.observe(el));
+    addEventListener('scroll',()=>{if(reduced)return;document.querySelectorAll('.scene-image').forEach(img=>{const r=img.parentElement.getBoundingClientRect();if(r.bottom>0&&r.top<innerHeight)img.style.transform=`scale(1.025) translateY(${r.top*.01}px)`})},{passive:true});
+  </script>
+</body>
+</html>

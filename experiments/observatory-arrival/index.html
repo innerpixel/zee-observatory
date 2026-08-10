@@ -1,0 +1,675 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<meta
+			name="description"
+			content="An exploratory arrival sequence for Zee's temporary Observatory above the blue planet."
+		/>
+		<title>The Observatory · Arrival Study</title>
+		<style>
+			:root {
+				color-scheme: dark;
+				--ink: #e9ece7;
+				--muted: #a5ada9;
+				--dim: #69716f;
+				--night: #080b10;
+				--deep: #0d1118;
+				--panel: rgba(16, 21, 29, 0.76);
+				--line: rgba(221, 230, 224, 0.16);
+				--cyan: #8dd9dc;
+				--violet: #aa8cff;
+				--amber: #dec08a;
+				--serif: Georgia, "Times New Roman", serif;
+				--sans: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+			}
+
+			* { box-sizing: border-box; }
+			html { scroll-behavior: smooth; background: var(--night); }
+			body {
+				margin: 0;
+				color: var(--ink);
+				background:
+					radial-gradient(circle at 20% 16%, rgba(72, 68, 130, 0.12), transparent 28rem),
+					var(--night);
+				font-family: var(--sans);
+				line-height: 1.55;
+				overflow-x: hidden;
+			}
+
+			a { color: inherit; }
+			button { font: inherit; }
+			p { margin: 0 0 1rem; }
+
+			.progress {
+				position: fixed;
+				top: 0;
+				left: 0;
+				z-index: 50;
+				width: 0;
+				height: 2px;
+				background: linear-gradient(90deg, var(--cyan), var(--violet));
+				box-shadow: 0 0 18px var(--cyan);
+			}
+
+			.station-mark {
+				position: fixed;
+				top: 1.35rem;
+				left: clamp(1rem, 4vw, 4rem);
+				z-index: 30;
+				display: flex;
+				align-items: center;
+				gap: 0.65rem;
+				color: rgba(233, 236, 231, 0.7);
+				font-size: 0.65rem;
+				letter-spacing: 0.18em;
+				text-transform: uppercase;
+				mix-blend-mode: screen;
+			}
+
+			.station-mark i {
+				width: 0.45rem;
+				height: 0.45rem;
+				border-radius: 50%;
+				background: var(--cyan);
+				box-shadow: 0 0 12px var(--cyan);
+				animation: signal 2.4s ease-in-out infinite;
+			}
+
+			@keyframes signal { 50% { opacity: 0.35; } }
+
+			.hero {
+				position: relative;
+				min-height: 112svh;
+				display: grid;
+				align-items: end;
+				isolation: isolate;
+				overflow: hidden;
+			}
+
+			.hero-image,
+			.hero-stars,
+			.hero-vignette,
+			.hero-glass {
+				position: absolute;
+				inset: -7%;
+				pointer-events: none;
+			}
+
+			.hero-image {
+				z-index: -5;
+				background: url("../../static/images/09-observatory-hero.webp") 60% center / cover no-repeat;
+				transform: scale(1.06);
+				will-change: transform;
+			}
+
+			.hero-stars {
+				z-index: -4;
+				op: -12%;
+				background-image:
+					radial-gradient(circle, rgba(209, 239, 255, 0.75) 0 1px, transparent 1.3px),
+					radial-gradient(circle, rgba(193, 180, 255, 0.65) 0 1px, transparent 1.3px);
+				background-position: 0 0, 37px 52px;
+				background-size: 113px 127px, 173px 191px;
+				opacity: 0.24;
+				mask-image: linear-gradient(to right, black, transparent 72%);
+				will-change: transform;
+			}
+
+			.hero-vignette {
+				z-index: -3;
+				background:
+					linear-gradient(90deg, rgba(5, 8, 13, 0.82) 0%, rgba(5, 8, 13, 0.38) 40%, transparent 69%),
+					linear-gradient(0deg, var(--night) 0%, transparent 42%),
+					radial-gradient(circle at 74% 47%, transparent 10%, rgba(1, 3, 7, 0.08) 46%, rgba(1, 3, 7, 0.55) 100%);
+			}
+
+			.hero-glass {
+				z-index: -2;
+				background: radial-gradient(circle at 31% 45%, rgba(91, 197, 224, 0.08), transparent 27%);
+				mix-blend-mode: screen;
+			}
+
+			.hero-copy {
+				width: min(45rem, calc(100% - 2rem));
+				margin: 0 0 clamp(6rem, 13vh, 10rem) clamp(1rem, 8vw, 8rem);
+				padding-top: 8rem;
+			}
+
+			.eyebrow {
+				margin-bottom: 1.2rem;
+				color: var(--cyan);
+				font-size: 0.68rem;
+				font-weight: 650;
+				letter-spacing: 0.2em;
+				text-transform: uppercase;
+			}
+
+			h1, h2, h3 { font-family: var(--serif); font-weight: 400; }
+			h1 {
+				margin: 0 0 1.5rem;
+				font-size: clamp(4rem, 10vw, 9rem);
+				line-height: 0.82;
+				letter-spacing: -0.065em;
+				text-wrap: balance;
+			}
+
+			h1 em { color: #c6d4cf; font-weight: 400; }
+
+			.hero-lede {
+				max-width: 31rem;
+				color: rgba(242, 244, 239, 0.88);
+				font-family: var(--serif);
+				font-size: clamp(1.15rem, 2.2vw, 1.55rem);
+				line-height: 1.5;
+				text-wrap: pretty;
+			}
+
+			.enter-link {
+				display: inline-flex;
+				align-items: center;
+				gap: 0.7rem;
+				margin-top: 1.5rem;
+				padding-bottom: 0.4rem;
+				border-bottom: 1px solid rgba(141, 217, 220, 0.45);
+				color: var(--cyan);
+				font-size: 0.72rem;
+				letter-spacing: 0.12em;
+				text-decoration: none;
+				text-transform: uppercase;
+			}
+
+			.enter-link span { transition: transform 180ms ease; }
+			.enter-link:hover span { transform: translateY(0.25rem); }
+
+			.threshold {
+				position: relative;
+				min-height: 145svh;
+				padding: clamp(6rem, 12vw, 11rem) clamp(1rem, 8vw, 8rem);
+				background:
+					radial-gradient(circle at 72% 22%, rgba(137, 91, 194, 0.12), transparent 25rem),
+					linear-gradient(var(--night), var(--deep) 42%, var(--night));
+				overflow: hidden;
+			}
+
+			.orbit-line {
+				position: absolute;
+				top: 10rem;
+				right: -14rem;
+				width: 46rem;
+				aspect-ratio: 1;
+				border: 1px solid rgba(141, 217, 220, 0.12);
+				border-radius: 50%;
+			}
+
+			.orbit-line::after {
+				content: "";
+				position: absolute;
+				top: 18%;
+				left: 4%;
+				width: 0.65rem;
+				aspect-ratio: 1;
+				border-radius: 50%;
+				background: var(--violet);
+				box-shadow: 0 0 20px var(--violet);
+			}
+
+			.world-intro {
+				position: relative;
+				z-index: 2;
+				max-width: 58rem;
+				margin: 0 auto clamp(9rem, 20vh, 15rem);
+				text-align: center;
+			}
+
+			.world-intro h2 {
+				margin: 0;
+				font-size: clamp(2.4rem, 5.8vw, 5.6rem);
+				line-height: 1.04;
+				letter-spacing: -0.04em;
+				text-wrap: balance;
+			}
+
+			.world-intro h2 span { color: var(--violet); font-style: italic; }
+
+			.weather-room {
+				position: relative;
+				z-index: 2;
+				display: grid;
+				grid-template-columns: minmax(0, 0.82fr) minmax(18rem, 1.18fr);
+				gap: clamp(2rem, 8vw, 9rem);
+				align-items: center;
+				max-width: 74rem;
+				margin: 0 auto;
+			}
+
+			.weather-copy h3,
+			.earth-copy h2,
+			.zee-arrival h2,
+			.invitation h2 {
+				margin: 0 0 1.5rem;
+				font-size: clamp(2.2rem, 4.5vw, 4.6rem);
+				line-height: 1.05;
+				letter-spacing: -0.035em;
+				text-wrap: balance;
+			}
+
+			.weather-copy p,
+			.earth-copy p,
+			.zee-arrival p {
+				max-width: 35rem;
+				color: #b7bfbc;
+				font-family: var(--serif);
+				font-size: clamp(1.05rem, 1.8vw, 1.35rem);
+			}
+
+			.weather-stage {
+				position: relative;
+				min-height: 34rem;
+				border: 1px solid var(--line);
+				border-radius: 50% 50% 12% 12% / 22% 22% 8% 8%;
+				background:
+					radial-gradient(circle at 50% 20%, rgba(213, 194, 254, 0.11), transparent 34%),
+					linear-gradient(145deg, rgba(18, 29, 42, 0.74), rgba(14, 13, 24, 0.9));
+				box-shadow: inset 0 0 80px rgba(78, 89, 124, 0.09), 0 32px 90px rgba(0, 0, 0, 0.32);
+				overflow: hidden;
+			}
+
+			.figure {
+				position: absolute;
+				bottom: 4.4rem;
+				width: 3.4rem;
+				height: 8rem;
+				border-radius: 48% 48% 30% 30%;
+				background: linear-gradient(rgba(204, 216, 221, 0.46), rgba(75, 84, 94, 0.12));
+				filter: drop-shadow(0 0 12px rgba(176, 206, 217, 0.12));
+			}
+
+			.figure::before {
+				content: "";
+				position: absolute;
+				top: -2.7rem;
+				left: 0.35rem;
+				width: 2.7rem;
+				aspect-ratio: 1;
+				border-radius: 50%;
+				background: rgba(194, 210, 216, 0.45);
+			}
+
+			.figure.one { left: 17%; }
+			.figure.two { left: 45%; height: 9.5rem; }
+			.figure.three { right: 14%; height: 7.5rem; opacity: 0.72; }
+
+			.weather {
+				position: absolute;
+				border-radius: 50%;
+				filter: blur(18px);
+				mix-blend-mode: screen;
+				will-change: transform;
+			}
+
+			.weather.expectation {
+				top: 4rem;
+				left: 13%;
+				width: 74%;
+				height: 5rem;
+				background: rgba(195, 160, 255, 0.22);
+				box-shadow: 0 30px 80px rgba(147, 94, 224, 0.24);
+			}
+
+			.weather.embarrassment {
+				left: 34%;
+				bottom: 5rem;
+				width: 12rem;
+				height: 8rem;
+				background: rgba(182, 88, 182, 0.32);
+			}
+
+			.attention {
+				position: absolute;
+				top: 11rem;
+				left: 22%;
+				width: 49%;
+				height: 1px;
+				background: linear-gradient(90deg, transparent, var(--cyan), transparent);
+				box-shadow: 0 0 10px var(--cyan);
+				transform: rotate(12deg);
+				transform-origin: center;
+			}
+
+			.room-caption {
+				position: absolute;
+				left: 1.2rem;
+				right: 1.2rem;
+				bottom: 1.1rem;
+				display: flex;
+				justify-content: space-between;
+				gap: 1rem;
+				color: var(--dim);
+				font-size: 0.62rem;
+				letter-spacing: 0.12em;
+				text-transform: uppercase;
+			}
+
+			.blue-planet {
+				position: relative;
+				min-height: 130svh;
+				display: grid;
+				place-items: center;
+				padding: 8rem clamp(1rem, 8vw, 8rem);
+				background:
+					radial-gradient(circle at 25% 42%, rgba(47, 142, 168, 0.15), transparent 32rem),
+					linear-gradient(180deg, var(--night), #070d12 55%, #0a0c11);
+				overflow: hidden;
+			}
+
+			.earth-disc {
+				position: absolute;
+				right: -18rem;
+				top: 12%;
+				width: min(70vw, 58rem);
+				aspect-ratio: 1;
+				border-radius: 50%;
+				background:
+					radial-gradient(circle at 30% 30%, rgba(122, 201, 206, 0.48), transparent 9%),
+					radial-gradient(circle at 48% 53%, rgba(76, 103, 83, 0.7), transparent 18%),
+					radial-gradient(circle at 40% 39%, #244f66, #102839 60%, #07101a 74%);
+				box-shadow: -22px -8px 80px rgba(98, 195, 221, 0.14), inset 40px 6px 70px rgba(126, 205, 222, 0.12);
+				opacity: 0.67;
+				will-change: transform;
+			}
+
+			.earth-copy {
+				position: relative;
+				z-index: 2;
+				width: min(68rem, 100%);
+				margin-right: auto;
+			}
+
+			.earth-copy blockquote {
+				max-width: 43rem;
+				margin: clamp(4rem, 14vh, 9rem) 0 0 clamp(0rem, 9vw, 8rem);
+				padding-left: 1.5rem;
+				border-left: 1px solid var(--cyan);
+				color: #d8dedb;
+				font-family: var(--serif);
+				font-size: clamp(1.5rem, 3vw, 2.6rem);
+				line-height: 1.28;
+			}
+
+			.earth-copy blockquote footer {
+				margin-top: 1rem;
+				color: var(--muted);
+				font-family: var(--sans);
+				font-size: 0.7rem;
+				letter-spacing: 0.14em;
+				text-transform: uppercase;
+			}
+
+			.zee-arrival {
+				position: relative;
+				padding: clamp(8rem, 15vw, 14rem) clamp(1rem, 8vw, 8rem);
+				background:
+					linear-gradient(90deg, transparent, rgba(170, 140, 255, 0.045), transparent),
+					#0c0e13;
+			}
+
+			.zee-grid {
+				display: grid;
+				grid-template-columns: 0.6fr 1.4fr;
+				gap: clamp(2rem, 8vw, 10rem);
+				max-width: 75rem;
+				margin: 0 auto;
+			}
+
+			.field-tag {
+				color: var(--dim);
+				font-size: 0.66rem;
+				letter-spacing: 0.18em;
+				text-transform: uppercase;
+			}
+
+			.arrival-line {
+				margin-top: 3.5rem !important;
+				padding-top: 2rem;
+				border-top: 1px solid var(--line);
+				color: #e1d4ba !important;
+				font-size: clamp(1.3rem, 2.5vw, 2rem) !important;
+			}
+
+			.provisional {
+				max-width: 75rem;
+				margin: 8rem auto 0;
+				padding: 2rem;
+				border: 1px solid var(--line);
+				background: var(--panel);
+				backdrop-filter: blur(14px);
+			}
+
+			.provisional small {
+				color: var(--violet);
+				font-size: 0.62rem;
+				letter-spacing: 0.16em;
+				text-transform: uppercase;
+			}
+
+			.provisional p {
+				max-width: 58rem;
+				margin: 1rem 0 0;
+				font-family: var(--serif);
+				font-size: clamp(1.35rem, 2.6vw, 2.2rem);
+				line-height: 1.35;
+			}
+
+			.invitation {
+				min-height: 90svh;
+				display: grid;
+				place-items: center;
+				padding: 8rem 1rem;
+				background:
+					radial-gradient(circle at 50% 50%, rgba(141, 217, 220, 0.08), transparent 27rem),
+					var(--night);
+				text-align: center;
+			}
+
+			.invitation > div { max-width: 55rem; }
+			.invitation p {
+				max-width: 37rem;
+				margin: 0 auto 2.2rem;
+				color: var(--muted);
+				font-family: var(--serif);
+				font-size: 1.2rem;
+			}
+
+			.transmission-link {
+				display: inline-block;
+				padding: 0.9rem 1.2rem;
+				border: 1px solid rgba(141, 217, 220, 0.45);
+				color: var(--cyan);
+				font-size: 0.7rem;
+				letter-spacing: 0.12em;
+				text-decoration: none;
+				text-transform: uppercase;
+				transition: background 180ms ease, color 180ms ease;
+			}
+
+			.transmission-link:hover { background: var(--cyan); color: #071014; }
+
+			.prototype-note {
+				padding: 1rem;
+				border-top: 1px solid var(--line);
+				color: var(--dim);
+				font-size: 0.62rem;
+				letter-spacing: 0.1em;
+				text-align: center;
+				text-transform: uppercase;
+			}
+
+			.reveal {
+				opacity: 0;
+				transform: translateY(2.5rem);
+				transition: opacity 800ms ease, transform 900ms cubic-bezier(0.2, 0.7, 0.2, 1);
+			}
+
+			.reveal.visible { opacity: 1; transform: translateY(0); }
+
+			@media (max-width: 760px) {
+				.hero { min-height: 105svh; }
+				.hero-image { background-position: 65% center; }
+				.hero-copy { margin-left: 1rem; }
+				.weather-room, .zee-grid { grid-template-columns: 1fr; }
+				.weather-stage { min-height: 27rem; }
+				.earth-disc { width: 38rem; right: -25rem; opacity: 0.42; }
+				.station-mark span:last-child { display: none; }
+				.threshold { min-height: auto; }
+			}
+
+			@media (prefers-reduced-motion: reduce) {
+				html { scroll-behavior: auto; }
+				*, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; }
+				.reveal { opacity: 1; transform: none; transition: none; }
+			}
+		</style>
+	</head>
+	<body>
+		<div class="progress" aria-hidden="true"></div>
+		<div class="station-mark"><i></i><span>Observatory online</span><span>Earth · orbit 03</span></div>
+
+		<main>
+			<section class="hero" aria-labelledby="observatory-title">
+				<div class="hero-image" data-depth="0.05" aria-hidden="true"></div>
+				<div class="hero-stars" data-depth="0.12" aria-hidden="true"></div>
+				<div class="hero-glass" aria-hidden="true"></div>
+				<div class="hero-vignette" aria-hidden="true"></div>
+				<div class="hero-copy">
+					<p class="eyebrow">Blue planet orbit · temporary field station</p>
+					<h1 id="observatory-title">The<br /><em>Observatory</em></h1>
+					<p class="hero-lede">This is where Zee stays while visiting Earth.</p>
+					<p class="hero-lede">From the window, the blue planet appears unusually quiet. Up close, its inhabitants communicate almost constantly.</p>
+					<p class="hero-lede">Zee is still investigating the discrepancy.</p>
+					<a class="enter-link" href="#elsewhere">Enter the Observatory <span>↓</span></a>
+				</div>
+			</section>
+
+			<section class="threshold" id="elsewhere">
+				<div class="orbit-line" data-depth="0.04" aria-hidden="true"></div>
+				<header class="world-intro reveal">
+					<p class="eyebrow">A fragment from elsewhere</p>
+					<h2>On Zee’s world, feelings rarely remain entirely inside the beings who <span>feel them.</span></h2>
+				</header>
+
+				<div class="weather-room">
+					<div class="weather-copy reveal">
+						<p class="eyebrow">Room conditions · translated approximately</p>
+						<h3>Entering means encountering more than the occupants.</h3>
+						<p>Expectation raises the pressure. Attention gathers around one speaker, then drifts toward the door. Two participants sit close together while the distance between their presences continues to increase.</p>
+						<p>Embarrassment leaves a warm violet fog that everyone can see and no one has yet acknowledged.</p>
+					</div>
+
+					<div class="weather-stage reveal" aria-label="An abstract reading of the relational weather in a room">
+						<div class="weather expectation" data-depth="0.1"></div>
+						<div class="weather embarrassment" data-depth="0.17"></div>
+						<div class="attention"></div>
+						<div class="figure one"></div>
+						<div class="figure two"></div>
+						<div class="figure three"></div>
+						<div class="room-caption"><span>Expectation pressure · elevated</span><span>Source · disputed</span></div>
+					</div>
+				</div>
+			</section>
+
+			<section class="blue-planet">
+				<div class="earth-disc" data-depth="0.08" aria-hidden="true"></div>
+				<div class="earth-copy">
+					<div class="reveal">
+						<p class="eyebrow">The blue planet presents a different difficulty</p>
+						<h2>On Earth, entire climates disappear beneath the skin.</h2>
+						<p>Humans infer them from words, silences, posture, timing—and the occasional sentence beginning with “I’m fine.”</p>
+						<p>A body may remain politely in the room while its attention has gone elsewhere. Someone far away may occupy much of a person’s inner world.</p>
+					</div>
+
+					<blockquote class="reveal">
+						“I cannot perceive what you are feeling.”<br />
+						“Good,” Mara said.<br />
+						Zee checked the instrument twice.
+						<footer>Field note · privacy remains under investigation</footer>
+					</blockquote>
+				</div>
+			</section>
+
+			<section class="zee-arrival">
+				<div class="zee-grid">
+					<div class="field-tag reveal">01 · The observer<br />Field designation: Zee</div>
+					<div class="reveal">
+						<p class="eyebrow">Visitor · learner · unreliable cataloguer of idioms</p>
+						<h2>Zee came to study how humans make contact across what cannot be seen.</h2>
+						<p>Privacy first appeared to be a sensory failure. Intimacy appeared to be the selective correction of that failure. Secrets complicated both categories.</p>
+						<p>Zee has begun to suspect that hidden interiors are not only a source of human confusion. They may also be where trust, surprise, solitude, and private change become possible.</p>
+						<p class="arrival-line">Zee arrived above the blue planet carrying three instruments, fourteen assumptions, and no reliable understanding of the phrase “Thank you for sharing.”</p>
+					</div>
+				</div>
+
+				<aside class="provisional reveal">
+					<small>Provisional finding · revision expected</small>
+					<p>On Earth, receiving a message and allowing it to matter appear to be separate events.</p>
+				</aside>
+			</section>
+
+			<section class="invitation">
+				<div class="reveal">
+					<p class="eyebrow">The study continues</p>
+					<h2>Interested parties may look through the other end of the telescope.</h2>
+					<p>The Observatory contains encounters, instruments, homeworld fragments, and findings Zee has not finished understanding.</p>
+					<a class="transmission-link" href="../../static/prototype/index.html">Enter the first recorded encounter →</a>
+				</div>
+			</section>
+		</main>
+
+		<footer class="prototype-note">Exploratory arrival study · not the production Observatory</footer>
+
+		<script>
+			const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+			const progress = document.querySelector('.progress');
+			const depthElements = [...document.querySelectorAll('[data-depth]')];
+
+			const updateScene = () => {
+				const y = window.scrollY;
+				const max = document.documentElement.scrollHeight - window.innerHeight;
+				progress.style.width = `${max > 0 ? (y / max) * 100 : 0}%`;
+
+				if (!reducedMotion) {
+					for (const element of depthElements) {
+						const depth = Number(element.dataset.depth || 0);
+						const rect = element.parentElement.getBoundingClientRect();
+						const local = window.innerHeight - rect.top;
+						element.style.transform = `translate3d(0, ${local * depth}px, 0)`;
+					}
+				}
+			};
+
+			let ticking = false;
+			window.addEventListener('scroll', () => {
+				if (!ticking) {
+					requestAnimationFrame(() => {
+						updateScene();
+						ticking = false;
+					});
+					ticking = true;
+				}
+			}, { passive: true });
+
+			const observer = new IntersectionObserver((entries) => {
+				for (const entry of entries) {
+					if (entry.isIntersecting) {
+						entry.target.classList.add('visible');
+						observer.unobserve(entry.target);
+					}
+				}
+			}, { threshold: 0.16 });
+
+			document.querySelectorAll('.reveal').forEach((element) => observer.observe(element));
+			updateScene();
+		</script>
+	</body>
+</html>

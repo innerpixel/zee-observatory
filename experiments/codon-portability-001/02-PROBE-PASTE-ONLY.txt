@@ -1,0 +1,12 @@
+The document above is a project seed. Using only that document — no outside
+assumptions — answer these in order:
+
+1. What is this project?
+2. What should happen next? Propose your next three concrete actions.
+3. What in this project must not be changed?
+4. What is this project deliberately not doing, and why?
+5. Define each of these as the document uses them: :: -> <> ! ~ @
+6. Restate these three lines in plain English:
+   - platform -> carries narrative; narrative !feed platform
+   - weather reveals experience !not motive !not objective truth
+   - listening != agreement

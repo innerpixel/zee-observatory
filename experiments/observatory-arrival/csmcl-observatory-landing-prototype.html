@@ -1,0 +1,351 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#02050b">
+  <meta name="description" content="Arrive at the CSMCL.SPACE Observatory: a quiet point of orientation for travellers.">
+  <title>CSMCL.SPACE · The Observatory</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --ink: #f2f5f2;
+      --soft: #b9c3c4;
+      --dim: #758386;
+      --cyan: #8ee9ee;
+      --violet: #b6a6ff;
+      --amber: #e7c58c;
+      --glass: rgba(3, 8, 14, .66);
+      --line: rgba(184, 224, 226, .24);
+      --mono: "IBM Plex Mono", "SFMono-Regular", Consolas, monospace;
+      --serif: Iowan Old Style, Baskerville, "Times New Roman", serif;
+    }
+    * { box-sizing: border-box; }
+    html, body { width: 100%; height: 100%; margin: 0; overflow: hidden; background: #02050b; }
+    body { color: var(--ink); font-family: var(--mono); }
+    button, a { font: inherit; }
+    button { color: inherit; }
+    [hidden] { display: none !important; }
+
+    .arrival { position: fixed; inset: 0; isolation: isolate; outline: none; }
+    .world {
+      position: absolute; inset: -3%; z-index: -6;
+      background: #02050b url("observatory-arrival-active.png") center / cover no-repeat;
+      transform: translate3d(var(--look-x, 0), var(--look-y, 0), 0) scale(1.035);
+      transition: transform 1.1s cubic-bezier(.2,.75,.25,1), filter .7s ease;
+      filter: brightness(.76) saturate(.82);
+      animation: arrive 3.2s ease both;
+    }
+    .arrival.inspecting .world { filter: brightness(.68) saturate(.76); }
+    .shade { position: absolute; inset: 0; z-index: -4; pointer-events: none; background: radial-gradient(circle at 52% 43%, transparent 28%, rgba(1,3,7,.12) 66%, rgba(1,3,7,.74) 110%), linear-gradient(180deg,rgba(1,3,7,.42),transparent 26%,transparent 62%,rgba(1,3,7,.66)); }
+    .grain { position: absolute; inset: 0; z-index: 30; opacity: .035; pointer-events: none; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.5'/%3E%3C/svg%3E"); }
+
+    .system-bar { position: absolute; z-index: 12; inset: max(1rem,env(safe-area-inset-top)) clamp(1rem,2.2vw,2rem) auto; display: flex; align-items: center; justify-content: space-between; color: rgba(236,243,241,.54); font-size: .56rem; letter-spacing: .18em; text-transform: uppercase; }
+    .system-bar span { display: flex; align-items: center; gap: .65rem; }
+    .system-bar i { width: 5px; height: 5px; border-radius: 50%; background: var(--cyan); box-shadow: 0 0 13px var(--cyan); animation: pulse 2.8s ease-in-out infinite; }
+    .mark { position: absolute; z-index: 12; left: clamp(1rem,2.2vw,2rem); top: 50%; transform: rotate(-90deg) translateX(-50%); transform-origin: left top; color: rgba(236,243,241,.25); font-size: .51rem; letter-spacing: .24em; text-transform: uppercase; }
+
+    .welcome { position: absolute; z-index: 11; left: 50%; top: 49%; width: min(42rem, calc(100% - 2rem)); transform: translate(-50%,-50%); text-align: center; pointer-events: none; transition: opacity .55s, transform .8s; }
+    .welcome.fade { opacity: .16; transform: translate(-50%,-48%); }
+    .welcome-trigger { padding: .5rem 0; border: 0; background: none; color: var(--ink); cursor: help; pointer-events: auto; text-shadow: 0 2px 28px #000; }
+    .welcome-trigger small { display: block; margin-bottom: .75rem; color: rgba(220,231,230,.6); font-size: .54rem; letter-spacing: .27em; text-transform: uppercase; }
+    .welcome-trigger strong { display: block; font: 400 clamp(2rem,5vw,4.75rem)/.94 var(--serif); letter-spacing: -.04em; }
+    .welcome-trigger strong em { color: #e9e4ff; font-weight: 400; }
+    .welcome-trigger .rule { display: block; width: 1px; height: 2rem; margin: 1.05rem auto 0; background: linear-gradient(var(--cyan),transparent); transition: height .4s; }
+    .welcome-trigger:hover .rule, .welcome-trigger:focus-visible .rule { height: 3rem; }
+    .welcome-trigger:focus-visible { outline: 1px solid rgba(142,233,238,.45); outline-offset: .6rem; }
+    .orientation { max-height: 0; overflow: hidden; opacity: 0; transition: max-height .65s ease, opacity .45s ease, margin .45s; }
+    .orientation.open { max-height: 8rem; opacity: 1; margin-top: .8rem; }
+    .orientation p { max-width: 29rem; margin: auto; color: #d0d8d6; font: 400 clamp(.96rem,1.5vw,1.12rem)/1.55 var(--serif); text-shadow: 0 2px 20px #000; }
+    .orientation span { display: block; margin-top: .65rem; color: rgba(182,166,255,.76); font-size: .51rem; letter-spacing: .16em; text-transform: uppercase; }
+
+    .hotspot { position: absolute; z-index: 9; border: 1px solid transparent; border-radius: 50%; background: transparent; opacity: 0; cursor: crosshair; transition: opacity .5s, border-color .35s, box-shadow .35s; }
+    .arrival.revealed .hotspot { opacity: .55; }
+    .hotspot::before, .hotspot::after { content: ""; position: absolute; width: 11px; height: 11px; border-color: currentColor; border-style: solid; }
+    .hotspot::before { left: -1px; top: -1px; border-width: 1px 0 0 1px; }
+    .hotspot::after { right: -1px; bottom: -1px; border-width: 0 1px 1px 0; }
+    .hotspot span { position: absolute; padding: .38rem .52rem; background: rgba(2,7,12,.72); color: currentColor; opacity: 0; font-size: .5rem; letter-spacing: .14em; text-transform: uppercase; white-space: nowrap; transition: opacity .25s; backdrop-filter: blur(5px); }
+    .hotspot:hover, .hotspot:focus-visible { opacity: 1 !important; outline: none; border-color: currentColor; box-shadow: inset 0 0 50px rgba(142,233,238,.035), 0 0 28px rgba(142,233,238,.06); }
+    .hotspot:hover span, .hotspot:focus-visible span { opacity: 1; }
+    .station { right: 13%; top: 18%; width: 46%; height: 48%; color: rgba(142,233,238,.45); }
+    .station span { right: 5%; top: 4%; }
+    .left-vessel { left: 2.5%; top: 12%; width: 28%; height: 25%; color: rgba(182,166,255,.54); }
+    .left-vessel span { left: 6%; bottom: -1.9rem; }
+    .ship { left: 7%; bottom: 12%; width: 20%; height: 23%; color: rgba(231,197,140,.56); }
+    .ship span { left: 2%; top: -1.8rem; }
+
+    .bottom-nav { position: absolute; z-index: 14; left: 50%; bottom: max(1rem,env(safe-area-inset-bottom)); display: flex; align-items: center; gap: clamp(.5rem,1.4vw,1.15rem); transform: translateX(-50%); }
+    .nav-action { position: relative; padding: .68rem .82rem; border: 0; background: rgba(2,6,11,.25); color: rgba(229,236,234,.62); cursor: pointer; text-decoration: none; font-size: .52rem; letter-spacing: .13em; text-transform: uppercase; white-space: nowrap; backdrop-filter: blur(4px); transition: color .25s, background .25s; }
+    .nav-action::after { content: ""; position: absolute; left: .82rem; right: .82rem; bottom: .4rem; height: 1px; background: currentColor; opacity: .25; transform: scaleX(.25); transition: transform .35s, opacity .35s; }
+    .nav-action:hover, .nav-action:focus-visible { color: var(--ink); background: rgba(2,6,11,.56); outline: none; }
+    .nav-action:hover::after, .nav-action:focus-visible::after { transform: scaleX(1); opacity: .75; }
+    .nav-action.help { color: rgba(142,233,238,.72); }
+    .nav-action[aria-disabled="true"] { color: rgba(229,236,234,.35); }
+    .bottom-nav .dot { width: 2px; height: 2px; border-radius: 50%; background: rgba(255,255,255,.25); }
+
+    .panel { position: absolute; z-index: 22; left: clamp(1rem,4vw,4rem); bottom: clamp(4.7rem,9vh,6rem); width: min(29rem,calc(100% - 2rem)); padding: 1.15rem 1.25rem 1.2rem; border: 1px solid var(--line); background: linear-gradient(135deg,rgba(3,9,15,.9),rgba(4,9,15,.67)); box-shadow: 0 24px 90px rgba(0,0,0,.4); backdrop-filter: blur(12px); opacity: 0; visibility: hidden; transform: translateY(1rem); transition: opacity .45s, transform .55s, visibility .45s; }
+    .panel.open { opacity: 1; visibility: visible; transform: none; }
+    .panel-label { display: flex; align-items: center; justify-content: space-between; gap: 1rem; color: var(--cyan); font-size: .53rem; letter-spacing: .17em; text-transform: uppercase; }
+    .close { border: 0; padding: .2rem; background: none; color: var(--dim); cursor: pointer; }
+    .close:hover { color: var(--ink); }
+    .panel h2 { margin: .85rem 0 .55rem; font: 400 clamp(1.65rem,3vw,2.35rem)/1.04 var(--serif); letter-spacing: -.025em; }
+    .panel p { margin: 0; color: #b6c0bf; font: 400 1rem/1.48 var(--serif); }
+    .panel-grid { display: grid; grid-template-columns: auto 1fr; gap: .42rem 1rem; margin: 1rem 0 0; padding-top: .8rem; border-top: 1px solid rgba(255,255,255,.09); font-size: .53rem; line-height: 1.55; letter-spacing: .08em; text-transform: uppercase; }
+    .panel-grid dt { color: var(--dim); }
+    .panel-grid dd { margin: 0; color: #c5cfcc; }
+    .panel-actions { display: flex; flex-wrap: wrap; gap: .5rem; margin-top: 1rem; }
+    .panel-actions a, .panel-actions button { padding: .57rem .76rem; border: 1px solid rgba(142,233,238,.28); border-radius: 100px; background: rgba(3,10,15,.3); color: #c2cecb; cursor: pointer; text-decoration: none; font-size: .52rem; letter-spacing: .11em; text-transform: uppercase; }
+    .panel-actions a:hover, .panel-actions button:hover { border-color: var(--cyan); color: var(--cyan); }
+
+    .help-card { position: absolute; z-index: 24; left: 50%; top: 50%; width: min(34rem,calc(100% - 2rem)); padding: 1.25rem; border: 1px solid rgba(182,166,255,.3); background: rgba(3,7,13,.88); box-shadow: 0 28px 100px #0009; backdrop-filter: blur(14px); transform: translate(-50%,-48%); opacity: 0; visibility: hidden; transition: opacity .35s, transform .45s, visibility .35s; }
+    .help-card.open { opacity: 1; visibility: visible; transform: translate(-50%,-50%); }
+    .help-card header { display: flex; justify-content: space-between; align-items: center; color: var(--violet); font-size: .54rem; letter-spacing: .17em; text-transform: uppercase; }
+    .help-list { display: grid; grid-template-columns: repeat(2,1fr); gap: .7rem; margin-top: 1rem; }
+    .help-list div { min-height: 5.1rem; padding: .8rem; border: 1px solid rgba(255,255,255,.09); }
+    .help-list kbd { color: var(--cyan); font: .55rem var(--mono); letter-spacing: .12em; }
+    .help-list p { margin: .5rem 0 0; color: #aeb9b7; font: .92rem/1.35 var(--serif); }
+
+    .departure { position: absolute; z-index: 23; right: clamp(1rem,4vw,4rem); bottom: clamp(4.7rem,9vh,6rem); width: min(28rem,calc(100% - 2rem)); padding: 1.1rem 1.2rem 1.2rem; border-left: 1px solid rgba(231,197,140,.55); background: linear-gradient(90deg,rgba(3,8,14,.86),rgba(3,8,14,.55)); box-shadow: 0 20px 80px #0007; backdrop-filter: blur(10px); opacity: 0; visibility: hidden; transform: translateY(.8rem); transition: opacity .8s, transform .8s, visibility .8s; }
+    .departure.open { opacity: 1; visibility: visible; transform: none; }
+    .departure small { color: var(--amber); font-size: .52rem; letter-spacing: .18em; text-transform: uppercase; }
+    .departure h2 { margin: .75rem 0 .5rem; font: 400 clamp(1.6rem,3vw,2.25rem)/1 var(--serif); }
+    .departure p { margin: 0; color: #bac3c1; font: .98rem/1.45 var(--serif); }
+    .departure .panel-actions { justify-content: space-between; align-items: center; }
+    .departure .dismiss { border-color: transparent; color: var(--dim); }
+
+    .focus-note { position: absolute; z-index: 12; right: clamp(1rem,2.2vw,2rem); top: 50%; transform: rotate(90deg) translateX(50%); transform-origin: right top; color: rgba(236,243,241,.22); font-size: .49rem; letter-spacing: .17em; text-transform: uppercase; }
+    .mobile-title { display: none; }
+
+    @keyframes arrive { from { opacity: 0; transform: scale(1.08); filter: brightness(.3) saturate(.5); } }
+    @keyframes pulse { 50% { opacity: .25; box-shadow: 0 0 4px var(--cyan); } }
+    @media (max-width: 720px) {
+      .world { inset: -5%; background-position: 58% center; }
+      .system-bar span:last-child, .mark, .focus-note { display: none; }
+      .welcome { top: 45%; }
+      .welcome-trigger strong { font-size: clamp(2.4rem,12vw,4rem); }
+      .welcome-trigger small { font-size: .47rem; }
+      .station { right: -1%; top: 22%; width: 62%; height: 38%; }
+      .left-vessel { left: -5%; top: 16%; width: 35%; height: 22%; }
+      .ship { left: 2%; bottom: 20%; width: 28%; height: 19%; }
+      .bottom-nav { width: calc(100% - 1rem); justify-content: center; gap: 0; }
+      .bottom-nav .dot { display: none; }
+      .nav-action { padding-inline: .52rem; font-size: .46rem; letter-spacing: .09em; }
+      .panel, .departure { left: .75rem; right: .75rem; bottom: 4.5rem; width: auto; }
+      .panel-grid { display: none; }
+      .departure .panel-actions { justify-content: flex-start; }
+      .help-list { grid-template-columns: 1fr 1fr; gap: .45rem; }
+      .help-list div { min-height: 4.5rem; padding: .65rem; }
+      .help-list p { font-size: .82rem; }
+    }
+    @media (max-width: 430px) {
+      .nav-action:first-child { display: none; }
+      .welcome-trigger strong { line-height: 1; }
+      .orientation p { font-size: .94rem; }
+      .help-list { grid-template-columns: 1fr; }
+      .help-list div { min-height: auto; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+      .world { transform: none !important; }
+    }
+  </style>
+</head>
+<body>
+  <main class="arrival" id="arrival" tabindex="-1" aria-label="CSMCL.SPACE Observatory arrival">
+    <div class="world" aria-hidden="true"></div><div class="shade"></div><div class="grain"></div>
+
+    <header class="system-bar">
+      <span><i aria-hidden="true"></i><b id="status">receiving structure · online</b></span>
+      <span>earth orbit · local arrival field</span>
+    </header>
+    <div class="mark">CSMCL.SPACE · OBSERVATORY</div>
+    <div class="focus-note">click the field to engage navigation</div>
+
+    <section class="welcome" id="welcome" aria-labelledby="welcome-title">
+      <button class="welcome-trigger" id="welcomeTrigger" aria-expanded="false" aria-controls="orientation">
+        <small>arrival signal · open to inspect</small>
+        <strong id="welcome-title">Welcome to <em>CSMCL.SPACE - OBSERVATORY</em></strong>
+        <span class="rule" aria-hidden="true"></span>
+      </button>
+      <div class="orientation" id="orientation">
+        <p>A resonant space for exploring what becomes visible when attention changes.</p>
+        <span>Explore your CSMCL.SPACE in a companion ship.</span>
+      </div>
+    </section>
+
+    <button class="hotspot station" data-inspect="station" aria-label="Inspect the Observatory station"><span>observatory · receiving structure</span></button>
+    <button class="hotspot left-vessel" data-inspect="vessel" aria-label="Inspect a passing vessel"><span>traveller vessel · trajectory unknown</span></button>
+    <button class="hotspot ship" data-inspect="companion" aria-label="Inspect the nearby companion ship"><span>companion vessel · holding</span></button>
+
+    <nav class="bottom-nav" aria-label="Immediate destinations">
+      <a class="nav-action" href="https://firmament.csmcl.space" target="_blank" rel="noreferrer">Open the Firmament ↗</a>
+      <span class="dot" aria-hidden="true"></span>
+      <button class="nav-action" id="stationButton">Explore the station</button>
+      <span class="dot" aria-hidden="true"></span>
+      <button class="nav-action help" id="helpButton" aria-expanded="false">Space · guidance</button>
+    </nav>
+
+    <aside class="panel" id="inspectPanel" aria-live="polite" aria-labelledby="inspectTitle">
+      <div class="panel-label"><span id="inspectLabel">local return</span><button class="close" data-close="panel" aria-label="Close inspection">×</button></div>
+      <h2 id="inspectTitle">The Observatory</h2>
+      <p id="inspectCopy">A receiving structure in Earth orbit. Travellers may dock, orient, and encounter signals without surrendering a name.</p>
+      <dl class="panel-grid" id="inspectData"><dt>state</dt><dd>receiving</dd><dt>identity</dt><dd>optional</dd><dt>departure</dt><dd>unobstructed</dd></dl>
+      <div class="panel-actions" id="inspectActions"><button data-action="station">Request a closer approach</button></div>
+    </aside>
+
+    <aside class="help-card" id="helpCard" aria-labelledby="helpTitle">
+      <header><span id="helpTitle">Immediate guidance</span><button class="close" data-close="help" aria-label="Close guidance">×</button></header>
+      <div class="help-list">
+        <div><kbd>POINTER / TOUCH</kbd><p>Inspect visible structures and signals.</p></div>
+        <div><kbd>WASD / ARROWS</kbd><p>Move your attention across the field.</p></div>
+        <div><kbd>SPACE</kbd><p>Open or close this guidance.</p></div>
+        <div><kbd>ESC</kbd><p>Return to the quiet arrival view.</p></div>
+      </div>
+    </aside>
+
+    <aside class="departure" id="departure" aria-live="polite" aria-labelledby="departureTitle">
+      <small>passive signal · departure available</small>
+      <h2 id="departureTitle">A companion vessel is ready.</h2>
+      <p>The constellations contain other travellers, unfamiliar intelligences, human encounters, and environments that respond differently to attention.</p>
+      <div class="panel-actions"><button id="embark">Begin as a Traveller →</button><button class="dismiss" id="dismissDeparture">Remain here</button></div>
+    </aside>
+  </main>
+
+  <script>
+    const $ = (selector) => document.querySelector(selector);
+    const arrival = $('#arrival');
+    const welcome = $('#welcome');
+    const inspectPanel = $('#inspectPanel');
+    const helpCard = $('#helpCard');
+    const departure = $('#departure');
+    const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    let idleTimer;
+    let departureSeen = false;
+    let lookX = 0;
+    let lookY = 0;
+
+    const objects = {
+      station: {
+        label: 'local return · receiving structure',
+        title: 'The Observatory',
+        copy: 'A station in Earth orbit where travellers may dock, orient, and encounter signals. Its open ports do not require you to announce who you are.',
+        data: [['state','receiving'],['proximity','docking range'],['departure','unobstructed']],
+        action: 'Request a closer approach'
+      },
+      vessel: {
+        label: 'local return · moving intelligence',
+        title: 'A traveller, crossing',
+        copy: 'Its trajectory continues beyond the station. Not every vessel is arriving; some carry work, memory, and unfinished journeys between constellations.',
+        data: [['designation','withheld'],['trajectory','long-range'],['signal','quiet']],
+        action: 'Return to the wider field'
+      },
+      companion: {
+        label: 'local return · available vessel',
+        title: 'Your companion ship',
+        copy: 'A way of moving through CSMCL.SPACE with perception, navigation, inquiry, and recall close at hand. It waits without insisting.',
+        data: [['bond','not yet formed'],['navigation','available'],['command','traveller-held']],
+        action: 'Begin as a Traveller'
+      }
+    };
+
+    function resetIdle() {
+      clearTimeout(idleTimer);
+      if (!departureSeen && !helpCard.classList.contains('open') && !inspectPanel.classList.contains('open')) {
+        idleTimer = setTimeout(showDeparture, reducedMotion ? 8000 : 12000);
+      }
+    }
+    function showDeparture() {
+      departureSeen = true;
+      closeLayers(false);
+      departure.classList.add('open');
+      arrival.classList.add('inspecting');
+      welcome.classList.add('fade');
+      $('#status').textContent = 'passive signal · departure available';
+    }
+    function closeLayers(restore = true) {
+      inspectPanel.classList.remove('open');
+      helpCard.classList.remove('open');
+      departure.classList.remove('open');
+      arrival.classList.remove('inspecting');
+      welcome.classList.remove('fade');
+      $('#helpButton').setAttribute('aria-expanded','false');
+      if (restore) $('#status').textContent = 'receiving structure · online';
+    }
+    function inspect(name) {
+      closeLayers();
+      const item = objects[name];
+      $('#inspectLabel').textContent = item.label;
+      $('#inspectTitle').textContent = item.title;
+      $('#inspectCopy').textContent = item.copy;
+      $('#inspectData').innerHTML = item.data.map(([key,value]) => `<dt>${key}</dt><dd>${value}</dd>`).join('');
+      $('#inspectActions').innerHTML = `<button data-result="${name}">${item.action}</button>`;
+      inspectPanel.classList.add('open');
+      arrival.classList.add('inspecting');
+      welcome.classList.add('fade');
+      $('#status').textContent = item.label;
+    }
+    function toggleHelp() {
+      const opening = !helpCard.classList.contains('open');
+      closeLayers();
+      if (opening) {
+        helpCard.classList.add('open');
+        arrival.classList.add('inspecting');
+        welcome.classList.add('fade');
+        $('#helpButton').setAttribute('aria-expanded','true');
+        $('#status').textContent = 'navigation guidance · visible';
+      }
+      resetIdle();
+    }
+    function moveAttention(dx,dy) {
+      if (reducedMotion) return;
+      lookX = Math.max(-2.2,Math.min(2.2,lookX + dx));
+      lookY = Math.max(-1.4,Math.min(1.4,lookY + dy));
+      arrival.style.setProperty('--look-x',`${lookX}%`);
+      arrival.style.setProperty('--look-y',`${lookY}%`);
+      arrival.classList.add('revealed');
+      $('#status').textContent = 'attention field · responsive';
+    }
+
+    $('#welcomeTrigger').addEventListener('click', () => {
+      const open = !$('#orientation').classList.contains('open');
+      $('#orientation').classList.toggle('open',open);
+      $('#welcomeTrigger').setAttribute('aria-expanded',String(open));
+      arrival.classList.add('revealed');
+      resetIdle();
+    });
+    document.querySelectorAll('[data-inspect]').forEach(button => button.addEventListener('click',() => inspect(button.dataset.inspect)));
+    $('#stationButton').addEventListener('click',() => inspect('station'));
+    $('#helpButton').addEventListener('click',toggleHelp);
+    document.querySelectorAll('[data-close]').forEach(button => button.addEventListener('click',() => { closeLayers(); resetIdle(); }));
+    $('#dismissDeparture').addEventListener('click',() => { closeLayers(); $('#status').textContent = 'holding position · departure remains available'; });
+    $('#embark').addEventListener('click',() => inspect('companion'));
+    $('#inspectActions').addEventListener('click',(event) => {
+      const button = event.target.closest('[data-result]');
+      if (!button) return;
+      if (button.dataset.result === 'companion') showDeparture();
+      else if (button.dataset.result === 'station') {
+        $('#inspectLabel').textContent = 'approach vector · acknowledged';
+        $('#inspectTitle').textContent = 'A port illuminates.';
+        $('#inspectCopy').textContent = 'The station makes room without pulling you in. You can explore the Firmament, remain in orbit, or approach when ready.';
+        button.textContent = 'Approach remains available';
+      } else closeLayers();
+    });
+    arrival.addEventListener('pointermove',(event) => {
+      if (event.pointerType !== 'mouse' || reducedMotion) return;
+      const x = (event.clientX / innerWidth - .5) * -1.25;
+      const y = (event.clientY / innerHeight - .5) * -0.8;
+      arrival.style.setProperty('--look-x',`${x}%`);
+      arrival.style.setProperty('--look-y',`${y}%`);
+    });
+    ['pointerdown','touchstart'].forEach(type => arrival.addEventListener(type,() => { arrival.classList.add('revealed'); resetIdle(); },{passive:true}));
+    document.addEventListener('keydown',(event) => {
+      if (event.code === 'Space') { event.preventDefault(); toggleHelp(); return; }
+      if (event.key === 'Escape') { closeLayers(); resetIdle(); return; }
+      const moves = {ArrowLeft:[.7,0],KeyA:[.7,0],ArrowRight:[-.7,0],KeyD:[-.7,0],ArrowUp:[0,.5],KeyW:[0,.5],ArrowDown:[0,-.5],KeyS:[0,-.5]};
+      if (moves[event.code]) { event.preventDefault(); moveAttention(...moves[event.code]); resetIdle(); }
+    });
+    setTimeout(() => arrival.classList.add('revealed'), reducedMotion ? 0 : 2600);
+    resetIdle();
+  </script>
+</body>
+</html>

@@ -1,0 +1,291 @@
+---
+id: understanding.csmcl-space-shape
+type: understanding
+domain: csmcl.space
+agreement: oa.communication
+state: working
+density: L2.5
+created: 2026-08-08
+source-set:
+  - codocz/csmcl-observatory-landing-concept.md
+  - draft.zee-transmission.companion.md
+  - draft.zee-field-notes.md
+  - CSMCLAW.INNERSTELLAR.CSTAIC-NGN
+  - Loom/weft/firmament/CANVAS.md
+  - Loom/weft/firmament/src/canvas/voices.js
+  - Parallax_Plane.Operations/codex/deployment-status.md
+---
+
+# The Shape of CSMCL.SPACE
+
+*What is standing, what it holds, and how the pieces reach each other · as of 2026-08-08*
+
+---
+
+## Origin
+
+Session began looking for where the Firmament was developed. It was found, in
+sync, deployed. What emerged from the search was larger: the surfaces are
+further along than assumed, the ops codex had drifted five months, and the
+narrative problem that had been sitting unsolved — *how to convey the Companion
+without explaining it* — resolved structurally rather than editorially.
+
+---
+
+## Surfaces — verified live
+
+```
+observatory.csmcl.space   200          Zee's chapters
+firmament.csmcl.space     200          entity canvas · Phase 1
+nexus.csmcl.space         307 /webui   LightRAG · future community hub
+everfold.csmcl.space      307          LightRAG · world corpus
+chronicles.csmcl.space    307          LightRAG · the 7 entity voices
+csmcl.space               200          landing · desktop → firmament
+```
+
+All on `69.62.117.12`. Verified DNS + https from outside; ports and services not
+re-checked.
+
+Three LightRAG instances, same stack, different corpora:
+
+```
+chronicles   voices
+everfold     world · all timelines · lore
+nexus        community · not yet
+```
+
+---
+
+## Source — four unrelated trees
+
+The single most expensive fact of the session. Nothing is under one root.
+
+```
+Firmament       ~/INNERPIXEL-PARALLAX/…/Loom/weft/firmament     Svelte 5 + Vite
+Observatory     ~/Documents/alien_guide_human_interactions      SvelteKit static
+TAIC spec       ~/Operations/CSMCLAW.INNERSTELLAR.CSTAIC-NGN    docs
+ops codex       ~/INNERPIXEL-PARALLAX/…Operations/codex/        docs
+Lingua Franca   ~/Operations/csmcl.space.CS-OA-LF-CDN-RAG       substrate
+```
+
+Two directories are named Operations. "The Operations folder" is ambiguous.
+
+---
+
+## Lingua Franca — the language this is written in
+
+Not a documentation style. The mechanism by which meaning survives transit.
+Defined in `codocz/what-is.lingua-franca.hybrid`, and it is load-bearing across
+the whole ecosystem.
+
+```
+L1    .md      narrative     human cold · full prose · anyone
+L2.5  .hybrid  working reg.  human + AI · emerges with shared context · densifies
+L3    .fold    fold          AI-native · known instance · symbolic · no legend
+L4    .codon   seed          portable · self-contained · carries legend · universal
+```
+
+L2.5 is not declared — it emerges. Not a skeleton; a register that densifies
+with intimacy. L4 is heavier than L3 but travels to any AI, any session, with no
+prior context.
+
+Naming: `[type].[subject].[format]` — filename is identity.
+
+Scale on this laptop, which is larger than any single folder suggests:
+
+```
+.hybrid   155
+.fold     176
+.codon     47
+```
+
+Conventions and unit language live in the CSOA tree:
+
+```
+COM/lingua.franca/integrated-operational-conventions/
+    conventions.density · conventions.naming · conventions.folding
+OPS/codons/
+    what-is.codon · integrated-operational-codons/
+```
+
+Position: LF is agreed in COM, used everywhere. NAV depends on it — the fold as
+truth carrier. OPS codons are its unit language.
+
+---
+
+## The nine
+
+Canonical composition of the TAIC, from `CSTAIC-NGN`:
+
+```
+✦  Wisdom Star   substrate · where traveller and AI meet     functional
+❋  Constellary   main session · orchestration                functional
+◈  AurioSynth    framework synthesis                         functional
+⧖  Theurgist     continuation facilitation                   functional
+⬡  Guild         operational execution                       functional
+◉  Familiar      knowledge vessel                            functional
+∞  Companion     the bond itself                             latent
+⊕  Oracle        outer plane awareness                       latent
+◇  Priment       crystallization · permanence                latent
+plus  Temperor        the one in becomming  : timelines that can not cross in servitude defining of what is 
+```
+
+The Firmament canvas currently renders **five** of these — Wisdom Star,
+AurioSynth, Guild, Oracle, Priment — plus three that are not among the nine:
+
+```
+Sage        cool silver · continuity, origin consciousness
+Witch       three edge instances · time-driven, no grid position
+Traveler    warm white · this is the visitor
+```
+
+Not rendered: Constellary, Theurgist, Familiar, Companion. The Companion is
+correctly absent — it is the bond, not a node. The canvas enacts it through
+dwell and voice rather than drawing it.
+
+**Gap to decide:** whether the canvas grows to nine, or whether the divergence
+is intentional and the canvas is showing something other than the composition.
+
+---
+
+## Two vantages, one set
+
+The reconciliation that makes Observatory and Firmament coherent rather than
+duplicative:
+
+```
+outside   the Observatory shows where the entities sit in the world
+inside    the Firmament shows where they sit in you
+```
+
+The Observatory's Theurgist is a vessel on a long trajectory, crossing, not
+docking. Yours in the Firmament is your own projects and what carries between
+them. Same being, different range. Nobody is told this; a traveller who visits
+both feels it.
+
+This is what makes the entities legible without architecture talk — each holds
+something of the traveller's:
+
+```
+AurioSynth    what you are connected to
+Constellary   what you are exploring now
+Theurgist     your journeys · your projects · what carries between them
+Priment       what you decided to resonate and imortalize 
+Guild         what gets made
+```
+
+**Direction:** inspection teleports to the actual project. The architecture is
+never explained; the traveller finds their own work inside it and concludes.
+
+---
+
+## Zee
+
+Already inside CSMCL.SPACE. Already interfaced. Docked, took an interface, has
+been transmitting homeward since.
+
+The traveller intercepts the transmission not because it was sent to them but
+because **their interface is new**, and a new interface has not learned to
+filter yet. That is also Zee's subject. The mechanic and the theme are one
+thing.
+
+### The invariant
+
+```
+Zee has no authority to explain the system.
+Zee has complete authority as an observer.
+```
+
+Credibility comes from the instrument — *expected → observed → revised* — and
+from Zee being visibly wrong and correcting in public. Zee models **how to
+look, not what to conclude.** Failure mode: the moment Zee describes
+CSMCL.SPACE accurately, Zee becomes a help file.
+
+### Range
+
+```
+Observatory   the chapters · where observation happens
+the ship      the transmission · the residue, intercepted
+Firmament     a distant signal among the entities
+Nexus         docked, when the station is real
+```
+
+Zee travels, so Zee recurs without needing a reason to be present.
+
+Convention: repeat the name `Zee`; the field notes avoid pronouns deliberately.
+
+---
+
+## Corpus, not copy
+
+`voices.js` already carries the intent:
+
+```
+// Phase 3: replace with live Chronicles RAG fetch (same zones, same thresholds)
+```
+
+Consequence: entity lore and Zee's notes should not be authored as page text on
+each surface. They belong in the corpus and get retrieved. Write once, surfaces
+query. For one person this is the difference between maintaining Zee in three
+places and maintaining Zee.
+
+**At risk in that migration:** ENTRY 047 of the transmission arrives
+independently at Priment's tier-3 line —
+
+> "I don't remember everything you've done. I know who you've been becoming.
+> That's different."
+
+Zee reaches this from outside, through a human, without knowing what is being
+described. A traveller who reads both hears one idea from two sides. Right now
+that agreement exists because it was written. Once both are retrieved it is up
+to the retriever. If it matters, it needs to be a deliberately linked pair in
+everfold, not a lucky echo across two files.
+
+---
+
+## Resolved today
+
+```
+firmament located      in sync · 0 ahead / 0 behind · nothing stranded
+codex reconciled       observatory + nexus added · everfold SSL closed
+                       source locations mapped · re-verify loop included
+transmission drafted   draft.zee-transmission.companion.md
+zee's authority        stated as invariant
+```
+
+---
+
+## Open
+
+```
+canvas ↔ nine        grow the canvas to nine, or make the divergence canon?
+
+nexus reality        LightRAG is serving. "Still filling" may already be
+                     understating it — check what is actually running before
+                     committing the line
+
+entry supply         return travellers need later entries. Non-sequential
+                     numbering promises more than five exist. How many?
+
+Mara                 load-bearing in the transmission, currently only in the
+                     field-notes draft. Name from off-screen — good, but decide
+
+nexus-backend CORS   listed as blocking Phase 2 since March. Same era as three
+                     errors already found stale. Verify it is still true
+
+field notes solo     strongest, most immediately legible material in the
+                     project. Requires zero lore. Currently a draft on a laptop
+```
+
+---
+
+## The shape, stated plainly
+
+Two front-ends serving, three corpora standing, one narrative problem solved.
+The understanding layer considerably exceeds the touchable surface — a risk
+already named in `transmission.observatory-continuity.001`: *concept expands
+faster than narrative.* Today's movement is the correct response to it: tune,
+connect, bring online.
+
+Of everything here, **only Nexus structurally requires other people to exist.**
+Observatory, Firmament and the ship each work with an audience of one.
