@@ -118,7 +118,7 @@ Field Notebook         -> keep inquiry open
 01 :: interactive branching engine (choice/consequence/perspective/fieldState scoring) -> stays published as-is, standalone, not retrofitted
 02+ :: narrative-summary form; Zee's condensed findings; no branching choice tree to author
 branching engine !discarded -> relocates to Zee's ship instrument, reframed as Zee's own provisional model !objective verdict
-Zee's ship instrument :: separate deferred track, not derived per-chapter; see @codocz/observatory.arrival-vision.md
+Zee's ship instrument :: separate deferred track, not derived per-chapter; historical reasoning @codocz/history/arrival-development/observatory.arrival-vision.md
 ```
 
 ## Product state
@@ -138,7 +138,7 @@ relay.mail-automation :: PARKED!
 relay.ai-response :: PARKED!
 relay.open-condition :: evidence of need + privacy/safety/retention/review workflow; draft-review before autosend
 
-csmcl.space :: Observatory now framed as entry point into larger CSMCL.SPACE (Nexus, Innerstellar); see @codocz/observatory.arrival-vision.md for full reasoning; this seed's Container hierarchy predates that reframe and is not yet contradicted, only extended
+csmcl.space :: Observatory now framed as entry point into larger CSMCL.SPACE (Nexus, Innerstellar); historical reasoning @codocz/history/arrival-development/observatory.arrival-vision.md; this seed's Container hierarchy predates that reframe and is not yet contradicted, only extended
 compliance.station-tier :: email only, unverified tolerated, GDPR minimal-collection/consent/retention/deletion, draft-review before autosend
 compliance.attunement-tier :: OUT OF SCOPE for this build; identity/ownership/wallet/payment/verification/compliance determined within that environment when its own services+architecture are designed
 compliance.station-to-attunement :: no carryover; visitor-authored material stays observation at the station; attunement protocol starts from zero
@@ -206,7 +206,7 @@ on-load:
   4 continue current creative edge; do not restart discovery
 
 current edge:
-  station interior design + build (arrival funnel next layer; see @codocz/observatory.arrival-vision.md)
+  station interior design + build (deferred; historical reasoning @codocz/history/arrival-development/observatory.arrival-vision.md)
   write Chapter 02 as complete narrative-summary in Zee's voice; no branching choice tree
   establish characters + emotional background + joke event + group response + consequences + Zee finding
   do not derive a new per-chapter interaction; that track relocated to Zee's ship instrument, separately deferred

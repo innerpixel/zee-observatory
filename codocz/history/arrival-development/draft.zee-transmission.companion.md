@@ -8,7 +8,7 @@ authority: proposal-not-canon
 implementation: deferred
 source-set:
   - draft.zee-field-notes.md
-  - codocz/csmcl-observatory-landing-concept.md
+  - codocz/history/arrival-development/csmcl-observatory-landing-concept.md
   - Loom/weft/firmament/src/canvas/voices.js
 ---
 

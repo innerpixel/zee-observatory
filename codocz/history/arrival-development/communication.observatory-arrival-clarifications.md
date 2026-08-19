@@ -7,16 +7,16 @@ created: 2026-08-09
 authority: inquiry-only
 addressed-to: continuation-session-for-observatory-arrival-vision
 current-understanding:
-  - codocz/observatory.arrival-vision.md
+  - observatory.arrival-vision.md
 related:
-  - codocz/csmcl-observatory-landing-concept.md
+  - csmcl-observatory-landing-concept.md
   - experiments/observatory-arrival/quiet-ephemeral-landing.html
 ---
 
 # Clarification request :: Observatory arrival vision
 
 This communication asks for clarification of the current understanding recorded
-in `codocz/observatory.arrival-vision.md`.
+in `observatory.arrival-vision.md`.
 
 That later document is the current understanding. This request is not an attempt
 to restore the assumptions of an earlier prototype or landing discussion. Its
@@ -246,6 +246,5 @@ answer remains genuinely undecided. Do not force closure merely to make the
 document appear complete.
 
 After clarification, please identify which statements should be amended in
-`codocz/observatory.arrival-vision.md` and which decisions, if any, are settled
+`observatory.arrival-vision.md` and which decisions, if any, are settled
 enough to move into the guide → fold → seed authority chain.
-

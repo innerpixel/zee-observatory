@@ -16,7 +16,7 @@ excludes:
   - traveller-to-traveller-interaction
 related:
   - observatory.current-project-brief.md
-  - observatory.station-brainstorm.md
+  - history/arrival-development/observatory.station-brainstorm.md
   - understanding.csmcl-space-shape.hybrid
 ---
 
@@ -422,4 +422,3 @@ And the production principle beneath it:
 
 > Provide enough reality to produce anticipation, while leaving enough space
 > for the Traveller to participate in making it real.
-

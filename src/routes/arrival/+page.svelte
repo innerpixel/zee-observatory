@@ -1,846 +1,325 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 
-	type FieldView = 'presence' | 'carrier' | 'station' | 'approach';
-
-	const observations = {
-		carrier: {
-			label: 'Passive reception · local carrier',
-			title: 'A signal crosses the field.',
-			copy: 'The smaller vessel transmits continuously. The carrier is not addressed to this position.',
-			facts: [
-				['carrier', 'active'],
-				['destination', 'not supplied'],
-				['reply requested', 'no']
-			]
+	const channels = {
+		auriosynth: {
+			eyebrow: '◈ 76.4 · AurioSynth / relational field',
+			title: 'A connection is attempting to establish.',
+			copy: 'The territory is resolving how the arriving carrier relates to what is already here. The arrival itself remains independently in motion.',
+			facts: [['source', 'threshold carrier'], ['relation', 'forming'], ['integrity', 'not yet known']]
 		},
-		station: {
-			label: 'Optical return · receiving structure',
-			title: 'One port remains awake.',
-			copy: 'Traffic passes through the structure’s orbit. No approach path is presently assigned.',
-			facts: [
-				['relative motion', 'stable'],
-				['receiving ports', 'one active'],
-				['approach path', 'unassigned']
-			]
+		constellary: {
+			eyebrow: '❋ 104.2 · Constellary / gathering field',
+			title: 'A local constellation is preparing around the arrival.',
+			copy: 'Several active points are gathering. The arriving vessel is one relation among them; no centre has been assigned.',
+			facts: [['active relations', 'three'], ['latent relations', 'six'], ['centre', 'not assigned']]
 		},
-		approach: {
-			label: 'Observatory response · local vector',
-			title: 'A path appears beside what is already there.',
-			copy: 'The receiving port changes state. Other traffic continues without altering course.',
-			facts: [
-				['approach vector', 'stable'],
-				['identity exchange', 'none'],
-				['departure route', 'open']
-			]
+		theurgist: {
+			eyebrow: '⧖ 41.8 · Theurgist / continuity field',
+			title: 'The arrival has entered local continuity.',
+			copy: 'A trace is retained while several trajectories remain possible. Holding, approaching, and leaving are all still legible.',
+			facts: [['trace', 'new local cycle'], ['next direction', 'unresolved'], ['action required', 'none']]
 		}
 	} as const;
 
-	let view = $state<FieldView>('presence');
-	let signalAvailable = $state(false);
-	let stillnessAcknowledged = $state(false);
+	type ChannelId = keyof typeof channels;
+	type FrequencyState = ChannelId | 'quiet';
 
-	let current = $derived(
-		view === 'presence'
-			? signalAvailable
-				? {
-						label: 'Passive observation · faint carrier',
-						title: 'The quiet contains a signal.',
-						copy: 'A small vessel continues transmitting while the Observatory holds its orbit.',
-						facts: [
-							['local motion', 'stable'],
-							['open carriers', 'one faint'],
-							['action required', 'none']
-						]
-					}
-				: {
-						label: 'Passive observation · uncharted structure',
-						title: 'A place holds above the blue planet.',
-						copy: 'Distant traffic crosses its orbit. One receiving port remains lit.',
-						facts: [
-							['relative motion', 'stable'],
-							['immediate threat', 'none detected'],
-							['action required', 'none']
-						]
-					}
-			: observations[view]
-	);
+	const order = Object.keys(channels) as ChannelId[];
+	let active: FrequencyState = 'quiet';
+	let activeIndex = -1;
+	let changing = false;
+	let reducedMotion = false;
+	let cycleTimer: ReturnType<typeof setTimeout> | undefined;
+
+	let current = {
+		eyebrow: 'Local reception · unresolved spectrum',
+		title: 'Several frequencies are present.',
+		copy: 'One carrier is near the threshold. Two others remain in local transit. No address has been established.',
+		facts: [['near arrival', 'one'], ['distant carriers', 'two'], ['reply required', 'no']] as readonly (readonly [string, string])[]
+	};
+
+	function scheduleNext(delay = 17000) {
+		if (cycleTimer) clearTimeout(cycleTimer);
+		if (reducedMotion) return;
+		cycleTimer = setTimeout(() => {
+			activeIndex = (activeIndex + 1) % order.length;
+			resolveFrequency(order[activeIndex], false);
+		}, delay);
+	}
+
+	function resolveFrequency(id: ChannelId, chosen = false) {
+		activeIndex = order.indexOf(id);
+		changing = true;
+
+		setTimeout(() => {
+			active = id;
+			current = channels[id];
+			changing = false;
+		}, 460);
+
+		scheduleNext(chosen ? 24000 : 17000);
+	}
 
 	onMount(() => {
-		const timer = window.setTimeout(() => {
-			signalAvailable = true;
-		}, 5200);
-
-		return () => window.clearTimeout(timer);
+		reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+		scheduleNext(4800);
+		return () => {
+			if (cycleTimer) clearTimeout(cycleTimer);
+		};
 	});
-
-	function observe(target: 'carrier' | 'station') {
-		if (target === 'carrier') signalAvailable = true;
-		view = target;
-	}
-
-	function remain() {
-		view = 'presence';
-		stillnessAcknowledged = true;
-	}
-
-	function resetField() {
-		view = 'presence';
-		signalAvailable = false;
-		stillnessAcknowledged = false;
-		window.setTimeout(() => (signalAvailable = true), 1800);
-	}
 </script>
 
 <svelte:head>
-	<title>Arrival · The CSMCL.SPACE Observatory</title>
+	<title>Arrival · CSMCL.SPACE Observatory</title>
 	<meta
 		name="description"
-		content="A quiet exterior arrival at the CSMCL.SPACE Observatory. Observe, listen, approach, or remain."
+		content="Observe an arrival within the living TAIC Territory and tune to several locally perceptible frequencies."
 	/>
-	<meta name="theme-color" content="#02050a" />
 </svelte:head>
 
-<main class="arrival" class:signal-visible={signalAvailable} class:approaching={view === 'approach'}>
-	<div class="field" aria-hidden="true">
-		<img src="/images/arrival/observatory-arrival-quiet.png" alt="" />
-		<div class="field-shade"></div>
-		<div class="grain"></div>
+<main class="scene" data-frequency={active} aria-label="An observed arrival in the TAIC Territory">
+	<div class="stage" aria-hidden="true">
+		<img class="territory" src="/images/arrival/taic-territory-wide-002-readable-field.png" alt="" />
 
-		<div class="ambient-traffic traffic-one"><i></i></div>
-		<div class="ambient-traffic traffic-two"><i></i></div>
-		<div class="ambient-traffic traffic-three"><i></i></div>
+		<svg class="field-relations" viewBox="0 0 1915 821" preserveAspectRatio="none">
+			<path class="relation relation-aurio" pathLength="100" d="M 318 610 C 460 574, 650 520, 865 472" />
+			<path class="relation relation-theurgist" pathLength="100" d="M -40 508 C 210 430, 495 435, 752 362 S 1120 238, 1420 287" />
+		</svg>
 
-		<div class="carrier-path"></div>
-		<div class="approach-path"><i></i></div>
-		<div class="receiving-port"></div>
-	</div>
-
-	<header class="arrival-mark">
-		<a href="/arrival/" aria-label="The CSMCL.SPACE Observatory arrival">
-			<i></i>
-			<span>CSMCL.SPACE</span>
-			<b>Observatory</b>
-		</a>
-		<nav aria-label="Arrival navigation">
-			<span>Exterior threshold · 001</span>
-			<a href="/"><span class="existing-label">Existing </span>field archive ↗</a>
-		</nav>
-	</header>
-
-	<div class="local-status" aria-hidden="true">
-		<i></i>
-		<span>{view === 'approach' ? 'approach vector held' : 'holding position'}</span>
-	</div>
-
-	<button
-		class="field-target station-target"
-		class:selected={view === 'station' || view === 'approach'}
-		type="button"
-		onclick={() => observe('station')}
-		aria-label="Inspect the Observatory"
-	>
-		<span>receiving structure</span>
-	</button>
-
-	<button
-		class="field-target vessel-target"
-		class:selected={view === 'carrier'}
-		type="button"
-		onclick={() => observe('carrier')}
-		tabindex={signalAvailable ? 0 : -1}
-		aria-hidden={!signalAvailable}
-		aria-label="Listen to the faint vessel carrier"
-	>
-		<span>faint carrier</span>
-	</button>
-
-	<section class="observation" aria-labelledby="observation-title" aria-live="polite">
-		<div class="observation-summary">
-			<p class="observation-label">{current.label}</p>
-			<h1 id="observation-title">{current.title}</h1>
+		<div class="arrival-constellation">
+			<i></i><i></i><i></i><i></i><i></i><i></i><i></i>
 		</div>
 
-		<div class="observation-reading">
-			<p class="observation-copy">{current.copy}</p>
-			{#if stillnessAcknowledged && view === 'presence'}
-				<p class="stillness-note">Nothing closes because you remain.</p>
-			{/if}
+		<div class="ring-traffic"></div>
+		<div class="sail-traffic"><img src="/images/arrival/alien-sail-vessel.png" alt="" /></div>
+		<div class="pad-glow"></div>
+		<div class="platform-vessel-position">
+			<div class="platform-vessel-hover">
+				<img class="platform-vessel" src="/images/arrival/zee-pod-vessel.png" alt="" />
+			</div>
 		</div>
+		<div class="scene-tone"></div>
+	</div>
 
-		<div class="observation-response">
-			<dl>
+	<a class="study-mark" href="/">CSMCL.SPACE · Observatory</a>
+
+	<section class:changing class="receiver" data-active={active} aria-labelledby="receiver-title">
+		<header class="receiver-context receiver-dynamic" aria-live="polite">
+			<p>{current.eyebrow}</p>
+			<h1 id="receiver-title">{current.title}</h1>
+		</header>
+
+		<div class="receiver-rail">
+			<p class="receiver-copy receiver-dynamic">{current.copy}</p>
+
+			<dl class="receiver-facts receiver-dynamic">
 				{#each current.facts as fact}
 					<div><dt>{fact[0]}</dt><dd>{fact[1]}</dd></div>
 				{/each}
 			</dl>
 
-			<div class="observation-actions">
-				{#if view === 'presence'}
-					{#if signalAvailable}
-						<button class="primary-action" type="button" onclick={() => observe('carrier')}>Listen to carrier</button>
-					{/if}
-					<button type="button" onclick={() => observe('station')}>Inspect Observatory</button>
-					<button type="button" onclick={remain}>Remain here</button>
-				{:else if view === 'carrier'}
-					<button type="button" onclick={() => observe('station')}>Inspect Observatory</button>
-					<button type="button" onclick={remain}>Keep listening</button>
-				{:else if view === 'station'}
-					<button class="primary-action" type="button" onclick={() => (view = 'approach')}>Request approach</button>
-					{#if signalAvailable}<button type="button" onclick={() => observe('carrier')}>Return to carrier</button>{/if}
-					<button type="button" onclick={remain}>Remain outside</button>
-				{:else}
-					<button class="primary-action" type="button" onclick={remain}>Hold position</button>
-					<button type="button" onclick={resetField}>Reset field</button>
-				{/if}
-			</div>
+			<nav class="frequencies" aria-label="Locally perceptible frequencies">
+				{#each order as id}
+					<button class:auriosynth={id === 'auriosynth'} class:constellary={id === 'constellary'} class:theurgist={id === 'theurgist'} type="button" aria-pressed={active === id} onclick={() => resolveFrequency(id, true)}>
+						<i></i><span><span>{id === 'auriosynth' ? '76.4' : id === 'constellary' ? '104.2' : '41.8'}</span> {id === 'auriosynth' ? 'AurioSynth' : id === 'constellary' ? 'Constellary' : 'Theurgist'}</span>
+					</button>
+				{/each}
+			</nav>
 		</div>
 	</section>
-
-	<p class="prototype-note">Release 001 · temporary visual field</p>
 </main>
 
 <style>
-	:global(body) {
-		background: #02050a;
-	}
+	:global(body) { background: #020711; }
 
-	.arrival {
-		--arrival-ink: #cbd5d0;
-		--arrival-muted: #8f9c97;
-		--arrival-dim: #66726e;
-		--arrival-cyan: #79dfe2;
-		--arrival-violet: #aa98ef;
-		--arrival-amber: #ddb97f;
-		--arrival-line: rgba(176, 225, 224, 0.22);
+	.scene {
+		--aurio: #8be3c2;
+		--constellary: #d8efff;
+		--theurgist: #c7adff;
 		position: relative;
 		isolation: isolate;
 		width: 100%;
-		max-width: 100vw;
-		min-height: 100svh;
+		height: 100svh;
 		overflow: hidden;
-		background: #02050a;
-		color: var(--arrival-ink);
-		font-family: var(--mono);
+		background: #020711;
+		color: rgba(232, 241, 240, 0.82);
+		font-family: Inter, ui-sans-serif, system-ui, sans-serif;
 	}
 
-	.field,
-	.field > img,
-	.field-shade,
-	.grain {
+	.stage {
 		position: absolute;
-		inset: 0;
+		top: 50%;
+		left: 50%;
+		width: min(100vw, calc(100vh * 1915 / 821));
+		aspect-ratio: 1915 / 821;
+		transform: translate(-50%, -50%);
+		overflow: hidden;
 	}
 
-	.field {
-		z-index: -4;
-		background: #02050a;
-	}
+	.territory,
+	.field-relations,
+	.arrival-constellation,
+	.scene-tone { position: absolute; inset: 0; width: 100%; height: 100%; }
+	.territory { z-index: 0; object-fit: fill; user-select: none; }
+	.field-relations { z-index: 1; overflow: visible; pointer-events: none; }
 
-	.field > img {
-		width: 100%;
-		height: 100%;
-		object-fit: contain;
-		object-position: center;
-		filter: brightness(0.88) saturate(0.84);
-		transform: scale(1);
-		transition: filter 1.4s ease, transform 7s ease;
+	.relation {
+		fill: none;
+		stroke-linecap: round;
+		vector-effect: non-scaling-stroke;
+		transition: opacity 1.8s ease, filter 1.8s ease;
 	}
+	.relation-aurio { stroke: rgba(139, 227, 194, 0.72); stroke-width: 1; stroke-dasharray: 2 12; opacity: 0.1; animation: relation-drift 18s linear infinite; }
+	.relation-theurgist { stroke: rgba(199, 173, 255, 0.66); stroke-width: 0.8; stroke-dasharray: 1 18; opacity: 0.08; animation: relation-drift 28s linear infinite reverse; }
+	.scene[data-frequency='auriosynth'] .relation-aurio { opacity: 0.62; filter: drop-shadow(0 0 6px rgba(139, 227, 194, 0.45)); }
+	.scene[data-frequency='theurgist'] .relation-theurgist { opacity: 0.52; filter: drop-shadow(0 0 6px rgba(199, 173, 255, 0.38)); }
 
-	.approaching .field > img {
-		filter: brightness(0.96) saturate(0.92);
-		transform: scale(1.01);
-	}
-
-	.field-shade {
-		background:
-			linear-gradient(90deg, rgba(1, 4, 8, 0.34), rgba(1, 4, 8, 0.03) 48%, rgba(1, 4, 8, 0.08)),
-			linear-gradient(0deg, rgba(1, 3, 7, 0.46), transparent 30%),
-			radial-gradient(circle at 64% 36%, transparent 12%, rgba(1, 3, 7, 0.02) 52%, rgba(1, 3, 7, 0.2));
-	}
-
-	.grain {
-		opacity: 0.045;
-		background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.34'/%3E%3C/svg%3E");
-		pointer-events: none;
-	}
-
-	.arrival-mark {
+	.arrival-constellation { z-index: 2; pointer-events: none; }
+	.arrival-constellation i {
 		position: absolute;
-		z-index: 20;
-		top: 0;
-		left: 0;
-		right: 0;
-		display: flex;
-		align-items: center;
-		justify-content: space-between;
-		min-height: 4.4rem;
-		padding: 0 clamp(1rem, 3vw, 2.8rem);
-		border-bottom: 1px solid rgba(255, 255, 255, 0.09);
-		background: linear-gradient(rgba(2, 5, 9, 0.54), transparent);
-		font-size: 0.58rem;
-		letter-spacing: 0.15em;
-		text-transform: uppercase;
-	}
-
-	.arrival-mark a {
-		color: inherit;
-		text-decoration: none;
-	}
-
-	.arrival-mark > a {
-		display: flex;
-		align-items: center;
-		gap: 0.65rem;
-	}
-
-	.arrival-mark > a i,
-	.local-status i {
-		width: 0.38rem;
-		height: 0.38rem;
+		width: 0.18rem;
+		aspect-ratio: 1;
 		border-radius: 50%;
-		background: var(--arrival-cyan);
-		box-shadow: 0 0 0.8rem var(--arrival-cyan);
+		background: var(--constellary);
+		box-shadow: 0 0 0.7rem rgba(216, 239, 255, 0.8);
+		opacity: 0.14;
+		animation: constellation-breathe 7s ease-in-out infinite;
+		transition: opacity 1.8s ease, transform 2.4s ease;
 	}
+	.arrival-constellation i:nth-child(1) { left: 12.5%; top: 58%; animation-delay: -1s; }
+	.arrival-constellation i:nth-child(2) { left: 16.2%; top: 52%; animation-delay: -3s; }
+	.arrival-constellation i:nth-child(3) { left: 20.4%; top: 55%; animation-delay: -5s; }
+	.arrival-constellation i:nth-child(4) { left: 23%; top: 63%; animation-delay: -2s; }
+	.arrival-constellation i:nth-child(5) { left: 20%; top: 70%; animation-delay: -6s; }
+	.arrival-constellation i:nth-child(6) { left: 14.1%; top: 68%; animation-delay: -4s; }
+	.arrival-constellation i:nth-child(7) { left: 25.5%; top: 47%; animation-delay: -7s; }
+	.scene[data-frequency='constellary'] .arrival-constellation i { opacity: 0.82; transform: scale(1.3); }
 
-	.arrival-mark > a span {
-		color: rgba(233, 240, 236, 0.86);
-	}
-
-	.arrival-mark > a b {
-		color: var(--arrival-dim);
-		font-weight: 400;
-	}
-
-	.arrival-mark nav {
-		display: flex;
-		gap: clamp(1rem, 3vw, 2.6rem);
-		color: rgba(233, 240, 236, 0.42);
-	}
-
-	.arrival-mark nav a {
-		color: rgba(233, 240, 236, 0.62);
-	}
-
-	.arrival-mark nav a:hover,
-	.arrival-mark nav a:focus-visible {
-		color: var(--arrival-cyan);
-	}
-
-	.local-status {
-		position: absolute;
-		z-index: 10;
-		top: 5.5rem;
-		left: clamp(1rem, 3vw, 2.8rem);
-		display: flex;
-		align-items: center;
-		gap: 0.6rem;
-		color: rgba(233, 240, 236, 0.48);
-		font-size: 0.54rem;
-		letter-spacing: 0.14em;
-		text-transform: uppercase;
-	}
-
-	.local-status i {
-		width: 0.3rem;
-		height: 0.3rem;
-		animation: breathe 3.2s ease-in-out infinite;
-	}
-
-	.observation {
-		position: absolute;
-		z-index: 20;
-		left: clamp(1rem, 2.2vw, 2.2rem);
-		right: clamp(1rem, 2.2vw, 2.2rem);
-		bottom: clamp(1rem, 2.2vh, 1.6rem);
-		display: grid;
-		grid-template-columns: minmax(14rem, 0.82fr) minmax(16rem, 1fr) minmax(27rem, 1.25fr);
-		gap: clamp(1rem, 2.4vw, 2.4rem);
-		align-items: center;
-		width: auto;
-		min-width: 0;
-		padding: clamp(0.85rem, 1.5vw, 1.2rem) clamp(1rem, 2vw, 1.8rem);
-		border: 1px solid rgba(176, 225, 224, 0.1);
-		background: linear-gradient(105deg, rgba(3, 9, 14, 0.44), rgba(3, 8, 13, 0.26));
-		box-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.12);
-		backdrop-filter: blur(7px) saturate(0.86);
-	}
-
-	.observation-label,
-	.prototype-note {
-		margin: 0;
-		color: rgba(121, 223, 226, 0.78);
-		font-size: 0.55rem;
-		letter-spacing: 0.17em;
-		text-transform: uppercase;
-	}
-
-	.observation-summary,
-	.observation-reading {
-		min-width: 0;
-		padding-right: clamp(1rem, 2vw, 2rem);
-		border-right: 1px solid rgba(176, 225, 224, 0.11);
-	}
-
-	.observation-summary {
-		display: flex;
-		min-height: 4.65rem;
-		flex-direction: column;
-		justify-content: center;
-	}
-
-	.observation h1 {
-		margin: 0.48rem 0 0;
-		max-width: 29rem;
-		color: #82a99d;
-		font: 400 clamp(1.28rem, 1.55vw, 1.55rem) / 1.08 var(--serif);
-		letter-spacing: -0.03em;
-	}
-
-	.observation-copy {
-		margin: 0;
-		max-width: 27rem;
-		color: #929f9a;
-		font: 400 clamp(0.92rem, 1.15vw, 1.02rem) / 1.46 var(--serif);
-		overflow-wrap: anywhere;
-	}
-
-	.observation dl {
-		display: grid;
-		grid-template-columns: repeat(3, 1fr);
-		gap: 0;
-		margin: 0;
-		padding: 0;
-		border: 0;
-	}
-
-	.observation dl div {
-		min-width: 0;
-		padding-right: 0.7rem;
-	}
-
-	.observation dt,
-	.observation dd {
-		margin: 0;
-		font-size: 0.52rem;
-		line-height: 1.6;
-		letter-spacing: 0.08em;
-		text-transform: uppercase;
-	}
-
-	.observation dt {
-		color: var(--arrival-dim);
-	}
-
-	.observation dd {
-		color: #aebbb5;
-	}
-
-	.observation-actions {
-		display: flex;
-		flex-wrap: wrap;
-		gap: 0.45rem;
-		margin-top: 0.72rem;
-	}
-
-	.observation-actions button {
-		padding: 0.58rem 0.76rem;
-		border: 1px solid rgba(121, 223, 226, 0.27);
-		border-radius: 100px;
-		background: rgba(3, 11, 16, 0.52);
-		color: #98a59f;
-		cursor: pointer;
-		font-size: 0.55rem;
-		letter-spacing: 0.1em;
-		text-transform: uppercase;
-		transition: border-color 180ms ease, color 180ms ease, background 180ms ease;
-	}
-
-	.observation-actions button:hover,
-	.observation-actions button:focus-visible {
-		border-color: var(--arrival-cyan);
-		color: var(--arrival-cyan);
-		outline: none;
-	}
-
-	.observation-actions .primary-action {
-		border-color: rgba(121, 223, 226, 0.52);
-		background: rgba(121, 223, 226, 0.09);
-		color: var(--arrival-cyan);
-	}
-
-	.stillness-note {
-		margin: 0.48rem 0 0;
-		color: var(--arrival-dim);
-		font: italic 0.86rem var(--serif);
-	}
-
-	.field-target {
-		position: absolute;
-		z-index: 8;
-		border: 1px solid transparent;
-		border-radius: 50%;
-		background: transparent;
-		color: var(--arrival-cyan);
-		cursor: pointer;
-		transition: border-color 300ms ease, box-shadow 300ms ease, opacity 500ms ease;
-	}
-
-	.field-target::before,
-	.field-target::after {
-		position: absolute;
-		width: 0.8rem;
-		height: 0.8rem;
-		border-color: currentColor;
-		border-style: solid;
-		content: '';
-		opacity: 0;
-		transition: opacity 240ms ease;
-	}
-
-	.field-target::before {
-		top: -1px;
-		left: -1px;
-		border-width: 1px 0 0 1px;
-	}
-
-	.field-target::after {
-		right: -1px;
-		bottom: -1px;
-		border-width: 0 1px 1px 0;
-	}
-
-	.field-target span {
-		position: absolute;
-		display: none;
-		padding: 0.3rem 0.45rem;
-		background: rgba(2, 6, 10, 0.78);
-		font-size: 0.5rem;
-		letter-spacing: 0.13em;
-		text-transform: uppercase;
-		white-space: nowrap;
-	}
-
-	.field-target:hover,
-	.field-target:focus-visible,
-	.field-target.selected {
-		border-color: rgba(121, 223, 226, 0.46);
-		box-shadow: 0 0 2.5rem rgba(121, 223, 226, 0.1);
-		outline: none;
-	}
-
-	.field-target:hover::before,
-	.field-target:hover::after,
-	.field-target:focus-visible::before,
-	.field-target:focus-visible::after,
-	.field-target.selected::before,
-	.field-target.selected::after,
-	.field-target:hover span,
-	.field-target:focus-visible span,
-	.field-target.selected span {
-		display: block;
-		opacity: 1;
-	}
-
-	.station-target {
-		top: 19%;
-		right: 7%;
-		width: 50%;
-		height: 49%;
-	}
-
-	.station-target span {
-		top: 8%;
-		right: 8%;
-	}
-
-	.vessel-target {
-		top: 43%;
-		left: 4%;
-		width: 23%;
-		height: 28%;
-		color: var(--arrival-violet);
-		opacity: 0;
-		pointer-events: none;
-	}
-
-	.signal-visible .vessel-target {
-		opacity: 1;
-		pointer-events: auto;
-	}
-
-	.vessel-target span {
-		top: -1.6rem;
-		left: 7%;
-		color: var(--arrival-violet);
-	}
-
-	.carrier-path {
-		position: absolute;
-		z-index: 2;
-		top: 49%;
-		left: 20%;
-		width: 44%;
-		height: 1px;
-		background: linear-gradient(90deg, var(--arrival-violet), transparent 48%, var(--arrival-cyan));
-		box-shadow: 0 0 0.7rem rgba(121, 223, 226, 0.3);
-		opacity: 0;
-		transform: rotate(-7deg) scaleX(0.72);
-		transform-origin: left;
-		transition: opacity 1s ease, transform 2.2s ease;
-	}
-
-	.signal-visible .carrier-path {
-		opacity: 0.54;
-		transform: rotate(-7deg) scaleX(1);
-	}
-
-	.receiving-port {
-		position: absolute;
-		z-index: 4;
-		top: 45%;
-		right: 14%;
-		width: 0.48rem;
-		height: 0.48rem;
-		border-radius: 50%;
-		background: var(--arrival-amber);
-		box-shadow: 0 0 1rem var(--arrival-amber);
-		transition: background 600ms ease, box-shadow 600ms ease, transform 600ms ease;
-	}
-
-	.approaching .receiving-port {
-		background: var(--arrival-cyan);
-		box-shadow: 0 0 2rem var(--arrival-cyan);
-		transform: scale(1.45);
-	}
-
-	.approach-path {
+	.platform-vessel-position {
 		position: absolute;
 		z-index: 3;
-		top: 57%;
-		left: 45%;
-		width: 38%;
-		height: 13%;
-		border-top: 1px solid rgba(121, 223, 226, 0.7);
-		border-radius: 50%;
-		opacity: 0;
-		transform: rotate(-12deg) scaleX(0.6);
-		transform-origin: right;
-		transition: opacity 900ms ease, transform 1.5s ease;
+		left: 20%;
+		top: 72.7%;
+		width: 19.5%;
+		aspect-ratio: 3 / 2;
+		transform: translate(-50%, -50%);
+		pointer-events: none;
 	}
+	.platform-vessel-hover { position: absolute; inset: 0; transform-origin: 51% 58%; animation: platform-hover 9s ease-in-out infinite; }
+	.platform-vessel { width: 100%; height: 100%; object-fit: contain; filter: brightness(0.87) saturate(0.88) drop-shadow(0 0.35rem 0.7rem rgba(0, 0, 0, 0.64)) drop-shadow(0 0 1rem rgba(108, 193, 232, 0.16)); }
 
-	.approach-path i {
-		position: absolute;
-		top: -0.25rem;
-		left: 0;
-		width: 0.4rem;
-		height: 0.4rem;
-		border-radius: 50%;
-		background: var(--arrival-cyan);
-		box-shadow: 0 0 1rem var(--arrival-cyan);
-	}
-
-	.approaching .approach-path {
-		opacity: 0.72;
-		transform: rotate(-12deg) scaleX(1);
-	}
-
-	.ambient-traffic {
+	.pad-glow {
 		position: absolute;
 		z-index: 2;
-		width: 8rem;
-		height: 1px;
-		background: linear-gradient(90deg, transparent, rgba(166, 196, 209, 0.5), transparent);
-		opacity: 0.32;
-		animation: drift 16s linear infinite;
-	}
-
-	.ambient-traffic i {
-		position: absolute;
-		top: -1px;
-		left: 48%;
-		width: 3px;
-		height: 3px;
+		left: 19.7%;
+		top: 82.1%;
+		width: 8.8%;
+		aspect-ratio: 3.2 / 1;
+		transform: translate(-50%, -50%);
 		border-radius: 50%;
-		background: #d9e9e9;
-		box-shadow: 0 0 0.5rem #d9e9e9;
+		background: radial-gradient(ellipse, rgba(123, 222, 233, 0.2) 0%, rgba(91, 157, 211, 0.08) 44%, transparent 74%);
+		filter: blur(0.32rem);
+		mix-blend-mode: screen;
+		animation: pad-breathe 9s ease-in-out infinite;
 	}
 
-	.traffic-one {
-		top: 17%;
-		left: 13%;
-		animation-delay: -4s;
-	}
+	.sail-traffic { position: absolute; z-index: 2; left: 39%; top: 30%; width: 13%; aspect-ratio: 3 / 2; opacity: 0.54; animation: sail-approach 34s ease-in-out infinite; }
+	.sail-traffic img { width: 100%; height: 100%; object-fit: contain; transform: scaleX(-1) rotate(-5deg); filter: brightness(0.7) saturate(0.75); }
+	.ring-traffic { position: absolute; z-index: 2; left: 29.5%; top: 18%; width: 2.1%; aspect-ratio: 1; border: 1px solid rgba(213, 187, 123, 0.58); border-radius: 50%; opacity: 0.5; animation: ring-hold 18s ease-in-out infinite; }
+	.ring-traffic::before,
+	.ring-traffic::after { content: ''; position: absolute; border-radius: 50%; }
+	.ring-traffic::before { inset: 27%; background: radial-gradient(circle, #d9f5f5 0 8%, #77cbd9 20%, #163957 48%, transparent 72%); box-shadow: 0 0 0.7rem rgba(116, 215, 226, 0.6); }
+	.ring-traffic::after { inset: 42% -24%; border-top: 1px solid rgba(224, 195, 128, 0.78); border-bottom: 1px solid rgba(224, 195, 128, 0.34); transform: rotate(-18deg); }
+	.scene-tone { z-index: 4; background: linear-gradient(0deg, rgba(1, 4, 10, 0.25), transparent 26%), linear-gradient(90deg, rgba(0, 3, 9, 0.08), transparent 43%); pointer-events: none; }
 
-	.traffic-two {
-		top: 31%;
-		left: 55%;
-		animation-delay: -11s;
-		animation-duration: 22s;
+	.study-mark {
+		position: fixed;
+		z-index: 10;
+		top: clamp(1rem, 3vh, 2rem);
+		right: clamp(1rem, 3vw, 3rem);
+		color: rgba(218, 232, 232, 0.44);
+		font-size: 0.56rem;
+		letter-spacing: 0.22em;
+		text-decoration: none;
+		text-transform: uppercase;
 	}
+	.study-mark:hover,
+	.study-mark:focus-visible { color: rgba(218, 232, 232, 0.75); }
 
-	.traffic-three {
-		top: 74%;
-		left: 73%;
-		animation-delay: -7s;
-		animation-duration: 19s;
-	}
+	.receiver { position: fixed; z-index: 12; inset: 0; color: rgba(232, 241, 240, 0.82); pointer-events: none; }
+	.receiver-context { position: absolute; top: clamp(0.8rem, 2.2vh, 1.5rem); right: clamp(20rem, 31vw, 30rem); left: clamp(1rem, 4vw, 4rem); }
+	.receiver-context p { min-height: 1rem; margin: 0 0 0.55rem; color: var(--frequency-color, rgba(190, 218, 218, 0.56)); font-size: clamp(0.5rem, 0.55vw, 0.62rem); font-weight: 500; letter-spacing: 0.17em; text-transform: uppercase; }
+	.receiver-context h1 { margin: 0; color: rgba(207, 226, 225, 0.62); font-size: clamp(0.62rem, 0.7vw, 0.76rem); font-weight: 400; line-height: 1.3; letter-spacing: 0.11em; text-transform: uppercase; white-space: nowrap; }
 
-	.prototype-note {
+	.receiver-rail {
 		position: absolute;
-		z-index: 20;
-		top: 5.25rem;
-		right: clamp(1rem, 3vw, 2.8rem);
-		color: rgba(233, 240, 236, 0.3);
-		font-size: 0.48rem;
+		right: clamp(1rem, 3vw, 3rem);
+		bottom: clamp(0.7rem, 1.7vh, 1.25rem);
+		left: clamp(1rem, 4vw, 4rem);
+		display: grid;
+		grid-template-columns: minmax(19rem, 1.35fr) minmax(18rem, 0.9fr) auto;
+		align-items: center;
+		gap: clamp(1rem, 2vw, 2.5rem);
+		min-height: 4.8rem;
+		padding: 0.7rem 0 0.15rem;
+		border-top: 1px solid rgba(163, 211, 213, 0.18);
+		background: linear-gradient(90deg, rgba(2, 8, 17, 0.42), rgba(2, 8, 17, 0.1) 72%, transparent);
+		backdrop-filter: blur(0.22rem);
+		pointer-events: auto;
 	}
+	.receiver-rail::before { content: ''; position: absolute; top: -1px; left: 0; width: 18%; height: 1px; background: var(--frequency-color, rgba(142, 223, 231, 0.72)); box-shadow: 0 0 0.7rem var(--frequency-color, rgba(142, 223, 231, 0.45)); transition: width 1.2s ease; }
+	.receiver[data-active='auriosynth'] { --frequency-color: var(--aurio); }
+	.receiver[data-active='constellary'] { --frequency-color: var(--constellary); }
+	.receiver[data-active='theurgist'] { --frequency-color: var(--theurgist); }
+	.receiver[data-active]:not([data-active='quiet']) .receiver-rail::before { width: 43%; }
+	.receiver-dynamic { transition: opacity 0.42s ease, transform 0.42s ease; }
+	.receiver.changing .receiver-dynamic { opacity: 0; transform: translateY(0.18rem); }
+	.receiver-copy { max-width: 47ch; margin: 0; color: rgba(203, 219, 218, 0.52); font-size: clamp(0.68rem, 0.75vw, 0.82rem); line-height: 1.52; }
+	.receiver-facts { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0.55rem; margin: 0; padding: 0; }
+	.receiver-facts dt,
+	.receiver-facts dd { margin: 0; }
+	.receiver-facts dt { color: rgba(189, 210, 209, 0.34); font-size: 0.49rem; letter-spacing: 0.13em; text-transform: uppercase; }
+	.receiver-facts dd { margin-top: 0.22rem; color: rgba(221, 233, 232, 0.62); font-size: clamp(0.58rem, 0.65vw, 0.7rem); white-space: nowrap; }
 
-	@keyframes breathe {
-		50% { opacity: 0.3; }
-	}
+	.frequencies { display: flex; justify-content: flex-end; gap: 0.45rem; margin: 0; padding: 0; }
+	.frequencies button { --channel: rgba(204, 220, 219, 0.43); display: grid; grid-template-columns: auto 1fr; align-items: center; gap: 0.38rem; min-width: 0; padding: 0.38rem 0.5rem; border: 1px solid rgba(178, 210, 209, 0.13); border-radius: 999px; background: rgba(2, 8, 15, 0.24); color: rgba(204, 220, 219, 0.43); cursor: pointer; font-size: 0.5rem; letter-spacing: 0.09em; text-transform: uppercase; transition: border-color 0.6s ease, color 0.6s ease, background 0.6s ease; }
+	.frequencies button > i { width: 0.28rem; aspect-ratio: 1; border-radius: 50%; background: currentColor; box-shadow: 0 0 0.45rem currentColor; }
+	.frequencies button span span { opacity: 0.56; }
+	.frequencies button.auriosynth { --channel: var(--aurio); }
+	.frequencies button.constellary { --channel: var(--constellary); }
+	.frequencies button.theurgist { --channel: var(--theurgist); }
+	.frequencies button:hover,
+	.frequencies button:focus-visible,
+	.frequencies button[aria-pressed='true'] { border-color: color-mix(in srgb, var(--channel) 45%, transparent); background: color-mix(in srgb, var(--channel) 7%, transparent); color: var(--channel); outline: none; }
 
-	@keyframes drift {
-		from { transform: translateX(-10vw); }
-		to { transform: translateX(42vw); }
-	}
+	@keyframes platform-hover { 0%, 100% { transform: translate3d(-0.08rem, 0.14rem, 0) rotate(-0.28deg); } 48% { transform: translate3d(0.15rem, -0.36rem, 0) rotate(0.24deg); } }
+	@keyframes pad-breathe { 0%, 100% { opacity: 0.48; transform: translate(-50%, -50%) scale(0.94); } 48% { opacity: 0.74; transform: translate(-50%, -50%) scale(1.05); } }
+	@keyframes sail-approach { 0%, 100% { transform: translate3d(-0.45rem, 0.2rem, 0) scale(0.96); opacity: 0.42; } 55% { transform: translate3d(1.4rem, -0.35rem, 0) scale(1); opacity: 0.62; } }
+	@keyframes ring-hold { 0%, 100% { transform: translate3d(0, 0.15rem, 0) rotate(-4deg); } 50% { transform: translate3d(0.28rem, -0.25rem, 0) rotate(5deg); } }
+	@keyframes relation-drift { to { stroke-dashoffset: -84; } }
+	@keyframes constellation-breathe { 0%, 100% { filter: brightness(0.72); } 50% { filter: brightness(1.25); } }
 
-	@media (max-width: 1080px) {
-		.observation {
-			grid-template-columns: minmax(14rem, 0.78fr) minmax(18rem, 1.22fr);
-		}
-
-		.observation-reading {
-			border-right: 0;
-		}
-
-		.observation-response {
-			display: grid;
-			grid-column: 1 / -1;
-			grid-template-columns: minmax(18rem, 1fr) auto;
-			gap: 1rem;
-			align-items: center;
-			padding-top: 0.75rem;
-			border-top: 1px solid rgba(176, 225, 224, 0.1);
-		}
-
-		.observation-actions {
-			margin-top: 0;
-		}
+	@media (max-width: 1180px) and (min-width: 761px) {
+		.receiver-rail { grid-template-columns: minmax(16rem, 1.2fr) minmax(18rem, 1fr); }
+		.frequencies { grid-column: 1 / -1; justify-content: flex-start; }
 	}
 
 	@media (max-width: 760px) {
-		.arrival {
-			min-height: max(100svh, 46rem);
-		}
-
-		.field > img {
-			object-fit: cover;
-			object-position: 58% center;
-		}
-
-		.field-shade {
-			background:
-				linear-gradient(0deg, rgba(1, 4, 8, 0.56), transparent 48%),
-				radial-gradient(circle at 58% 32%, transparent 8%, rgba(1, 3, 7, 0.06) 52%, rgba(1, 3, 7, 0.28));
-		}
-
-		.arrival-mark nav span {
-			display: none;
-		}
-
-		.arrival-mark nav .existing-label {
-			display: none;
-		}
-
-		.arrival-mark > a b {
-			display: none;
-		}
-
-		.local-status {
-			top: 4.9rem;
-		}
-
-		.observation {
-			left: 0.75rem;
-			right: 0.75rem;
-			bottom: 0.75rem;
-			width: auto;
-			max-width: calc(100% - 1.5rem);
-			padding: 1rem;
-			grid-template-columns: 1fr;
-			gap: 0.7rem;
-		}
-
-		.observation-summary,
-		.observation-reading {
-			padding-right: 0;
-			border-right: 0;
-		}
-
-		.observation-response {
-			display: block;
-			grid-column: auto;
-			padding-top: 0.7rem;
-		}
-
-		.observation h1 {
-			font-size: clamp(1.35rem, 6vw, 1.65rem);
-			overflow-wrap: anywhere;
-		}
-
-		.observation-summary {
-			min-height: 4.15rem;
-		}
-
-		.observation dl {
-			grid-template-columns: 1fr;
-			gap: 0.2rem;
-		}
-
-		.observation dl div {
-			display: flex;
-			justify-content: space-between;
-			gap: 1rem;
-		}
-
-		.observation-actions button {
-			padding: 0.52rem 0.62rem;
-			font-size: 0.5rem;
-		}
-
-		.observation-actions {
-			margin-top: 0.72rem;
-		}
-
-		.field-target,
-		.prototype-note {
-			display: none;
-		}
-	}
-
-	@media (max-width: 430px) {
-		.arrival-mark nav a {
-			max-width: 7.6rem;
-			text-align: right;
-		}
-
-		.observation-copy {
-			font-size: 0.96rem;
-		}
+		.study-mark { display: none; }
+		.receiver-context { top: 1rem; right: 1rem; left: 1rem; }
+		.receiver-context h1 { white-space: normal; }
+		.receiver-rail { right: 1rem; bottom: 1rem; left: 1rem; display: block; padding: 0.75rem; background: rgba(2, 8, 17, 0.68); }
+		.receiver-facts { margin-top: 0.7rem; }
+		.frequencies { flex-wrap: wrap; justify-content: flex-start; margin-top: 0.7rem; }
 	}
 
 	@media (prefers-reduced-motion: reduce) {
-		.field > img,
-		.carrier-path,
-		.receiving-port,
-		.approach-path,
-		.observation-actions button {
-			transition: none;
-		}
-
-		.ambient-traffic,
-		.local-status i {
-			animation: none;
-		}
+		.platform-vessel-hover,
+		.pad-glow,
+		.sail-traffic,
+		.ring-traffic,
+		.arrival-constellation i,
+		.relation { animation: none; }
 	}
 </style>

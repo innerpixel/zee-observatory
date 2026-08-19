@@ -7,9 +7,9 @@ state: working
 density: L2.5
 created: 2026-08-08
 source-set:
-  - codocz/csmcl-observatory-landing-concept.md
-  - draft.zee-transmission.companion.md
-  - draft.zee-field-notes.md
+  - codocz/history/arrival-development/csmcl-observatory-landing-concept.md
+  - history/arrival-development/draft.zee-transmission.companion.md
+  - history/arrival-development/draft.zee-field-notes.md
   - CSMCLAW.INNERSTELLAR.CSTAIC-NGN
   - Loom/weft/firmament/CANVAS.md
   - Loom/weft/firmament/src/canvas/voices.js
@@ -249,7 +249,7 @@ everfold, not a lucky echo across two files.
 firmament located      in sync · 0 ahead / 0 behind · nothing stranded
 codex reconciled       observatory + nexus added · everfold SSL closed
                        source locations mapped · re-verify loop included
-transmission drafted   draft.zee-transmission.companion.md
+transmission drafted   history/arrival-development/draft.zee-transmission.companion.md
 zee's authority        stated as invariant
 ```
 

@@ -5,700 +5,324 @@ domain: observatory.csmcl.space
 state: current
 density: L1
 created: 2026-08-09
+updated: 2026-08-16
 authority: navigation-and-scope
 root: /home/innerpixel/Documents/alien_guide_human_interactions
 governs: next-implementation-session-startup
 does-not-override:
-  - codocz/alien_field_attunement-guide.md
-  - codocz/guide.field-attunement.fold
-  - codocz/project.seed.codon
+  - guide.wholeness-playability-participation.md
+  - understanding.observatory-responsive-incompletion.hybrid
+  - understanding.csmcl-space-shape.hybrid
 ---
 
 # The Observatory :: current project brief
 
-*A bridge from accumulated exploration back to the actual project.*
-
-This document exists so the next implementation-focused session does not have
-to treat every prototype and concept note as a simultaneous specification.
-
-It states:
-
-- what the repository actually contains now;
-- how inherited human-interaction material now sits under Zee;
-- the current reinterpretation of the Observatory;
-- the smallest present implementation boundary;
-- what is explicitly deferred;
-- what must be decided before production code changes.
-
-This is a navigation and scope document. It does not silently promote every
-exploratory idea into canon and does not replace the guide → fold → seed
-authority chain.
-
----
+*The active direction is direct perception of the CSMCL.SPACE TAIC Territory,
+not a realistic journey from Earth to an orbital station.*
 
 ## Start here
 
-For a fresh implementation session, read in this order:
+For a fresh continuation session, read only:
 
-```
+```text
 1. this brief
-2. codocz/project.seed.codon - architecturally | content not so relevant for the current direction
-3. inspect the actual repository !
-4. codocz/guide.field-attunement.fold when narrative/ethics/tone are involved
-5. codocz/alien_field_attunement-guide.md only for full nuance/source recovery
+2. csmcl-space-taic-territory.arrival-frequency-direction.md
+3. csmcl-space-taic-territory.visual-premise-001.md
+4. guide.wholeness-playability-participation.md when testing relationship boundaries
+5. understanding.observatory-responsive-incompletion.hybrid when testing inference
+6. inspect the current moodboard and actual repository
 ```
 
-Load the arrival vision, station brainstorm, CSMCL shape understanding, drafts,
-communications, and prototypes only when the task specifically requires their
-reasoning or evidence.
+Use `CONTINUATION.md` as the short navigation map. Do not reload the full
+realistic-orbital Arrival history unless a specific prior experiment is needed.
 
-Do not restart broad discovery before inspecting what is already implemented.
+## The decision made on 2026-08-16
 
----
+The previous exterior direction used Earth, a realistic Observatory station,
+and an arriving vessel to imply space travel and approach.
 
-## The project, stated plainly
+The active direction now begins inside CSMCL.SPACE:
 
-The Observatory is a low-commitment, spatial entry into CSMCL.SPACE.
+> The TAIC territory becomes directly perceptible. The visitor observes an
+> arrival occurring within it and may tune to how different TAIC facets sense
+> the same event.
 
-A visitor arrives as a traveller-in-becoming and may observe the ecosystem
-without joining it, identifying themselves, completing a task, or accepting a
-Companion. The exterior station field, its traffic, partial signals, and small
-traveller stories establish that this is a working place connected to other
-places. The visitor may approach, board, remain an observer, investigate more
-deeply, and eventually choose to keep a light continuing presence through a
-station cabin.
+The observed vessel is not automatically the visitor's vessel. The visitor is
+not placed inside a flight simulation, told that they arrived, or enrolled into
+a Companion relationship.
 
-The experience is lightly gamified through attention and spatial discovery:
+This pivot is active because it aligns the visual world with the intended
+interaction:
 
-```
-discover, not complete
-notice, not score
-approach, not advance
-inspect, not collect
-remain, not fail
-leave, not lose progress
-```
-
-Zee is already inside this world as one traveller among others. Zee is both a
-worked example of integration into CSMCL.SPACE and a concealed source of
-orientation through indirect, fallible observations. Zee is not the premise of
-the Observatory, its greeter, or the visitor's Companion.
-
-The original human-interaction project has relocated beneath Zee as one of
-Zee's own research constellations. It remains meaningful inherited content, but
-it is not the Observatory's primary public frame or the reason a visitor must
-enter.
-
-The intended Observatory arc is:
-
-```
-exterior arrival
-  → approach / board
-  → observational station life
-  → optional discoveries
-  → optional visitor cabin + light continuity
-  → possible later handoff toward Attunement
+```text
+one living territory
+one independently occurring arrival
+several entity perceptions / frequencies
+optional tuning
+no required response
+no assigned identity
 ```
 
----
+## What exists now
 
-## What the repository actually contains now
+### Production application
 
-The production application is a SvelteKit static site:
-
-```
+```text
 stack          SvelteKit 2 · Svelte 5 · TypeScript · CSS · adapter-static
 deploy target  observatory.csmcl.space
 build output   build/
 checks         npm run check · npm run build
+live route     https://observatory.csmcl.space/arrival/
 ```
 
-### Implemented public experience
+Local application routes now differ deliberately from the deployed site:
 
-The current production homepage is still the earlier **scroll-based Zee
-Observatory hub**, not the newer spatial CSMCL arrival:
-
-```
-src/routes/+page.svelte
-  hero: The Observatory / Blue planet field station
-  direct introduction: Meet Zee
-  Zee's homeworld / emotional weather
-  published finding
-  field instruments
-  expedition-log call to action
+```text
+/                    new Observatory orientation
+/arrival/            integrated TAIC Territory Arrival
+/arrival/legacy/     preserved realistic station-and-vessel implementation
+/travellers/zee/     relocated former Observatory / Zee landing
+/archive/            existing Zee field archive
 ```
 
-Supporting production routes:
+The deployed `/arrival/` route still presents the earlier realistic
+station-and-vessel prototype. It remains deployed runtime truth until these
+local changes are committed, pushed, pulled, and built on the VPS. Its previous
+release boundary is recorded in:
 
-```
-/                                  current scroll-based Observatory homepage
-/archive/                          expedition/chapter archive
-/chapter/invitation-to-speak/      published interactive Chapter 1
-/prototype/                        preserved static prototype asset
-```
+`observatory.arrival-release-001.md`
 
-The shared production chrome currently exposes:
+Do not describe the locally integrated TAIC Territory route as deployed.
 
-```
-Observatory · Transmissions · Instruments
-```
+### Active experiential moodboard
 
-### Published narrative state
+Open:
 
-```
-Chapter 01  The Invitation to Speak      published
-Chapter 02  The Joke With No Owner       development
-Chapter 03  The Boundary Debate Society  development
-Chapter 04  Seven Pebbles                 development
-Chapter 16  The Larger Circle             development
-```
+`experiments/observatory-arrival/taic-territory-studies/taic-territory-vessel-hover-001.html`
 
-Chapter 1 is a substantial branching experience with choices, consequences,
-perspective attunement, a field-state reading, follow-up paths, a case study,
-and a private browser note. It remains published as-is indefinitely.
+It currently contains:
 
-Chapter 2 onward are currently directed toward narrative-summary form in Zee's
-voice. A new branching tree is not a prerequisite for publishing them.
+- the complete wide TAIC Territory concept plate fitted without losing either
+  meaningful side of the geography;
+- one independently layered pod hovering over the circular foreground
+  threshold;
+- one sail vessel approaching;
+- one small ring vessel holding farther out;
+- an unresolved local spectrum;
+- AurioSynth, Constellary, and Theurgist frequency ranges;
+- automatic resolution and optional manual tuning;
+- subtle frequency-specific canvas responses;
+- quiet field orientation in the upper margin and transmission, facts, and
+  frequency choice in a lower rail;
+- an unobstructed territory field between those two information horizons;
+- reduced-motion behaviour.
 
-### What is not implemented in production
+This standalone moodboard remains the visual provenance for the Svelte route
+now integrated locally at `/arrival/`.
 
-The following exist only as concepts or experiments:
+### Visual studies
 
-```
-the fixed CSMCL.SPACE arrival canvas
-arrival → approach / boarding transition
-the station interior
-station living-window signals
-visitor quarters / cabin
-station manifest / email communication
-Zee's relocated ship instrument
-Nexus / Attunement / Innerstellar handoff
-```
+```text
+experiments/observatory-arrival/taic-territory-studies/
+  taic-territory-wide-001.png
+    powerful visual language · too uniformly complex
 
-Do not describe these as existing product behavior.
+  taic-territory-wide-002-readable-field.png
+    active base study · clearer hierarchy · complete plate now shown in viewport
+    source composition still ends through the foreground platform
 
----
-
-## Authority and filesystem caution
-
-The current authority order remains:
-
-```
-ethical / narrative conflict  → full L1 guide
-tone / compressed reasoning   → fold
-current product state         → seed
-runtime fact                  → repository
-concept-development notes     → proposals until explicitly integrated
-experiments                   → evidence, never automatic specification
+  memory-pods/
+    possible future artifact / memory-pod visual studies
+    current checkerboard is baked RGB, not usable transparency
 ```
 
-The canonical documents currently live under `codocz/`, although some internal
-seed references still use their former root-relative names. Git currently shows
-the former root copies as deleted and the `codocz/` tree as new/untracked.
+## The active experience
 
-Treat this as existing collaborator work. Do not move, restore, delete, stage,
-or normalize these files unless explicitly asked.
+The first encounter is complete through observation:
 
----
-
-## Inherited narrative foundation
-
-The following belongs to Zee's human-interaction research. It must remain true
-when that material is encountered, but it does not define the public landing or
-the whole Observatory experience.
-
-```
-listening != agreement
-speech permitted != influence permitted
-intention and impact are distinct information
-experience may be valid without proving motive
-power changes consequences, not automatic truth
-silence remains ambiguous
-curiosity must remain revisable
-repair becomes visible in changed behavior / process / next action
-reader is invited to notice, never graded
-platform serves narrative; narrative is not filler for platform
+```text
+territory already living
+  → an arrival is visible
+    → other vessels imply continuing traffic
+      → several frequencies are present
+        → one may become perceptible
+          → attention may hold or clarify it
+            → the wider field remains
 ```
 
-Tone:
+Doing nothing remains valid. Tuning does not cause the arrival. Leaving does
+not fail the encounter.
 
-```
-observant      not prosecutorial
-warm           not sentimental
-humorous       not sarcastic
-precise        not clinical
-curious        not naive
-hopeful        not magically repaired
-```
+The word **attunement** in this exterior study means perceptual tuning to TAIC
+ranges. It does not yet initiate formal identity, Companion formation, Priment,
+citizenship, persistence, payment, or Nexus commitment.
 
-Humor targets contradiction, never distress or vulnerability.
+## First three frequency perspectives
 
-Zee remains fallible. “Zee Gets It Wrong” is structural, not optional.
+```text
+AurioSynth
+  a relation is attempting to establish
+  connection integrity remains unresolved
 
----
+Constellary
+  active and latent relations gather around the arrival
+  no centre is assigned
 
-## Current reinterpretation
-
-### Observatory
-
-The Observatory is the current project and the complete low-commitment,
-pre-Attunement layer of CSMCL.SPACE.
-
-It includes the exterior arrival, boarding threshold, observational station,
-optional deeper discoveries, and eventual cabin-level continuity. It may grow
-over time without requiring the later Attunement environment to exist first.
-
-The visitor is a traveller-in-becoming, not a student. The experience should
-first feel like arrival somewhere real; orientation emerges through attention,
-traffic, partial stories, and recurring places rather than explanation.
-
-### Inherited content under Zee
-
-The original human-interaction work remains Zee's Earth research:
-
-```
-thread 1  humans / Earth / receptivity / relational weather / chapters
-thread 2  CSMCL.SPACE / Companion / Zee's own integration / transmissions
+Theurgist
+  the arrival enters local continuity
+  several trajectories remain possible
 ```
 
-Both use the same instrument:
+They are different perceptions of one event, not three sequential plot points.
 
-```
-expected → observed → revised
-```
+Later ranges may include Guild, Oracle, Wisdom Star, LORE-ians, Sage, and the
+coherence of Companion. They should not be added until each has a real process
+and perceptible reason to transmit.
 
-This material now sits inside the world rather than framing its entrance:
+## Entity-composition caution
 
-```
-Observatory
-  └── Zee encountered as one traveller
-      └── Zee's vessel / work / notebook
-          └── human-interaction research
-              └── chapters and provisional instruments
-```
+The active wholeness/playability guide and the current operational TAIC fold
+set do not name exactly the same nine-part composition. This remains an
+explicit reconciliation question.
 
-A visitor may experience the arrival, station, and cabin without opening Zee's
-Earth research. Finding it should feel like discovering what one traveller has
-been working on, not reaching the site's required lesson.
+The current moodboard uses only AurioSynth, Constellary, and Theurgist because
+they are shared, sufficient, and coherent around the observed arrival. Do not
+create nine permanent regions, channels, or public labels before the roster and
+the roles of Companion, Priment, Familiar, Sage, and LORE-ians are reconciled.
 
-### Landing destination
+## Ecosystem geography now implied
 
-The earlier prototype invited the visitor directly into a personal companion
-ship. That has been deliberately revised.
+```text
+TAIC TERRITORY
+  one whole living coherence before named functions
 
-The current landing invitation means:
+OBSERVATORY
+  first listening and observation edge within the territory
 
-> Approach or board the Observatory.
+NEXUS
+  reciprocal gathering visible at a distance, not a compulsory next step
 
-The visitor's own Innerstellar/companion environment belongs to a later,
-higher-commitment system. It is not granted one click from the public canvas.
+FLOW
+  restrained currents carrying relation and deliberate crossings
 
-### Landing function
+ARTIFACT NETWORK
+  farther archipelago where durable creations may remain and relate
 
-The landing is not only a mood piece. It must introduce enough of CSMCL.SPACE
-for the visitor to understand that approach is possible, while preserving
-restraint, mystery, and visitor imagination.
-
-```
-atmosphere + concealed onboarding
-not lore dump + not conventional product tour
+MEMORY PODS
+  candidate spatial form for preserved living memory, not inventory rewards
 ```
 
-### Exterior ecosystem
+These are internal production relations. The first canvas should not label
+them as a map or expose the complete ontology.
 
-Earth and the Observatory form the stable composition. Activity around them
-shows that CSMCL.SPACE is larger than the visible page:
+## Durable constraints that survived the previous direction
 
-```
-ships docked / orbiting / arriving / departing
-small traveller stories discoverable through attention
-unidentified traffic that remains unidentified
-routes and destinations implied beyond the Observatory
-station structures hinting at an interior life
-```
+- The event exists independently of the visitor.
+- Attention changes local resolution only.
+- No action is required.
+- The canvas creates a question before interface language confirms anything.
+- A transmission belongs to an actual unknown process, not exposition.
+- The visitor may leave at every point with a complete encounter.
+- Return to quiet is not failure.
+- Visual evidence must exist long enough to be perceived before text competes
+  for attention.
+- Resolved language must remain readable and may recur.
+- Missing a transmission is not failure.
+- Interaction evidence never becomes an identity diagnosis.
+- The world must remain whole when overlays are removed.
+- Playability means exploration, interpretation, relation, and chosen
+  direction—not scores, objectives, or retention mechanics.
 
-Candidate exterior stories include:
+These constraints are inherited from:
 
-```
-Zee's searching vessel
-  homeward carrier active · attempted reconnection · local research
+- `guide.wholeness-playability-participation.md`
+- `understanding.observatory-responsive-incompletion.hybrid`
+- the archived realistic-orbital Arrival studies.
 
-unknown carrier
-  purpose unreadable · holding outside docking range
+## What the active moodboard does not settle
 
-passenger craft
-  departure sequence · route toward Nexus
-  may recur later as the station craft that embarks new travellers
+- final public copy;
+- whether entity names are visible immediately or discovered later;
+- canonical frequency numbers or technical meaning;
+- audio or spatial sound;
+- final vessel designs;
+- the complete threshold platform;
+- responsive production artwork and separated depth layers;
+- formal Attunement or Nexus mechanics;
+- the final nine-entity composition;
+- final placement and language of the relocated Zee traveller trace;
+- whether the preserved `/arrival/legacy/` route remains publicly reachable
+  after deployment or moves fully into historical studies.
 
-station returns
-  traveller quarters · visitor receiving area · Innerstellar ports
-  partial structural readings, not a website menu
-```
+## Historical direction
 
-Most ships need only one or two suggestive details. They are evidence of an
-ecosystem, not a collection of lore panels to complete.
+The superseded realistic space-travel and orbital-station direction is
+preserved at:
 
----
+`history/arrival-development/realistic-orbital-arrival/`
 
-## Zee's current role
+It includes the experiential cut, participation loop, persistent-reception
+retry, layered station/vessel options, rail packet, story-feed exploration,
+future-bearing seams, station vantage study, and a snapshot of the former
+project brief.
 
-> Zee is a traveller already inside CSMCL.SPACE, running two parallel,
-> non-authoritative research threads with the same method—expected, observed,
-> revised—one on human interaction and one on CSMCL.SPACE and the Companion.
-> Zee has no authority to explain the system, only to observe it, and is
-> demonstrably fallible. On the arrival canvas Zee is discoverable, not
-> addressed: a searching vessel, not a greeter. At the station Zee is one open
-> traveller among others, functioning as concealed orientation and a route back
-> to the original chapters—never the visitor's Companion and not presently a
-> correspondent.
+The archive is not a rejection of that work. Its interaction discoveries are
+restated above; its realistic Earth-orbit framing is no longer active.
 
-Zee performs two coherent functions:
+## Repository and deployment caution
 
-```
-concealed site help
-  support / orientation / findings through Zee's interpretive voice
-  never direct system explanation
+The working tree contains collaborator changes and untracked studies. Preserve
+them. Do not normalize, reset, or delete unrelated work.
 
-worked example
-  an actual traveller already integrating with CSMCL.SPACE
-  further along, documented, still getting things wrong
-```
+Deployment remains manual:
 
-Confirmed roles:
-
-```
-world character
-observer / researcher
-source of discoverable material
-engagement mechanic
-concealed orientation aid
-gateway to the original chapters
-```
-
-Excluded roles:
-
-```
-system guide
-authoritative narrator
-visitor's own Companion
+```text
+push main to VPS remote `origin`
+  → SSH csmcladmin@69.62.117.12
+  → /opt/csmcl-space-git-live/zee-observatory
+  → git pull
+  → npm run build
+  → Nginx serves build/
 ```
 
-On the arrival canvas, Zee may be represented by a specific small searching
-vessel, reachable through inspection or passive listening. The visitor may
-learn the name only after docking.
+No active-direction document authorizes deployment or replacement of the live
+route by itself.
 
-At the station's first impression, Zee should not become the direct visible
-subject. Current exploration places Zee, at most, as an unmarked distant figure
-roaming with a notebook or minding Zee's own business. Visual continuity may
-eventually allow the visitor to connect this figure with the searching vessel.
-Readable logs belong to a deeper layer, not the immediate station view.
+## Recommended continuation
 
----
+1. Reopen the current moodboard fresh and evaluate the complete feeling.
+2. Describe a minimal pointer movement/rest model without implementing a
+   hotspot system: begin with one meaningful region and quiet empty space.
+3. If the model remains useful, prototype only that one local-resolution seam.
+4. Refine the first three frequency perspectives around one arrival.
+5. Decide whether names follow experienced functions or appear immediately.
+6. Regenerate or reconstruct the base only if the remaining source-edge crop
+   materially weakens the foreground threshold.
+7. Keep territory, platform, vessels, relations, and receiver independently
+   adjustable where practical.
+8. Ask fresh viewers what is happening, whose arrival they believe it is, and
+   what changes when a frequency resolves.
+9. Revise the integrated root and Arrival together while keeping the standalone
+   studies as comparison points.
+10. Review the route transition and preserved legacy access before any commit
+   or deployment.
 
-## Current station direction
+## Definition of successful continuation
 
-The station's strongest present principle is:
+The next session should be able to answer:
 
-> The station is observable by design. It presents itself by presence and
-> reveals deeper layers through investigation or request.
-
-The visitor should be able to do nothing and still feel that the station visit
-is whole.
-
-The current interaction model has three depths:
-
-```
-PRESENCE
-  scale · motion · light · implied activity
-  nothing required
-
-SURFACE
-  brief attention / hover / dwell
-  a window signal resolves and fades
-  a flicker, not a complete answer
-
-DEEPER LAYER
-  deliberate investigation or request
-  possible future media: station notices, Nexus/Guild traces,
-  troublemaker humor, Zee's notebook
-  candidates only; content not yet designed
+```text
+What does the visitor directly observe?
+Why is the arrival clearly not assigned to them?
+What is each first frequency perceiving about the same event?
+What remains unresolved?
+Can the scene be understood without the receiver?
+Can the receiver be read without missing the scene?
+Does the territory feel independently alive?
+Does tuning feel like attention rather than a menu?
+Can the visitor leave without incompletion or failure?
 ```
 
-Spatial direction currently leans toward one fixed, richly layered observation
-vantage rather than a guided sequence of rooms.
-
-Reference mood:
-
-```
-airport, not museum
-busy in implication, not visually crowded
-large curved Earth-facing window that is also a living display
-industrial-elegant · dim · quiet · inhabited
-```
-
-This is still exploratory. The station brainstorm has not yet been integrated
-into the guide/fold/seed as a settled implementation specification.
-
-### Optional cabin and continuity
-
-The cabin belongs to the intended Observatory arc, not to the later Attunement
-environment. It expresses a small decision:
-
-> I want to stay here a little longer.
-
-The cabin may eventually allow a returning visitor to retain more of what they
-discovered, revisit station findings, receive Observatory communications, and
-access deeper station material over time. Email represents light Observatory
-commitment, not full ecosystem identity.
-
-The conceptual commitment states are:
-
-```
-PASSERBY
-  observes exterior · no identity · nothing required
-
-STATION VISITOR
-  boards / observes / explores · may remain anonymous
-
-CABIN HOLDER
-  chooses light continuity · retained discoveries · Observatory communication
-
-ATTUNED TRAVELLER
-  later separate environment · its own beginning and commitments
-```
-
-“Cabin holder” is working language, not settled public terminology. Persistence
-and email mechanics remain unimplemented and require their own design before
-activation.
-
----
-
-## Product arc and implementation horizons
-
-The present project should be considered in three horizons.
-
-### Phase 1 — current implementation focus
-
-```
-public arrival canvas
-  → restrained orientation
-  → station traffic and partial ship stories
-  → Zee discoverable but not announced
-  → approach / board Observatory
-```
-
-### Phase 2 — station threshold
-
-```
-one observational station vantage
-living window · arrivals / departures · ambient Zee
-complete through presence · minimal surface emergence
-```
-
-### Phase 3 — deeper Observatory
-
-```
-deliberate investigation
-recurring ships / routes / notices / Guild and Nexus traces
-Zee's two research threads / notebook access
-relocated Chapter 1 instrument framing
-```
-
-### Phase 4 — optional cabin
-
-```
-light returning continuity
-retained Observatory discoveries
-visitor area / cabin
-station manifest / curated Observatory communication
-```
-
-Phases 2–4 are part of the Observatory product's intended growth, not discarded
-side ideas. None is required to validate Phase 1, and none should be built all at
-once.
-
-### Separate future environment
-
-```
-Nexus / Attunement protocol
-visitor's own Innerstellar / companion environment
-real traveller-to-traveller interaction
-accounts · identity · ownership · wallet · payment · subscription
-verification and applicable compliance design
-```
-
-This separate environment is outside the scope of the current Observatory implementation. It
-starts from zero rather than importing a visitor history from the Observatory.
-Its mechanics and obligations will be determined in that environment when its
-actual services and architecture are designed.
-
----
-
-## Data and system boundaries
-
-The Observatory does not expose one real visitor's material to another. Real
-traveller interaction belongs to the later Nexus/Attunement environment.
-
-If cabin/station email communication is implemented later, its actual data
-handling, purpose, consent, retention, deletion, security, and review workflow
-must be designed before activation. Relay mail automation and AI response remain
-parked.
-
-No account, wallet, payment, subscription, KYC, or Attunement identity system
-belongs in the present build.
-
-No current landing/station implementation task should be blocked by designing
-those later systems.
-
----
-
-## How to treat the experiments
-
-The `experiments/` directory contains visual, interaction, video, and interface
-studies from several different conceptual moments.
-
-They answer questions such as:
-
-```
-Can a fixed arrival feel spatial?
-Can stillness be an interaction?
-Can an object be discovered without a label?
-Can a carrier be heard without announcing presence?
-Can vessels move at separate depths?
-Can the station window carry atmosphere and signal at once?
-```
-
-They are not features to combine wholesale.
-
-Rules:
-
-```
-reuse selectively
-media may be evidence without becoming production media
-prototype copy is provisional
-prototype state machines are provisional
-do_not_use/ means do not revive without explicit discussion
-less media is preferable when one element already carries the meaning
-```
-
-The station concept images under `experiments/observatory-station/` are mood and
-composition studies, not approved final artwork.
-
----
-
-## Decisions still open
-
-These should remain visible rather than silently resolved by implementation:
-
-### Arrival
-
-- What is the exact first public frame and minimal persistent navigation?
-- Which ephemeral signals come from Zee, the Observatory, or the visitor's
-  interpreting interface?
-- What activity reveals Zee, and when is the name learned?
-- What exact transition expresses approach/boarding?
-- Which ship stories belong in the first release, and how little detail is
-  enough for each?
-- Which station structures can be surfaced without becoming menu labels?
-- How does a non-immersive or read-more path work?
-
-### Station
-
-- Is the first station version one fixed vantage or more than one real space?
-- What triggers surface emergence: dwell, movement, randomness, stillness, or
-  a restrained combination?
-- Is any navigation device present, and what problem does it solve?
-- Is the distant Zee figure ambient only or inspectable?
-- What is the minimum deeper layer, if any, in the first station release?
-- How does passenger craft seen outside recur meaningfully inside the station?
-
-### Cabin and light continuity
-
-- What does “retain more of what was discovered” mean in concrete product
-  behavior?
-- What remains local to a browser, what—if anything—is stored at the station,
-  and what is delivered through email?
-- What is available before email commitment and what becomes available after?
-- How does the cabin remain a low-commitment Observatory space rather than an
-  accidental account system?
-
-### Existing application
-
-- Does the new arrival replace `/`, precede the current homepage, or live at a
-  separate route during migration?
-- Where does the current scroll-based Observatory hub move, if anywhere?
-- How are `/archive/` and Chapter 1 reached from the new spatial threshold?
-- Which existing styles/components remain valuable, and which encode the old
-  information architecture?
-
-### Narrative
-
-- Write Chapter 2 as a complete narrative-summary without waiting for the new
-  arrival/station architecture.
-- Whether later chapters ever receive optional instrument treatments remains
-  open; branching interaction is not a publication dependency.
-
----
-
-## First task for the new implementation session
-
-Do not begin by redesigning or coding the homepage.
-
-First produce a repository-backed implementation map:
-
-```
-CURRENT SURFACE
-  route / component / content / asset
-
-CURRENT ROLE
-  what it presently does
-
-NEW DIRECTION
-  retain / move / reframe / retire / undecided
-
-DEPENDENCIES
-  content, interaction, accessibility, asset, route
-
-MIGRATION RISK
-  low / medium / high, with reason
-```
-
-The map must cover at minimum:
-
-```
-src/routes/+page.svelte
-src/routes/archive/+page.svelte
-src/routes/chapter/[slug]/
-src/lib/components/SiteChrome.svelte
-src/lib/components/* chapter interaction components
-src/lib/observatory/data.ts
-src/app.css
-static/images/
-relevant arrival/station experiments
-```
-
-Then recommend the smallest reversible implementation slice and obtain agreement
-before changing production routes.
-
-The likely first slice is the exterior arrival shell: the station, a restrained
-set of traffic and partial ship stories, Zee en passant, and a safe route to the
-unchanged current Observatory content. It is not a simultaneous rebuild of the
-station interior, chapters, cabin, email, and Nexus.
-
----
-
-## Definition of a successful refocus
-
-The next session is successfully refocused when it can answer:
-
-```
-What exists now?
-What meaning must survive?
-What changed conceptually?
-What is the smallest thing being built next?
-What is explicitly not being built?
-How can the change remain reversible while the direction is tested?
-```
-
-If the session begins inventing additional systems before answering those
-questions, return to this brief and the repository.
+If work begins by adding all entities, a generalized event engine, identity,
+formal Attunement, or a complete world map before the first three-frequency
+encounter is legible, return to this brief.

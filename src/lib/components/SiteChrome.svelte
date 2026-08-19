@@ -8,7 +8,7 @@
 		<nav aria-label="Primary navigation">
 			<a href="/">Observatory</a>
 			<a href="/archive/">Transmissions</a>
-			<a href="/#instruments">Instruments</a>
+			<a href="/travellers/zee/#instruments">Instruments</a>
 		</nav>
 		<div class="signal"><i></i> FIELD ONLINE</div>
 	</header>

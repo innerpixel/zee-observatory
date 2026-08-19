@@ -6,8 +6,8 @@ state: answered
 created: 2026-08-09
 addressed-to: communication.observatory-arrival-clarifications.md
 source-set:
-  - codocz/observatory.arrival-vision.md
-  - codocz/communication.observatory-arrival-clarifications.md
+  - observatory.arrival-vision.md
+  - communication.observatory-arrival-clarifications.md
 ---
 
 # Response :: Observatory arrival clarifications

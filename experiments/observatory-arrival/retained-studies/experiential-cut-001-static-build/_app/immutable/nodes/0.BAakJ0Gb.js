@@ -1,0 +1,1 @@
+import{I as e,X as t,p as n,v as r,y as i}from"../chunks/DOpgocSL.js";import"../chunks/xihTtKlq.js";var a=t({prerender:()=>!0,trailingSlash:()=>o}),o=`always`;function s(t,a){var o=i(),s=e(o);n(s,()=>a.children),r(t,o)}export{s as component,a as universal};

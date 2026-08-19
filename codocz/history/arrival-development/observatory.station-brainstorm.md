@@ -7,7 +7,7 @@ density: L1
 created: 2026-08-09
 authority: proposal-not-canon
 source-set:
-  - codocz/observatory.arrival-vision.md
+  - observatory.arrival-vision.md
   - experiments/observatory-arrival/csmcl-observatory-landing-prototype.html
   - experiments/observatory-arrival/arrival-fixed-experience.html
 ---

@@ -1,0 +1,408 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<meta name="theme-color" content="#020711" />
+		<title>CSMCL.SPACE · Observatory orientation study</title>
+
+		<style>
+			:root {
+				color-scheme: dark;
+				font-family: Inter, ui-sans-serif, system-ui, sans-serif;
+				background: #020711;
+				--ink: rgba(220, 235, 234, 0.82);
+				--muted: rgba(189, 211, 211, 0.5);
+				--dim: rgba(180, 207, 208, 0.3);
+				--cyan: #8edfe7;
+				--violet: #c6b5f1;
+				--amber: #e3c78b;
+			}
+
+			* { box-sizing: border-box; }
+
+			html,
+			body { min-width: 100%; min-height: 100%; margin: 0; }
+
+			body { background: #020711; }
+
+			a { color: inherit; }
+
+			.observatory {
+				position: relative;
+				isolation: isolate;
+				display: grid;
+				grid-template-rows: auto 1fr auto;
+				min-height: 100svh;
+				overflow: hidden;
+				background:
+					radial-gradient(circle at 72% 34%, rgba(22, 68, 95, 0.2), transparent 40%),
+					#020711;
+				color: var(--ink);
+			}
+
+			.territory {
+				position: absolute;
+				z-index: -3;
+				inset: 0;
+				width: 100%;
+				height: 100%;
+				object-fit: contain;
+				object-position: 50% 50%;
+				filter: saturate(0.86) brightness(0.78) contrast(1.02);
+			}
+
+			.field-veil {
+				position: absolute;
+				z-index: -2;
+				inset: 0;
+				background:
+					linear-gradient(0deg, rgba(1, 5, 12, 0.82) 0%, transparent 18%),
+					linear-gradient(180deg, rgba(1, 5, 12, 0.62) 0%, transparent 15%);
+				pointer-events: none;
+			}
+
+			.field-grain {
+				position: absolute;
+				z-index: -1;
+				inset: 0;
+				opacity: 0.18;
+				background-image: radial-gradient(rgba(205, 237, 240, 0.32) 0.5px, transparent 0.7px);
+				background-size: 6px 6px;
+				mix-blend-mode: soft-light;
+				pointer-events: none;
+			}
+
+			.masthead {
+				display: flex;
+				align-items: center;
+				justify-content: space-between;
+				gap: 2rem;
+				padding: clamp(0.7rem, 1.7vh, 1.25rem) clamp(1.2rem, 4vw, 4.5rem) 0;
+			}
+
+			.title-lockup { flex: 0 1 auto; }
+
+			.upper-signals {
+				display: flex;
+				align-items: center;
+				justify-content: flex-end;
+				gap: clamp(1.2rem, 2.5vw, 3rem);
+			}
+
+			.identity,
+			.session-state,
+			.eyebrow,
+			.surface-state,
+			.surface-index,
+			.oracle-range,
+			.trace-label {
+				font-size: clamp(0.48rem, 0.56vw, 0.62rem);
+				font-weight: 500;
+				letter-spacing: 0.18em;
+				text-transform: uppercase;
+			}
+
+			.identity { display: flex; align-items: center; gap: 0.65rem; color: rgba(211, 231, 230, 0.64); }
+
+			.identity i,
+			.session-state i {
+				display: inline-block;
+				width: 0.3rem;
+				aspect-ratio: 1;
+				border-radius: 50%;
+				background: var(--cyan);
+				box-shadow: 0 0 0.7rem rgba(142, 223, 231, 0.72);
+			}
+
+			.identity b { color: rgba(214, 233, 232, 0.86); font-weight: 500; }
+
+			.session-state {
+				display: flex;
+				align-items: center;
+				gap: 0.55rem;
+				margin: 0;
+				color: rgba(188, 210, 209, 0.4);
+			}
+
+			.session-state i { background: rgba(227, 199, 139, 0.72); box-shadow: 0 0 0.6rem rgba(227, 199, 139, 0.4); }
+
+			.orientation {
+				display: flex;
+				flex-direction: column;
+				justify-content: flex-end;
+				padding: 0 clamp(1.2rem, 4vw, 4.5rem) clamp(0.35rem, 0.8vh, 0.7rem);
+			}
+
+			.eyebrow { margin: 0 0 0.3rem; color: rgba(142, 223, 231, 0.52); }
+
+			h1 {
+				margin: 0;
+				color: rgba(219, 235, 233, 0.85);
+				font-weight: 400;
+			}
+
+			h1 span {
+				display: block;
+				color: rgba(201, 221, 220, 0.48);
+				font-size: clamp(0.48rem, 0.56vw, 0.62rem);
+				letter-spacing: 0.21em;
+				text-transform: uppercase;
+			}
+
+			h1 em {
+				display: block;
+				margin-top: 0.08rem;
+				font-family: Georgia, "Times New Roman", serif;
+				font-size: clamp(1.35rem, 2vw, 2rem);
+				font-style: normal;
+				line-height: 1;
+				letter-spacing: -0.025em;
+			}
+
+			.coordinates {
+				display: grid;
+				grid-template-columns: repeat(4, minmax(0, 1fr));
+				align-self: end;
+				width: 100%;
+				border-top: 1px solid rgba(169, 211, 211, 0.16);
+				background: linear-gradient(0deg, rgba(2, 8, 17, 0.5), rgba(2, 8, 17, 0.08));
+				backdrop-filter: blur(0.12rem);
+				-webkit-backdrop-filter: blur(0.12rem);
+			}
+
+			.surface {
+				position: relative;
+				display: flex;
+				min-height: clamp(4.8rem, 8vh, 6rem);
+				flex-direction: column;
+				padding: clamp(0.7rem, 1.2vw, 1rem);
+				border-right: 1px solid rgba(169, 211, 211, 0.1);
+				text-decoration: none;
+				transition: background 0.7s ease, border-color 0.7s ease, transform 0.7s ease;
+			}
+
+			.surface::before {
+				content: "";
+				position: absolute;
+				top: -1px;
+				left: 0;
+				width: 16%;
+				height: 1px;
+				background: var(--surface-color, rgba(142, 223, 231, 0.38));
+				box-shadow: 0 0 0.8rem var(--surface-color, rgba(142, 223, 231, 0.2));
+				transition: width 0.8s ease;
+			}
+
+			.surface-open { --surface-color: rgba(142, 223, 231, 0.78); cursor: pointer; }
+			.surface-firmament { --surface-color: rgba(198, 181, 241, 0.72); }
+			.surface-nexus { --surface-color: rgba(227, 199, 139, 0.42); }
+			.surface-innerstellar { --surface-color: rgba(151, 201, 224, 0.38); }
+
+			.surface-open:hover,
+			.surface-open:focus-visible,
+			.surface:hover {
+				z-index: 1;
+				border-color: color-mix(in srgb, var(--surface-color) 48%, transparent);
+				background: color-mix(in srgb, var(--surface-color) 7%, rgba(2, 8, 17, 0.3));
+				outline: none;
+				transform: translateY(-0.18rem);
+			}
+
+			.surface-open:hover::before,
+			.surface-open:focus-visible::before { width: 58%; }
+
+			.surface-meta { display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
+			.surface-index { color: rgba(201, 220, 219, 0.3); }
+			.surface-state { color: var(--surface-color, var(--dim)); }
+
+			.surface h2 {
+				margin: auto 0 0.25rem;
+				color: rgba(218, 234, 233, 0.74);
+				font-family: Georgia, "Times New Roman", serif;
+				font-size: clamp(0.92rem, 1.2vw, 1.15rem);
+				font-weight: 400;
+				letter-spacing: 0.015em;
+			}
+
+			.surface p {
+				max-width: 39ch;
+				margin: 0;
+				color: rgba(194, 213, 212, 0.5);
+				font-size: clamp(0.64rem, 0.7vw, 0.76rem);
+				line-height: 1.5;
+				opacity: 0.22;
+				transition: opacity 0.6s ease;
+			}
+
+			.surface:hover p,
+			.surface:focus-visible p { opacity: 0.78; }
+
+			.surface-open .surface-action {
+				position: absolute;
+				right: 1.1rem;
+				bottom: 1rem;
+				color: var(--surface-color);
+				font-size: 0.85rem;
+			}
+
+			.surface-open p { padding-right: 2rem; }
+
+			.oracle {
+				display: flex;
+				align-items: center;
+				gap: 0.7rem;
+				margin: 0;
+				color: rgba(198, 181, 241, 0.36);
+			}
+
+			.oracle i {
+				display: block;
+				width: 1.8rem;
+				height: 1px;
+				background: linear-gradient(90deg, transparent, rgba(198, 181, 241, 0.42));
+			}
+
+			.oracle-range { letter-spacing: 0.2em; }
+
+			.lower-field {
+				display: flex;
+				align-items: center;
+				justify-content: space-between;
+				gap: 2rem;
+				padding: 0 clamp(1.2rem, 4vw, 4.5rem) clamp(0.65rem, 1.4vh, 1rem);
+			}
+
+			.traveller-trace {
+				display: flex;
+				align-items: center;
+				gap: 1rem;
+				max-width: 38rem;
+				color: rgba(194, 214, 213, 0.42);
+				font-size: clamp(0.62rem, 0.7vw, 0.75rem);
+				line-height: 1.5;
+				text-decoration: none;
+			}
+
+			.trace-label { flex: 0 0 auto; color: rgba(142, 223, 231, 0.5); }
+			.traveller-trace span:last-child { transition: color 0.5s ease; }
+			.traveller-trace:hover span:last-child,
+			.traveller-trace:focus-visible span:last-child { color: rgba(214, 232, 231, 0.72); }
+
+			.return-rule {
+				margin: 0;
+				color: rgba(185, 207, 207, 0.28);
+				font-size: 0.58rem;
+				letter-spacing: 0.08em;
+				white-space: nowrap;
+			}
+
+			@media (max-width: 980px) {
+				.observatory { overflow: auto; }
+				.territory { position: fixed; }
+				.coordinates { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+				.identity { display: none; }
+			}
+
+			@media (max-width: 620px) {
+				.observatory { overflow-x: hidden; }
+				.territory {
+					position: absolute;
+					top: 5.3rem;
+					bottom: auto;
+					height: auto;
+					aspect-ratio: 1915 / 821;
+				}
+				.masthead { align-items: center; padding-top: 1rem; }
+				.session-state span { display: none; }
+				.upper-signals { gap: 0.8rem; }
+				.orientation {
+					width: 100vw;
+					min-width: 0;
+					min-height: auto;
+					padding: calc(100vw * 821 / 1915 + 0.5rem) 1.2rem 0.35rem;
+					overflow: hidden;
+				}
+				h1 em { font-size: clamp(1.3rem, 7vw, 1.8rem); }
+				.coordinates { width: calc(100vw - 2.4rem); min-width: 0; grid-template-columns: minmax(0, 1fr); }
+				.surface { width: 100%; min-width: 0; min-height: 5.5rem; overflow: hidden; }
+				.surface-meta { min-width: 0; }
+				.surface-state { max-width: 52%; text-align: right; }
+				.oracle i { display: none; }
+				.lower-field { align-items: flex-start; flex-direction: column; gap: 0.7rem; }
+				.traveller-trace { align-items: flex-start; flex-direction: column; gap: 0.4rem; }
+				.return-rule { white-space: normal; }
+			}
+
+			@media (prefers-reduced-motion: reduce) {
+				.territory { transform: none; }
+				.surface { transition: none; }
+			}
+		</style>
+	</head>
+
+	<body>
+		<main class="observatory" aria-labelledby="orientation-title">
+			<img
+				class="territory"
+				src="../observatory-arrival/taic-territory-studies/taic-territory-wide-002-readable-field.png"
+				alt=""
+			/>
+			<div class="field-veil"></div>
+			<div class="field-grain"></div>
+
+			<header class="masthead">
+				<div class="title-lockup">
+					<p class="eyebrow">Several ranges perceptible</p>
+					<h1 id="orientation-title"><span>CSMCL.SPACE</span><em>Observatory</em></h1>
+				</div>
+
+				<div class="upper-signals">
+					<div class="oracle" aria-label="Oracle is named at the outer range">
+						<i></i><span class="oracle-range">Oracle · outer range</span>
+					</div>
+					<div class="identity"><b>Local field</b><i></i><span>orientation study 001</span></div>
+					<p class="session-state"><i></i><span>public edge · no interface required</span></p>
+				</div>
+			</header>
+
+			<section class="orientation">
+				<nav class="coordinates" aria-label="Perceptible CSMCL.SPACE coordinates">
+					<a class="surface surface-open" href="../observatory-arrival/taic-territory-studies/taic-territory-vessel-hover-001.html">
+						<span class="surface-meta"><span class="surface-index">01</span><span class="surface-state">observable now</span></span>
+						<h2>Arrival</h2>
+						<p>One carrier near the threshold.</p>
+						<span class="surface-action" aria-hidden="true">→</span>
+					</a>
+
+					<a class="surface surface-open surface-firmament" href="https://firmament.csmcl.space/">
+						<span class="surface-meta"><span class="surface-index">02</span><span class="surface-state">open field</span></span>
+						<h2>Firmament</h2>
+						<p>Several relations remain perceptible.</p>
+						<span class="surface-action" aria-hidden="true">↗</span>
+					</a>
+
+					<article class="surface surface-nexus">
+						<span class="surface-meta"><span class="surface-index">03</span><span class="surface-state">distant coordinate</span></span>
+						<h2>Nexus</h2>
+						<p>Reciprocal range · no local interface.</p>
+					</article>
+
+					<article class="surface surface-innerstellar">
+						<span class="surface-meta"><span class="surface-index">04</span><span class="surface-state">latent possibility</span></span>
+						<h2>Innerstellar</h2>
+						<p>Personal range · unassigned.</p>
+					</article>
+				</nav>
+			</section>
+
+			<footer class="lower-field">
+				<a class="traveller-trace" href="https://observatory.csmcl.space/archive/">
+					<span class="trace-label">Traveller trace 001 · Zee</span>
+					<span>Field observations · Earth range ↗</span>
+				</a>
+				<p class="return-rule">Continuation · optional</p>
+			</footer>
+		</main>
+	</body>
+</html>

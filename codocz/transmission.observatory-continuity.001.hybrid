@@ -6,9 +6,9 @@ agreement: oa.communication
 state: proposed
 density: L2.5
 source-set:
-  - alien_field_attunement-guide.md
-  - guide.field-attunement.fold
-  - project.seed.codon
+  - history/arrival-development/alien_field_attunement-guide.md
+  - history/arrival-development/guide.field-attunement.fold
+  - history/arrival-development/project.seed.codon
   - what-is.lingua-franca.hybrid
 ---
 
@@ -30,13 +30,13 @@ recommended movement   consolidate continuity → continue chapters
 The project now has a viable three-layer memory architecture:
 
 ```
-L1   alien_field_attunement-guide.md
+L1   history/arrival-development/alien_field_attunement-guide.md
      conceptual constitution · full nuance · story reservoir · ethical source
 
-L3   guide.field-attunement.fold
+L3   history/arrival-development/guide.field-attunement.fold
      compressed narrative/ethical compass · fast attunement for known context
 
-L4   project.seed.codon
+L4   history/arrival-development/project.seed.codon
      portable implementation seed · current state · invariants · next movement
 ```
 
