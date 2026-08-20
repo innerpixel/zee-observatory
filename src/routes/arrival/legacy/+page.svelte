@@ -125,7 +125,7 @@
 		</a>
 		<nav aria-label="Arrival navigation">
 			<span>Exterior threshold · 001</span>
-			<a href="/travellers/zee/"><span class="existing-label">Zee </span>field station ↗</a>
+			<a href="/case-studies/zee/"><span class="existing-label">Zee </span>case study ↗</a>
 		</nav>
 	</header>
 

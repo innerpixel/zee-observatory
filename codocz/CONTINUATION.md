@@ -12,15 +12,23 @@ The approved studies have now been promoted into the SvelteKit application:
 /                    CSMCL.SPACE Observatory orientation
 /arrival/            TAIC Territory Arrival and frequency receiver
 /arrival/legacy/     preserved realistic station-and-vessel implementation
-/travellers/zee/     former Zee-centred Observatory landing
-/archive/            existing Zee field archive
+/case-studies/zee/   Zee · Reference Traveller 001
 ```
 
-The new root links to `/arrival/`, `firmament.csmcl.space`, and the relocated
-Zee traveller trace. Nexus and Innerstellar remain informational coordinates;
+The root links to `/arrival/`, `firmament.csmcl.space`, and the deliberate Zee
+case study. Nexus and Innerstellar remain informational coordinates;
 Oracle remains named without an interface. The previous Arrival, including its
 uncommitted separated station/vessel work, was moved intact rather than
 discarded.
+
+The former public Zee environment, `/archive/`, and `/chapter/[slug]/` routes
+were removed from the application on 2026-08-20. Their source is retained at:
+
+`../experiments/zee-reference-traveller/private-field-study/`
+
+The governing boundary is recorded in:
+
+`case-study.zee-reference-traveller-001.md`
 
 This is local repository state only. `npm run check` and `npm run build` pass,
 but nothing in this session has been deployed.

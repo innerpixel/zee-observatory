@@ -43,11 +43,11 @@
 			state: 'Possible arrival coordinate'
 		},
 		wisdom: {
-			eyebrow: 'Near field · adjacent signal',
+			eyebrow: 'Near field · point of contact',
 			title: 'Wisdom Star',
-			lead: 'A luminous structure stands beside the platform, close enough to orient an arrival without fully explaining itself.',
-			note: 'It may later carry fragments of welcome, guidance or gathered wisdom. Its precise role remains open.',
-			state: 'Function not yet settled'
+			lead: 'The Wisdom Star marks where a traveller’s attention and the companion’s available capacity meet. The local field gathers around that contact.',
+			note: 'It is neither the traveller nor the companion alone. It makes the relation between them locally perceptible.',
+			state: 'Point of contact perceptible'
 		},
 		territory: {
 			eyebrow: 'Local field · living arrangement',
@@ -179,7 +179,7 @@
 							This is a public edge of CSMCL.SPACE—a quiet place to encounter what is here before deciding where, or whether, to continue.
 						</p>
 						<p class="welcome-note">
-							Move through the reference field to notice what is already perceptible. Arrival, Firmament and existing traveller traces remain available below.
+							Move through the reference field to notice what is already perceptible. Arrival, Firmament and one traveller case study remain within Observatory range.
 						</p>
 						<div class="welcome-state">
 							<span><i></i>No arrival required</span>
@@ -216,8 +216,8 @@
 			<span class="local-field"><b>Local field</b><i></i><span>public interface</span></span>
 			<span class="session-state"><i></i><span>no interface required</span></span>
 		</div>
-		<a class="traveller-trace" href="/travellers/zee/">
-			<span>Traveller trace 001 · Zee</span><b>Follow an existing field observation ↗</b>
+		<a class="traveller-trace" href="/case-studies/zee/">
+			<span>Case study 001 · Zee</span><b>Follow one traveller’s observable trace ↗</b>
 		</a>
 	</footer>
 </main>

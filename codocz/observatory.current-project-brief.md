@@ -81,9 +81,19 @@ Local application routes now differ deliberately from the deployed site:
 /                    new Observatory orientation
 /arrival/            integrated TAIC Territory Arrival
 /arrival/legacy/     preserved realistic station-and-vessel implementation
-/travellers/zee/     relocated former Observatory / Zee landing
-/archive/            existing Zee field archive
+/case-studies/zee/   Zee · Reference Traveller 001
 ```
+
+The former Zee-centred landing, field archive, chapters, instruments, and
+interactive study are no longer public application routes. They are retained
+outside `src/` at:
+
+`experiments/zee-reference-traveller/private-field-study/`
+
+Zee is now an Observatory case study and reusable reference traveller, not a
+general traveller-account implementation. The boundary is defined in:
+
+`codocz/case-study.zee-reference-traveller-001.md`
 
 The deployed `/arrival/` route still presents the earlier realistic
 station-and-vessel prototype. It remains deployed runtime truth until these
